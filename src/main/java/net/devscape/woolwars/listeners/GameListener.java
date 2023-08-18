@@ -93,7 +93,7 @@ public class GameListener implements Listener {
                 return;
             }
 
-            game.getBlockMap().add(e.getBlock());
+            WoolWars.getWoolWars().getResetManager().getBlockMap().add(e.getBlock());
         } else {
             e.setCancelled(true);
         }
@@ -119,9 +119,9 @@ public class GameListener implements Listener {
                 return;
             }
 
-            if (game.getBlockMap().contains(block)) {
+            if (WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
                 e.setCancelled(false);
-                game.getBlockMap().remove(block);
+                WoolWars.getWoolWars().getResetManager().getBlockMap().remove(block);
                 return;
             }
 
@@ -160,8 +160,8 @@ public class GameListener implements Listener {
                     e.setCancelled(false);
                     e.setDropItems(false);
                     game.removeScore("red");
-                    if (!game.getBlockMap().contains(block)) {
-                        game.getRedMap().add(block);
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
+                        WoolWars.getWoolWars().getResetManager().getRedBlockMap().add(block);
                     }
 
                     WoolWars.getWoolWars().getH2Data().addWoolBroken(player.getUniqueId(), 1);
@@ -180,8 +180,8 @@ public class GameListener implements Listener {
                 if (e.getBlock().getType().equals(Material.BLUE_WOOL)) {
                     e.setCancelled(false);
                     e.setDropItems(false);
-                    if (!game.getBlockMap().contains(block)) {
-                        game.getBlueMap().add(block);
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
+                        WoolWars.getWoolWars().getResetManager().getBlueBlockMap().add(block);
                     }
 
                     for (Player all : Bukkit.getOnlinePlayers()) {

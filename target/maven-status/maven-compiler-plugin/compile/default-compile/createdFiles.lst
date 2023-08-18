@@ -18,8 +18,8 @@ net\devscape\woolwars\handlers\Game$2.class
 net\devscape\woolwars\utils\command\CommandFramework.class
 net\devscape\woolwars\managers\PlayerDataManager.class
 net\devscape\woolwars\managers\abilities\AbilityManager.class
-net\devscape\woolwars\handlers\Game$6.class
 net\devscape\woolwars\listeners\ItemListener.class
+net\devscape\woolwars\managers\ResetMapManager.class
 net\devscape\woolwars\managers\GameManager.class
 net\devscape\woolwars\commands\GameCommand.class
 net\devscape\woolwars\managers\LocalStatsManager.class
@@ -57,6 +57,7 @@ aether\event\BoardCreateEvent.class
 net\devscape\woolwars\WoolWars.class
 net\devscape\woolwars\listeners\MenuListener.class
 net\devscape\woolwars\managers\KitManager.class
+net\devscape\woolwars\managers\ResetMapManager$1.class
 net\devscape\woolwars\scoreboard\ScoreboardProvider.class
 net\devscape\woolwars\utils\command\BukkitCompleter.class
 net\devscape\woolwars\scoreboard\ScoreboardProvider$1.class

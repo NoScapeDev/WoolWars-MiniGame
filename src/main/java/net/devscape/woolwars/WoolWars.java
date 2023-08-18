@@ -25,6 +25,7 @@ public class WoolWars extends JavaPlugin {
     private PlayerDataManager playerDataManager;
     private GameManager gameManager;
     private KitManager kitManager;
+    private ResetMapManager resetManager;
     private AbilityManager abilityManager;
     private CooldownManager cooldownManager;
     private LocalStatsManager localStatsManager;
@@ -50,7 +51,7 @@ public class WoolWars extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        getResetManager().resetMapInstant();
     }
 
     private void loadCommands() {
@@ -61,6 +62,7 @@ public class WoolWars extends JavaPlugin {
         playerDataManager = new PlayerDataManager();
         gameManager = new GameManager();
         kitManager = new KitManager(getConfig());
+        resetManager = new ResetMapManager();
         abilityManager = new AbilityManager();
         cooldownManager = new CooldownManager();
         localStatsManager = new LocalStatsManager();

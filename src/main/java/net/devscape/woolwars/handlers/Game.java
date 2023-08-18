@@ -50,11 +50,6 @@ public class Game {
     private int blue_wool = 100;
     private int red_wool = 100;
 
-    private List<Block> blockMap = new ArrayList<>();
-
-    private final List<Block> redBlockMap = new ArrayList<>();
-    private final List<Block> blueBlockMap = new ArrayList<>();
-
     private String winners;
 
     /// map locations
@@ -497,45 +492,9 @@ public class Game {
             }.runTaskLaterAsynchronously(WoolWars.getWoolWars(), 20 * 3);
         }
 
-        List<Block> copyBlockMap = new ArrayList<>(getBlockMap());
-        List<Block> copyBlueMap = new ArrayList<>(getBlueMap());
-        List<Block> copyRedMap = new ArrayList<>(getRedMap());
+        // reset the map
+        WoolWars.getWoolWars().getResetManager().resetMap();
 
-        // reset blocks/map
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                gameState = GameState.WAITING;
-                winners = "";
-
-                if (!copyBlockMap.isEmpty()) {
-                    for (Block block : copyBlockMap) {
-                        if (block.getType() != Material.AIR) {
-                            block.setType(Material.AIR);
-                            getBlockMap().remove(block);
-                        }
-                    }
-                }
-
-                if (!copyRedMap.isEmpty()) {
-                    for (Block block : copyRedMap) {
-                        if (block.getType() != Material.RED_WOOL) {
-                            block.setType(Material.RED_WOOL);
-                            getBlockMap().remove(block);
-                        }
-                    }
-                }
-
-                if (!copyBlueMap.isEmpty()) {
-                    for (Block block : copyBlueMap) {
-                        if (block.getType() != Material.BLUE_WOOL) {
-                            block.setType(Material.BLUE_WOOL);
-                            getBlockMap().remove(block);
-                        }
-                    }
-                }
-            }
-        }.runTaskLater(WoolWars.getWoolWars(), 20 * 5);
     }
 
     public void selectTeam(Player player, String team) {
@@ -640,16 +599,6 @@ public class Game {
                 }
             }
         }
-    }
-
-    public List<Block> getBlockMap() {
-        return blockMap;
-    }
-    public List<Block> getBlueMap() {
-        return blueBlockMap;
-    }
-    public List<Block> getRedMap() {
-        return redBlockMap;
     }
 
     public void updateTab() {
