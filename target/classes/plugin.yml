@@ -1,0 +1,12 @@
+name: WoolWars
+version: '1.0'
+main: net.devscape.project.woolwars.WoolWars
+api-version: '1.13'
+authors: [DevScape]
+description: WoolWars plugin
+
+commands:
+  game:
+    description: admin game command.
+  stats:
+    description: stats game command.

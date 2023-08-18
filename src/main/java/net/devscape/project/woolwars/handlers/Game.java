@@ -769,8 +769,6 @@ public class Game {
                             return;
                         }
 
-                        WoolWars.getWoolWars().updateHealth(player);
-
                         if (health == 20) {
                             String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-20");
                             sendActionBar(player, format(health_action));
