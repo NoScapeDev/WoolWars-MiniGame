@@ -262,6 +262,8 @@ public class Game {
                 Player blue = Bukkit.getPlayer(blueuuid);
                 if (blue == null) return;
 
+                LocalData localData = WoolWars.getWoolWars().getLocalStatsManager().getLocalDataMap().getOrDefault(player.getUniqueId(), new LocalData(0, 0, 0));
+
                 assert player != null;
                 blue.hidePlayer(WoolWars.getWoolWars(), player);
             }
@@ -269,6 +271,8 @@ public class Game {
             for (UUID reduuid : getRed()) {
                 Player red = Bukkit.getPlayer(reduuid);
                 if (red == null) return;
+
+                LocalData localData = WoolWars.getWoolWars().getLocalStatsManager().getLocalDataMap().getOrDefault(player.getUniqueId(), new LocalData(0, 0, 0));
 
                 assert player != null;
                 red.hidePlayer(WoolWars.getWoolWars(), player);

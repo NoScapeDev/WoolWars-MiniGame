@@ -1,14 +1,18 @@
 package net.devscape.woolwars.managers;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.devscape.woolwars.handlers.LocalData;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class LocalStatsManager {
 
-    private final Map<UUID, LocalData> localDataMap = new HashMap<>();
+    private Map<UUID, LocalData> localDataMap = new HashMap<>();
 
     public LocalStatsManager() {}
 
