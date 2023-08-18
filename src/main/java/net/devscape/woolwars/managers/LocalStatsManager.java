@@ -17,7 +17,7 @@ public class LocalStatsManager {
     public LocalStatsManager() {}
 
     public LocalData getData(UUID uuid) {
-        return localDataMap.get(uuid);
+        return localDataMap.getOrDefault(uuid, new LocalData(0, 0, 0));
     }
 
     public void reset(UUID uuid) {

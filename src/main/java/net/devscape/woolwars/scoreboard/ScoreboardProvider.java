@@ -108,6 +108,7 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.add(Utils.format("&bKills: &f" + localData.getKills()));
         lines.add(Utils.format("&bDeaths: &f" + localData.getDeaths()));
         lines.add(Utils.format(""));
+        lines.add(Utils.format("&7&ominerave.net"));
         lines.add(Utils.scoreboardBar);
 
         return lines;
