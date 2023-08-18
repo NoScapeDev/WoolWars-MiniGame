@@ -1,0 +1,320 @@
+menus:
+  stats:
+    title: '&f何'
+    size: 54
+
+items:
+  red-wool:
+    displayname: '&f橑 &#fc372d&lRED'
+    custom-model-data: 0
+    material: RED_WOOL
+    slot: 2
+    lore:
+      - '&7Click to join the red team!'
+  white-wool:
+    displayname: '&f橑 &f&lAUTO &f栋'
+    material: WHITE_WOOL
+    custom-model-data: 0
+    slot: 4
+    lore:
+      - '&7Click to auto join a team!'
+  blue-wool:
+    displayname: '&f栋 &#138bf4&lBLUE'
+    material: BLUE_WOOL
+    custom-model-data: 0
+    slot: 6
+    lore:
+      - '&7Click to join the blue team!'
+  team-selector:
+    displayname: '&6&lTeam Selector'
+    material: BOOK
+    custom-model-data: 0
+    slot: 3
+    lore:
+      - '&7Click to select a team.'
+  kit-selector:
+    displayname: '&c&lKit Selector'
+    material: NETHER_STAR
+    custom-model-data: 0
+    slot: 5
+    lore:
+      - '&7Click to select a kit.'
+
+health:
+  health-20: '&f乳'
+  health-19: '&f乾'
+  health-18: '&f乱'
+  health-17: '&f了'
+  health-16: '&f事'
+  health-15: '&f二'
+  health-14: '&f互'
+  health-13: '&f五'
+  health-12: '&f井'
+  health-11: '&f亜'
+  health-10: '&f亡'
+  health-9: '&f交'
+  health-8: '&f享'
+  health-7: '&f京'
+  health-6: '&f人'
+  health-5: '&f仁'
+  health-4: '&f今'
+  health-3: '&f介'
+  health-2: '&f仕'
+  health-1: '&f他'
+  health-0: '&f付'
+
+
+## GLOBAL GAME SETTINGS
+game:
+  settings:
+    red-color: '&#fc372d'
+    blue-color: '&#138bf4'
+    spectator-color: '&7'
+    blue-flag: 栋
+    red-flag: 橑
+    times:
+      starting: 15 # in seconds
+      game-time: 1800 # in seconds (1800 = 30mins)
+  teams:
+    max-blue: 25 # how many players are allowed in blue.
+    max-red: 25 # how many players are allowed in red.
+
+
+## GAMES / MAPS
+games:
+  testmap:
+    locations:
+      lobby:
+        world: world
+        x: 410.46760192189225
+        y: 48.0
+        z: 96.63358093209462
+        yaw: -0.24539185
+        pitch: 3.3693566
+      blue:
+        world: world
+        x: 468.22903790600805
+        y: 23.0
+        z: 163.51474406869986
+        yaw: 90.20475
+        pitch: 1.4193039
+      red:
+        world: world
+        x: 351.8530590442822
+        y: 23.0
+        z: 163.30388847949757
+        yaw: -90.46997
+        pitch: -0.37519413
+      red-obj:
+        world: world
+        x: 308.46608231023896
+        y: 24.0
+        z: 165.36411703335156
+        yaw: -2.2199097
+        pitch: 17.549963
+      blue-obj:
+        world: world
+        x: 511.499012433337
+        y: 24.0
+        z: 165.36735744932886
+        yaw: 179.4303
+        pitch: -3.3000057
+
+
+## GLOBAL KITS
+kits:
+  Default:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_SWORD
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 32
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: BOW
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: ARROW
+        amount: 3
+      '36':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            DURABILITY: 3
+      '37':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            DURABILITY: 3
+      '38':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            DURABILITY: 3
+      '39':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            DURABILITY: 3
+  Assassin:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: STONE_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            DAMAGE_ALL: 2
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: POTION
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:swiftness
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: BAMBOO_PLANKS
+        amount: 32
+      '36':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_FALL: 2
+            DURABILITY: 3
+          trim:
+            material: minecraft:iron
+            pattern: minecraft:shaper
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '37':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            SWIFT_SNEAK: 3
+            DURABILITY: 3
+          trim:
+            material: minecraft:iron
+            pattern: minecraft:shaper
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '38':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            DURABILITY: 3
+          trim:
+            material: minecraft:iron
+            pattern: minecraft:shaper
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '39':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            DURABILITY: 3
+          trim:
+            material: minecraft:iron
+            pattern: minecraft:shaper
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+  Archer:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: STONE_SWORD
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: BOW
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+        amount: 2
+      '8':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: ARROW
+        amount: 16
+      '36':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_BOOTS
+      '37':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+      '38':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_CHESTPLATE
+      '39':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
