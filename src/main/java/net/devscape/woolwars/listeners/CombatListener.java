@@ -4,6 +4,7 @@ import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.handlers.LocalData;
+import net.devscape.woolwars.playerdata.PlayerData;
 import org.bukkit.*;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -85,11 +86,11 @@ public class CombatListener implements Listener {
                 double dmg = event.getDamage();
 
                 if (dmg >= victim.getHealth()) {
-                    LocalData damagerLocalData = WoolWars.getWoolWars().getLocalStatsManager().getData(damager.getUniqueId());
-                    damagerLocalData.setKills(damagerLocalData.getKills() + 1);
+                    PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
+                    damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
-                    LocalData victimLocalData = WoolWars.getWoolWars().getLocalStatsManager().getData(victim.getUniqueId());
-                    victimLocalData.setDeaths(victimLocalData.getDeaths() + 1);
+                    PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
+                    victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
                     event.setCancelled(true);
                     soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
@@ -187,16 +188,13 @@ public class CombatListener implements Listener {
                     if (lastDamagerId != null) {
                         Player lastDamager = Bukkit.getPlayer(lastDamagerId);
                         if (lastDamager != null) {
-                            LocalData damagerLocalData = WoolWars.getWoolWars().getLocalStatsManager().getData(lastDamager.getUniqueId());
-                            damagerLocalData.setKills(damagerLocalData.getKills() + 1);
+                            PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(lastDamager.getUniqueId());
+                            damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
                             WoolWars.getWoolWars().getH2Data().addKills(lastDamager.getUniqueId(), 1);
                             announceKill(lastDamager, player);
                         }
                     } else {
-                        LocalData victimLocalData = WoolWars.getWoolWars().getLocalStatsManager().getData(player.getUniqueId());
-                        victimLocalData.setDeaths(victimLocalData.getDeaths() + 1);
-
                         Bukkit.broadcastMessage(format("&c&l[GAME] " + getTeamColor(game.getTeam(player)) + player.getName() + " &7fell in the void."));
                     }
 
@@ -216,6 +214,9 @@ public class CombatListener implements Listener {
                     if (finalTeamSpawnLocation != null) {
                         player.teleport(finalTeamSpawnLocation);
                     }
+
+                    PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
+                    victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
                     WoolWars.getWoolWars().getH2Data().addDeaths(player.getUniqueId(), 1);
 

@@ -35,6 +35,7 @@ net\devscape\woolwars\commands\StatsCommand.class
 net\devscape\woolwars\handlers\Game.class
 net\devscape\woolwars\listeners\PlayerDataListener.class
 net\devscape\woolwars\listeners\GameListener.class
+net\devscape\woolwars\playerdata\PlayerCurrentGameData.class
 aether\scoreboard\cooldown\BoardFormat.class
 net\devscape\woolwars\listeners\CombatListener.class
 net\devscape\woolwars\listeners\CombatListener$1.class

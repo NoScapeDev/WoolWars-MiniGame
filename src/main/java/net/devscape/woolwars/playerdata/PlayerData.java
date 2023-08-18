@@ -13,6 +13,7 @@ public class PlayerData {
 
     private PlayerDataManager playerDataManager = WoolWars.getWoolWars().getPlayerDataManager();
     private PlayerState playerState = PlayerState.SPAWN;
+    private PlayerCurrentGameData playerCurrentGameData = new PlayerCurrentGameData();
 
     private UUID uniqueId;
     private boolean loaded;

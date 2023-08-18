@@ -92,8 +92,6 @@ public class ScoreboardProvider implements BoardAdapter {
 
         Game game = this.main.getGameManager().getGame();
 
-        LocalData localData = this.main.getLocalStatsManager().getData(player.getUniqueId());
-
         lines.add(Utils.scoreboardBar);
         lines.add(Utils.format("&bMap Name: &f" + game.getMapName()));
 
@@ -105,8 +103,8 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.add(Utils.format("&cRed Team: &f" + game.getRed().size()));
         lines.add(Utils.format("&cBlue Team: &f" + game.getBlue().size()));
         lines.add(Utils.format(""));
-        lines.add(Utils.format("&bKills: &f" + localData.getKills()));
-        lines.add(Utils.format("&bDeaths: &f" + localData.getDeaths()));
+        lines.add(Utils.format("&bKills: &f" + playerData.getPlayerCurrentGameData().getKills()));
+        lines.add(Utils.format("&bDeaths: &f" + playerData.getPlayerCurrentGameData().getDeaths()));
         lines.add(Utils.format(""));
         lines.add(Utils.format("&7&ominerave.net"));
         lines.add(Utils.scoreboardBar);
