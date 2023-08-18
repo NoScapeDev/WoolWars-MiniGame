@@ -51,12 +51,12 @@ public class KitSelectorMenu extends Menu {
 
             if (isValidKit) {
                 if (WoolWars.getWoolWars().getSelectedKit(player).equalsIgnoreCase(displayname)) {
-                    Utils.msgPlayer(player, "&c&l[GAME] &7You already have this kit selected.");
+                    Utils.msgPlayer(player, "&f侵 &7You already have this kit selected.");
                     return;
                 }
 
                 WoolWars.getWoolWars().saveSelectedKit(player, displayname);
-                Utils.msgPlayer(player, "&a&l[GAME] &7Kit &f&l" + displayname + " &7selected!");
+                Utils.msgPlayer(player, "&f係 &7Kit &f&l" + displayname + " &7selected!");
             }
         }
 

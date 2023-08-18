@@ -277,7 +277,7 @@ public class Game {
             }
         }
 
-        e.setJoinMessage(format("&a&l[GAME] &7" + player.getName() + " &ejoined woolwars!"));
+        e.setJoinMessage(format("&f侮 &7" + player.getName() + " &ejoined woolwars!"));
     }
 
     public void exclude(PlayerQuitEvent e) {
@@ -288,7 +288,7 @@ public class Game {
         getPlayers().remove(player.getUniqueId());
 
         bossBar.removePlayer(player);
-        e.setQuitMessage(format("&c&l[GAME] &7" + player.getName() + " &eleft woolwars!"));
+        e.setQuitMessage(format("&f侯 &7" + player.getName() + " &eleft woolwars!"));
     }
 
     public void kick(Player player) {
@@ -308,7 +308,7 @@ public class Game {
             @Override
             public void run() {
                 if (blue.size() == 0 || red.size() == 0) {
-                    Bukkit.broadcastMessage(format("&c&l[GAME] &7Not enough players to start.."));
+                    Bukkit.broadcastMessage(format("&f侵 &7Not enough players to start.."));
                     countdownStarted = false;
                     gameState = GameState.WAITING;
                     countdown = 15;
@@ -343,7 +343,7 @@ public class Game {
 
     public void start() {
         gameState = GameState.IN_PROGRESS;
-        Bukkit.broadcastMessage(format("&a&l[GAME] &7The game has started! FIGHT...."));
+        Bukkit.broadcastMessage(format("&f係 &7The game has started! FIGHT...."));
 
         for (UUID uuid : getRed()) {
             Player player = Bukkit.getPlayer(uuid);
@@ -541,7 +541,7 @@ public class Game {
     public void selectTeam(Player player, String team) {
         if (team.equalsIgnoreCase("blue")) {
             if (blue.contains(player.getUniqueId())) {
-                msgPlayer(player, "&c&l[GAME] &7You are already in this team.");
+                msgPlayer(player, "&f侵 &7You are already in this team.");
                 return;
             }
 
@@ -581,7 +581,7 @@ public class Game {
             blue.add(player.getUniqueId());
 
             players.remove(player.getUniqueId());
-            msgPlayer(player, "&a&l[GAME] &7You've picked the &f&l" + team.toUpperCase() + " &7team.");
+            msgPlayer(player, "&f係  &7You've picked the &f&l" + team.toUpperCase() + " &7team.");
 
             if (!isCountdownStarted()) {
                 if (blue.size() > 0 && red.size() > 0) {
@@ -590,7 +590,7 @@ public class Game {
             }
         } else if (team.equalsIgnoreCase("red")) {
             if (red.contains(player.getUniqueId())) {
-                msgPlayer(player, "&c&l[GAME] &7You are already in this team.");
+                msgPlayer(player, "&f侵 &7You are already in this team.");
                 return;
             }
 
@@ -632,7 +632,7 @@ public class Game {
             blue.remove(player.getUniqueId());
 
             players.remove(player.getUniqueId());
-            msgPlayer(player, "&a&l[GAME] &7You've picked the &f&l" + team.toUpperCase() + " &7team.");
+            msgPlayer(player, "&f係 &7You've picked the &f&l" + team.toUpperCase() + " &7team.");
 
             if (!isCountdownStarted()) {
                 if (blue.size() > 0 && red.size() > 0) {
@@ -733,7 +733,7 @@ public class Game {
                 WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
             }
 
-            Bukkit.broadcastMessage(format("&a&l[GAME] &7RED wins the game."));
+            Bukkit.broadcastMessage(format("&f係 &7RED wins the game."));
             endGame();
         }
 
@@ -749,7 +749,7 @@ public class Game {
                 WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
             }
 
-            Bukkit.broadcastMessage(format("&a&l[GAME] &7BLUE wins the game."));
+            Bukkit.broadcastMessage(format("&f係 &7BLUE wins the game."));
             endGame();
         }
     }
@@ -889,13 +889,10 @@ public class Game {
                             String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-0");
                             sendActionBar(player, format(health_action));
                         }
-
                     }
                 }
             }
         }.runTaskTimer(WoolWars.getWoolWars(), 0, 1);
-
-
     }
 
     public boolean isActiveGame() {

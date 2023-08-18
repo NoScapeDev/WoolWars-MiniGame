@@ -61,17 +61,17 @@ public class CombatListener implements Listener {
             if (game.getGameState() == GameState.IN_PROGRESS) {
                 if (game.getPlayers().contains(damager.getUniqueId())) {
                     event.setCancelled(true);
-                    msgPlayer(damager, "&c&l[GAME] &7You can't damage players while in spectator mode!");
+                    msgPlayer(damager, "&f侵 &7You can't damage players while in spectator mode!");
                 }
 
                 if (game.getBlue().contains(victim.getUniqueId()) && game.getBlue().contains(damager.getUniqueId())) {
                     event.setCancelled(true);
-                    msgPlayer(damager, "&c&l[GAME] &7You can not damage your team mates!");
+                    msgPlayer(damager, "&f侵 &7You can not damage your team mates!");
                 }
 
                 if (game.getRed().contains(victim.getUniqueId()) && game.getRed().contains(damager.getUniqueId())) {
                     event.setCancelled(true);
-                    msgPlayer(damager, "&c&l[GAME] &7You can not damage your team mates!");
+                    msgPlayer(damager, "&f侵 &7You can not damage your team mates!");
                 }
 
                 if (game.getPlayers().contains(victim.getUniqueId())) {
@@ -128,7 +128,7 @@ public class CombatListener implements Listener {
             player.removePotionEffect(effect.getType());
         }
 
-        titlePlayer(player, "&c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
+        titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
 
         lastDamagerMap.remove(player.getUniqueId());
         respawningMap.add(player.getUniqueId());
@@ -195,7 +195,7 @@ public class CombatListener implements Listener {
                             announceKill(lastDamager, player);
                         }
                     } else {
-                        Bukkit.broadcastMessage(format("&c&l[GAME] " + getTeamColor(game.getTeam(player)) + player.getName() + " &7fell in the void."));
+                        Bukkit.broadcastMessage(format("&f依 " + getTeamColor(game.getTeam(player)) + player.getName() + " &7fell in the void."));
                     }
 
                     Location finalTeamSpawnLocation = teamSpawnLocation;
@@ -223,7 +223,7 @@ public class CombatListener implements Listener {
                     respawningMap.add(player.getUniqueId());
                     lastDamagerMap.remove(player.getUniqueId());
 
-                    titlePlayer(player, "&c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
+                    titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
 
                     int teleportTaskId = Bukkit.getScheduler().runTaskLater(WoolWars.getWoolWars(), () -> {
                         new BukkitRunnable() {
@@ -285,7 +285,7 @@ public class CombatListener implements Listener {
                                     announceKill(damager, victim);
                                 }
                             } else {
-                                Bukkit.broadcastMessage(format("&c&l[GAME] " + getTeamColor(game.getTeam(victim)) + victim.getName() + " &7died from falling."));
+                                Bukkit.broadcastMessage(format("&f依 " + getTeamColor(game.getTeam(victim)) + victim.getName() + " &7died from falling."));
                             }
 
                             soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
@@ -309,9 +309,9 @@ public class CombatListener implements Listener {
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
         if (game.getRed().contains(killer.getUniqueId()) && game.getBlue().contains(victim.getUniqueId())) {
-            Bukkit.broadcastMessage(format("&c&l[GAME] " + getTeamColor("red") + killer.getName() + " &7killed " + getTeamColor("blue") + victim.getName() + "&7!"));
+            Bukkit.broadcastMessage(format("&f依 " + getTeamColor("red") + killer.getName() + " &7killed " + getTeamColor("blue") + victim.getName() + "&7!"));
         } else if (game.getBlue().contains(killer.getUniqueId()) && game.getRed().contains(victim.getUniqueId())) {
-            Bukkit.broadcastMessage(format("&c&l[GAME] " + getTeamColor("blue") + killer.getName() + " &7killed " + getTeamColor("red") + victim.getName() + "&7!"));
+            Bukkit.broadcastMessage(format("&f依 " + getTeamColor("blue") + killer.getName() + " &7killed " + getTeamColor("red") + victim.getName() + "&7!"));
         }
     }
 

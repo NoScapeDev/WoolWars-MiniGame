@@ -44,7 +44,7 @@ public class GameListener implements Listener {
         for (String str : WoolWars.getWoolWars().getConfig().getStringList("blocked-commands")) {
             if (e.getMessage().equalsIgnoreCase(str)) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c✘ &7This command is now allowed in here!");
+                msgPlayer(player, "&f侵 &7This command is now allowed in here!");
             }
         }
     }
@@ -59,37 +59,37 @@ public class GameListener implements Listener {
         if (game.getGameState() == GameState.IN_PROGRESS) {
             if (player.getLocation().getY() >= 50) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You have reached the game build limit.");
+                msgPlayer(player, "&f侵 &7You have reached the game build limit.");
                 return;
             }
 
             if (game.getPlayers().contains(player.getUniqueId())) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot build whilst in spectator mode.");
+                msgPlayer(player, "&f侵 &7You cannot build whilst in spectator mode.");
                 return;
             }
 
             if (block.getLocation().distance(game.getBlueSpawn()) < 5) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot build next to team spawns.");
+                msgPlayer(player, "&f侵 &7You cannot build next to team spawns.");
                 return;
             }
 
             if (block.getLocation().distance(game.getRedSpawn()) < 5) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot build next to team spawns.");
+                msgPlayer(player, "&f侵 &7You cannot build next to team spawns.");
                 return;
             }
 
             if (block.getLocation().distance(game.getBlueObjective()) < 6) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot build next to team objectives.");
+                msgPlayer(player, "&f侵 &7You cannot build next to team objectives.");
                 return;
             }
 
             if (block.getLocation().distance(game.getRedObjective()) < 6) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot build next to team objectives.");
+                msgPlayer(player, "&f侵 &7You cannot build next to team objectives.");
                 return;
             }
 
@@ -115,7 +115,7 @@ public class GameListener implements Listener {
 
             if (game.getPlayers().contains(player.getUniqueId())) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot break whilst in spectator mode.");
+                msgPlayer(player, "&f侵 &7You cannot break whilst in spectator mode.");
                 return;
             }
 
@@ -127,20 +127,20 @@ public class GameListener implements Listener {
 
             if (block.getLocation().distance(game.getBlueSpawn()) < 5) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot break next to team spawns.");
+                msgPlayer(player, "&f侵 &7You cannot break next to team spawns.");
                 return;
             }
 
             if (block.getLocation().distance(game.getRedSpawn()) < 5) {
                 e.setCancelled(true);
-                msgPlayer(player, "&c&l[GAME] &7You cannot break next to team spawns.");
+                msgPlayer(player, "&f侵 &7You cannot break next to team spawns.");
                 return;
             }
 
             if (block.getType() != Material.BLUE_WOOL) {
                 if (block.getLocation().distance(game.getBlueObjective()) < 6) {
                     e.setCancelled(true);
-                    msgPlayer(player, "&c&l[GAME] &7You cannot break next to team objectives.");
+                    msgPlayer(player, "&f侵 &7You cannot break next to team objectives.");
                     return;
                 }
             }
@@ -148,7 +148,7 @@ public class GameListener implements Listener {
             if (block.getType() != Material.RED_WOOL) {
                 if (block.getLocation().distance(game.getRedObjective()) < 6) {
                     e.setCancelled(true);
-                    msgPlayer(player, "&c&l[GAME] &7You cannot break next to team objectives.");
+                    msgPlayer(player, "&f侵 &7You cannot break next to team objectives.");
                     return;
                 }
             }
@@ -165,7 +165,7 @@ public class GameListener implements Listener {
                     }
 
                     WoolWars.getWoolWars().getH2Data().addWoolBroken(player.getUniqueId(), 1);
-                    Bukkit.broadcastMessage(format("&a&l[GAME] " + getTeamColor("blue") + player.getName() + " &f&lbroke" + getTeamColor("red") + " Red's Wool"));
+                    Bukkit.broadcastMessage(format("&f侍 " + getTeamColor("blue") + player.getName() + " &f&lbroke" + getTeamColor("red") + " Red's Wool"));
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         soundPlayer(all, Sound.BLOCK_AMETHYST_CLUSTER_HIT, 2, 2);
@@ -191,7 +191,7 @@ public class GameListener implements Listener {
                     game.removeScore("blue");
 
                     WoolWars.getWoolWars().getH2Data().addWoolBroken(player.getUniqueId(), 1);
-                    Bukkit.broadcastMessage(format("&a&l[GAME] " + getTeamColor("red") + player.getName() + " &f&lbroke" + getTeamColor("blue") + " Blue's Wool"));
+                    Bukkit.broadcastMessage(format("&f供 " + getTeamColor("red") + player.getName() + " &f&lbroke" + getTeamColor("blue") + " Blue's Wool"));
 
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.BLUE, 1.0f);
                     block.getWorld().spawnParticle(Particle.REDSTONE, block.getLocation(), 1, 0, 0, 0, 0, dustOptions);
