@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -405,7 +406,6 @@ public class Game {
     public void endGame() {
         gameState = GameState.CHANGING_PROCESS;
 
-
         for (UUID uuid : getBlue()) {
             getPlayers().add(uuid);
 
@@ -447,8 +447,7 @@ public class Game {
         red_wool = 100;
         countdownStarted = false;
 
-        for (UUID uuid : getPlayers()) {
-            Player player = Bukkit.getPlayer(uuid);
+        for (Player player : Bukkit.getOnlinePlayers()) {
             assert player != null;
             player.getInventory().clear();
 
@@ -458,15 +457,19 @@ public class Game {
                     Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
                         player.setHealth(20);
                         player.setFoodLevel(20);
-                        player.getActivePotionEffects().clear();
-                        player.setGameMode(GameMode.SURVIVAL);
 
+                        for (PotionEffect effect : player.getActivePotionEffects()) {
+                            player.removePotionEffect(effect.getType());
+                        }
+
+                        player.setGameMode(GameMode.SURVIVAL);
 
                         player.setAllowFlight(true);
                         player.setFlying(true);
 
                         assert lobby_loc != null;
                         player.teleport(lobby_loc);
+                        player.getInventory().clear();
                         giveWaitingItems(player);
                     });
                 }
@@ -512,14 +515,6 @@ public class Game {
                 }
             }
         }.runTaskLater(WoolWars.getWoolWars(), 20 * 5);
-
-        // getRedMap().clear();
-        // getBlueMap().clear();
-        // getBlockMap().clear();
-        // copyBlockMap.clear();
-        // copyBlueMap.clear();
-        // copyRedMap.clear();
-
     }
 
     public void selectTeam(Player player, String team) {

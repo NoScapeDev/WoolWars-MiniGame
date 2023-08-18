@@ -7,6 +7,8 @@ import net.devscape.project.woolwars.utils.command.Command;
 import net.devscape.project.woolwars.utils.command.CommandArguments;
 import org.bukkit.entity.Player;
 
+import static net.devscape.project.woolwars.utils.Utils.format;
+
 public class GameCommand extends BaseCommand {
 
     private WoolWars main = WoolWars.getWoolWars();
@@ -19,12 +21,11 @@ public class GameCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length == 0) {
-            player.sendMessage(Utils.format(command.getCommand().getUsage()));
+            player.sendMessage(format(command.getCommand().getUsage()));
         } else {
             switch (args[0]) {
                 case "help":
-                    Utils.msgPlayer(player, "&c&l[GAME] &7Admin Commands", "&c/game setlocation <lobby/red/blue>", "&c/game savekit <kit>", "&c/game reload");
-
+                    Utils.msgPlayer(player, "&c&l[GAME] &7Admin Commands", "&c/game setlocation <mapname> <lobby/red/blue/red-obj/blue-obj>", "&c/game savekit <kit>", "&c/game reload");
                     break;
                 case "setlocation":
                     String mapName = args[1];

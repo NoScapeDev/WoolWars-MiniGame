@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -116,7 +117,9 @@ public class CombatListener implements Listener {
         player.setHealth(20);
         player.setFoodLevel(20);
 
-        player.getActivePotionEffects().clear();
+        for (PotionEffect effect : player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
+        }
 
         titlePlayer(player, "&c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
 
@@ -193,7 +196,10 @@ public class CombatListener implements Listener {
 
                     player.setHealth(20);
                     player.setFoodLevel(20);
-                    player.getActivePotionEffects().clear();
+
+                    for (PotionEffect effect : player.getActivePotionEffects()) {
+                        player.removePotionEffect(effect.getType());
+                    }
 
                     if (finalTeamSpawnLocation != null) {
                         player.teleport(finalTeamSpawnLocation);
