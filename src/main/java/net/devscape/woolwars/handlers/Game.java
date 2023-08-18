@@ -247,6 +247,8 @@ public class Game {
 
         player.getInventory().clear();
 
+        WoolWars.getWoolWars().getLocalStatsManager().getData(player.getUniqueId());
+
         giveWaitingItems(player);
 
         player.setAllowFlight(true);
@@ -262,8 +264,6 @@ public class Game {
                 Player blue = Bukkit.getPlayer(blueuuid);
                 if (blue == null) return;
 
-                LocalData localData = WoolWars.getWoolWars().getLocalStatsManager().getData(player.getUniqueId());
-
                 assert player != null;
                 blue.hidePlayer(WoolWars.getWoolWars(), player);
             }
@@ -271,8 +271,6 @@ public class Game {
             for (UUID reduuid : getRed()) {
                 Player red = Bukkit.getPlayer(reduuid);
                 if (red == null) return;
-
-                LocalData localData = WoolWars.getWoolWars().getLocalStatsManager().getData(player.getUniqueId());
 
                 assert player != null;
                 red.hidePlayer(WoolWars.getWoolWars(), player);
@@ -427,9 +425,6 @@ public class Game {
             if (winners != null && winners.equalsIgnoreCase("blue")) {
                 Player player = Bukkit.getPlayer(uuid);
 
-                PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
-                playerData.setPlayerState(PlayerState.SPAWN);
-
                 WoolWars.getWoolWars().getLocalStatsManager().reset(player.getUniqueId());
 
                 Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
@@ -447,9 +442,6 @@ public class Game {
 
             if (winners != null && winners.equalsIgnoreCase("red")) {
                 Player player = Bukkit.getPlayer(uuid);
-
-                PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
-                playerData.setPlayerState(PlayerState.SPAWN);
 
                 WoolWars.getWoolWars().getLocalStatsManager().reset(player.getUniqueId());
 
@@ -488,6 +480,9 @@ public class Game {
                         }
 
                         player.setGameMode(GameMode.SURVIVAL);
+
+                        PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
+                        playerData.setPlayerState(PlayerState.SPAWN);
 
                         player.setAllowFlight(true);
                         player.setFlying(true);
