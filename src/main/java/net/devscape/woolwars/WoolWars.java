@@ -3,11 +3,10 @@ package net.devscape.woolwars;
 import aether.Aether;
 import lombok.Getter;
 import lombok.Setter;
-import net.devscape.woolwars.managers.GameManager;
-import net.devscape.woolwars.managers.KitManager;
-import net.devscape.woolwars.managers.LocalStatsManager;
-import net.devscape.woolwars.managers.PlayerDataManager;
+import net.devscape.woolwars.managers.*;
+import net.devscape.woolwars.managers.abilities.AbilityManager;
 import net.devscape.woolwars.menus.MenuUtil;
+import net.devscape.woolwars.runnables.CooldownRunnable;
 import net.devscape.woolwars.scoreboard.ScoreboardProvider;
 import net.devscape.woolwars.storage.H2Data;
 import net.devscape.woolwars.utils.ClassRegistrationUtils;
@@ -26,6 +25,8 @@ public class WoolWars extends JavaPlugin {
     private PlayerDataManager playerDataManager;
     private GameManager gameManager;
     private KitManager kitManager;
+    private AbilityManager abilityManager;
+    private CooldownManager cooldownManager;
     private LocalStatsManager localStatsManager;
 
     private H2Data h2Data;
@@ -60,6 +61,8 @@ public class WoolWars extends JavaPlugin {
         playerDataManager = new PlayerDataManager();
         gameManager = new GameManager();
         kitManager = new KitManager(getConfig());
+        abilityManager = new AbilityManager();
+        cooldownManager = new CooldownManager();
         localStatsManager = new LocalStatsManager();
     }
 
@@ -69,6 +72,7 @@ public class WoolWars extends JavaPlugin {
 
     private void loadRunnables() {
         new Aether(this, new ScoreboardProvider());
+        new CooldownRunnable().runTaskTimer(this, 0, 20);
     }
 
     public static MenuUtil getMenuUtil(Player player) {
