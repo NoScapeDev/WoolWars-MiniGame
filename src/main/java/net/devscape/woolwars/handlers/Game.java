@@ -430,6 +430,8 @@ public class Game {
                 PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
                 playerData.setPlayerState(PlayerState.SPAWN);
 
+                WoolWars.getWoolWars().getLocalStatsManager().reset(player.getUniqueId());
+
                 Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
                     spawnFirework(player.getLocation(), org.bukkit.Color.BLUE);
                     Bukkit.getScheduler().runTaskLater(WoolWars.getWoolWars(), () -> {
@@ -448,6 +450,8 @@ public class Game {
 
                 PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
                 playerData.setPlayerState(PlayerState.SPAWN);
+
+                WoolWars.getWoolWars().getLocalStatsManager().reset(player.getUniqueId());
 
                 Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
                     spawnFirework(player.getLocation(), org.bukkit.Color.RED);
