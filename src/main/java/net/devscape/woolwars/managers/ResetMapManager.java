@@ -71,7 +71,7 @@ public class ResetMapManager {
                     }
                 }
             }
-        }.runTaskLater(WoolWars.getWoolWars(), 20 * 5);
+        }.runTaskLater(WoolWars.getWoolWars(), 20 * 4);
     }
 
 

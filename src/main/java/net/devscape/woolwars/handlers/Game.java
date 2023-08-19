@@ -495,6 +495,13 @@ public class Game {
         // reset the map
         WoolWars.getWoolWars().getResetManager().resetMap();
 
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                WoolWars.getWoolWars().getGameManager().pickNewMap();
+            }
+        }.runTaskLaterAsynchronously(WoolWars.getWoolWars(), 20 * 2);
+
     }
 
     public void selectTeam(Player player, String team) {

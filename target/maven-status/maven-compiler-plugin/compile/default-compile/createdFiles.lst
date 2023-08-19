@@ -18,6 +18,7 @@ net\devscape\woolwars\handlers\Game$2.class
 net\devscape\woolwars\utils\command\CommandFramework.class
 net\devscape\woolwars\managers\PlayerDataManager.class
 net\devscape\woolwars\managers\abilities\AbilityManager.class
+net\devscape\woolwars\handlers\Game$6.class
 net\devscape\woolwars\listeners\ItemListener.class
 net\devscape\woolwars\managers\ResetMapManager.class
 net\devscape\woolwars\managers\GameManager.class

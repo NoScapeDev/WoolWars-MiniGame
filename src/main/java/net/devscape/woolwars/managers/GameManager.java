@@ -5,6 +5,7 @@ import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.playerdata.PlayerState;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import static net.devscape.woolwars.utils.Utils.getLocation;
+import static net.devscape.woolwars.utils.Utils.giveWaitingItems;
 
 public class GameManager {
 
@@ -27,10 +29,25 @@ public class GameManager {
     }
 
     public void pickNewMap() {
-        getGame().setActiveGame(false);
-        Game game = getRandomGame();
-        if (game != null) {
-            game.setActiveGame(true);
+        if (gameMap.size() > 1) {
+            getGame().setActiveGame(false);
+
+            List<UUID> players = new ArrayList<>(getGame().getPlayers());
+
+            Game game = getRandomGame();
+            if (game != null) {
+                game.setActiveGame(true);
+
+                game.getPlayers().addAll(players);
+                for (UUID player : game.getPlayers()) {
+                    Player p = Bukkit.getPlayer(player);
+
+                    if (p != null) {
+                        p.teleport(game.getLobby_loc());
+                        giveWaitingItems(p);
+                    }
+                }
+            }
         }
     }
 
