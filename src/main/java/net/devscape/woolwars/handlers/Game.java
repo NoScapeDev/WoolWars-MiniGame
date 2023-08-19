@@ -6,6 +6,12 @@ import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.listeners.CombatListener;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.playerdata.PlayerState;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
@@ -20,6 +26,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,7 +279,12 @@ public class Game {
             }
         }
 
-        e.setJoinMessage(format("&f侮 &7" + player.getName() + " &ejoined woolwars!"));
+        e.setJoinMessage("");
+
+        TextComponent component = Component.text(format("&f侮 &7" + e.getPlayer().getName()));
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            all.sendMessage(component);
+        }
     }
 
     public void exclude(PlayerQuitEvent e) {
@@ -283,7 +295,13 @@ public class Game {
         getPlayers().remove(player.getUniqueId());
 
         bossBar.removePlayer(player);
-        e.setQuitMessage(format("&f侯 &7" + player.getName() + " &eleft woolwars!"));
+
+        e.setQuitMessage("");
+
+        TextComponent component = Component.text(format("&f侯 &7" + player.getName()));
+        for (Player all : Bukkit.getOnlinePlayers()) {
+            all.sendMessage(component);
+        }
     }
 
     public void kick(Player player) {

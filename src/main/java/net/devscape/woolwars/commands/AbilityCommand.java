@@ -9,6 +9,8 @@ import net.devscape.woolwars.utils.command.Command;
 import net.devscape.woolwars.utils.command.CommandArguments;
 import org.bukkit.entity.Player;
 
+import static net.devscape.woolwars.utils.Utils.msgPlayer;
+
 public class AbilityCommand extends BaseCommand {
 
     private WoolWars main = WoolWars.getWoolWars();
@@ -48,6 +50,12 @@ public class AbilityCommand extends BaseCommand {
                     target.getInventory().addItem(ability.getItemStack());
                     player.sendMessage(Utils.format("&aYou've given an ability to &a&l" + target.getName()));
 
+                    break;
+                case "list":
+                    Utils.msgPlayer(player, "&f&lAbilities &7(" + this.main.getAbilityManager().getAbilities().size() + ")");
+                    for (Ability a : this.main.getAbilityManager().getAbilities()) {
+                        Utils.msgPlayer(player, "&e- &7" + a.getName());
+                    }
                     break;
             }
         }
