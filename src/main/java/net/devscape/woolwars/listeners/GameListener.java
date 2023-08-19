@@ -93,7 +93,7 @@ public class GameListener implements Listener {
                 return;
             }
 
-            WoolWars.getWoolWars().getResetManager().getBlockMap().add(e.getBlock());
+            WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().add(e.getBlock());
         } else {
             e.setCancelled(true);
         }
@@ -119,9 +119,9 @@ public class GameListener implements Listener {
                 return;
             }
 
-            if (WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
+            if (WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().contains(block)) {
                 e.setCancelled(false);
-                WoolWars.getWoolWars().getResetManager().getBlockMap().remove(block);
+                WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().remove(block);
                 return;
             }
 
@@ -160,7 +160,7 @@ public class GameListener implements Listener {
                     e.setCancelled(false);
                     e.setDropItems(false);
                     game.removeScore("red");
-                    if (!WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().contains(block)) {
                         WoolWars.getWoolWars().getResetManager().getRedBlockMap().add(block);
                     }
 
@@ -175,12 +175,18 @@ public class GameListener implements Listener {
                     block.getWorld().spawnParticle(Particle.REDSTONE, block.getLocation(), 1, 0, 0, 0, 0, dustOptions);
 
                     game.checkGameWin();
+                } else {
+                    e.setCancelled(false);
+
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().contains(block)) {
+                        WoolWars.getWoolWars().getResetManager().getBlockBreakMap().add(block);
+                    }
                 }
             } else if (game.getRed().contains(player.getUniqueId())) {
                 if (e.getBlock().getType().equals(Material.BLUE_WOOL)) {
                     e.setCancelled(false);
                     e.setDropItems(false);
-                    if (!WoolWars.getWoolWars().getResetManager().getBlockMap().contains(block)) {
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().contains(block)) {
                         WoolWars.getWoolWars().getResetManager().getBlueBlockMap().add(block);
                     }
 
@@ -199,6 +205,12 @@ public class GameListener implements Listener {
                     game.checkGameWin();
                 } else if (e.getBlock().getType().equals(Material.RED_WOOL)) {
                     e.setCancelled(true);
+                } else {
+                    e.setCancelled(false);
+
+                    if (!WoolWars.getWoolWars().getResetManager().getBlockPlaceMap().contains(block)) {
+                        WoolWars.getWoolWars().getResetManager().getBlockBreakMap().add(block);
+                    }
                 }
             } else if (game.getPlayers().contains(player.getUniqueId())) {
                 e.setCancelled(true);

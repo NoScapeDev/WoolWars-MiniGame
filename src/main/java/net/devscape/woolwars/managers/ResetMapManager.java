@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 public class ResetMapManager {
 
-    private List<Block> blockMap = new ArrayList<>();
+    private final List<Block> blockBreakMap = new ArrayList<>();
+    private final List<Block> blockPlaceMap = new ArrayList<>();
 
     private final List<Block> redBlockMap = new ArrayList<>();
     private final List<Block> blueBlockMap = new ArrayList<>();
@@ -22,7 +23,8 @@ public class ResetMapManager {
     public void resetMap() {
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
-        List<Block> copyBlockMap = new ArrayList<>(getBlockMap());
+        List<Block> copyBlockBreakMap = new ArrayList<>(getBlockBreakMap());
+        List<Block> copyBlockPlaceMap = new ArrayList<>(getBlockPlaceMap());
         List<Block> copyBlueMap = new ArrayList<>(blueBlockMap);
         List<Block> copyRedMap = new ArrayList<>(redBlockMap);
 
@@ -33,11 +35,20 @@ public class ResetMapManager {
                 game.setGameState(GameState.WAITING);
                 game.setWinners("");
 
-                if (!copyBlockMap.isEmpty()) {
-                    for (Block block : copyBlockMap) {
+                if (!copyBlockBreakMap.isEmpty()) {
+                    for (Block block : copyBlockBreakMap) {
+                        if (block.getType() != Material.AIR) {
+                            block.setType(block.getType());
+                            getBlockBreakMap().remove(block);
+                        }
+                    }
+                }
+
+                if (!copyBlockPlaceMap.isEmpty()) {
+                    for (Block block : copyBlockPlaceMap) {
                         if (block.getType() != Material.AIR) {
                             block.setType(Material.AIR);
-                            getBlockMap().remove(block);
+                            getBlockPlaceMap().remove(block);
                         }
                     }
                 }
@@ -46,7 +57,7 @@ public class ResetMapManager {
                     for (Block block : copyRedMap) {
                         if (block.getType() != Material.RED_WOOL) {
                             block.setType(Material.RED_WOOL);
-                            getBlockMap().remove(block);
+                            getBlockPlaceMap().remove(block);
                         }
                     }
                 }
@@ -55,7 +66,7 @@ public class ResetMapManager {
                     for (Block block : copyBlueMap) {
                         if (block.getType() != Material.BLUE_WOOL) {
                             block.setType(Material.BLUE_WOOL);
-                            getBlockMap().remove(block);
+                            getBlockPlaceMap().remove(block);
                         }
                     }
                 }
@@ -67,7 +78,8 @@ public class ResetMapManager {
     public void resetMapInstant() {
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
-        List<Block> copyBlockMap = new ArrayList<>(getBlockMap());
+        List<Block> copyBlockBreakMap = new ArrayList<>(getBlockBreakMap());
+        List<Block> copyBlockPlaceMap = new ArrayList<>(getBlockPlaceMap());
         List<Block> copyBlueMap = new ArrayList<>(blueBlockMap);
         List<Block> copyRedMap = new ArrayList<>(redBlockMap);
 
@@ -75,11 +87,20 @@ public class ResetMapManager {
         game.setGameState(GameState.WAITING);
         game.setWinners("");
 
-        if (!copyBlockMap.isEmpty()) {
-            for (Block block : copyBlockMap) {
+        if (!copyBlockBreakMap.isEmpty()) {
+            for (Block block : copyBlockBreakMap) {
+                if (block.getType() != Material.AIR) {
+                    block.setType(block.getType());
+                    getBlockBreakMap().remove(block);
+                }
+            }
+        }
+
+        if (!copyBlockPlaceMap.isEmpty()) {
+            for (Block block : copyBlockPlaceMap) {
                 if (block.getType() != Material.AIR) {
                     block.setType(Material.AIR);
-                    getBlockMap().remove(block);
+                    getBlockPlaceMap().remove(block);
                 }
             }
         }
@@ -88,7 +109,7 @@ public class ResetMapManager {
             for (Block block : copyRedMap) {
                 if (block.getType() != Material.RED_WOOL) {
                     block.setType(Material.RED_WOOL);
-                    getBlockMap().remove(block);
+                    getBlockPlaceMap().remove(block);
                 }
             }
         }
@@ -97,7 +118,7 @@ public class ResetMapManager {
             for (Block block : copyBlueMap) {
                 if (block.getType() != Material.BLUE_WOOL) {
                     block.setType(Material.BLUE_WOOL);
-                    getBlockMap().remove(block);
+                    getBlockPlaceMap().remove(block);
                 }
             }
         }
