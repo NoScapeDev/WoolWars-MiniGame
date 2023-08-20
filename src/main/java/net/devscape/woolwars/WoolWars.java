@@ -29,6 +29,7 @@ public class WoolWars extends JavaPlugin {
     private ResetMapManager resetManager;
     private AbilityManager abilityManager;
     private CooldownManager cooldownManager;
+    private CombatManager combatManager;
     private LocalStatsManager localStatsManager;
 
     private H2Data h2Data;
@@ -70,6 +71,7 @@ public class WoolWars extends JavaPlugin {
         resetManager = new ResetMapManager();
         abilityManager = new AbilityManager();
         cooldownManager = new CooldownManager();
+        combatManager = new CombatManager();
         localStatsManager = new LocalStatsManager();
     }
 

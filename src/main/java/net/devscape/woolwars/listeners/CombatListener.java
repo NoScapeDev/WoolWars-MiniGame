@@ -4,7 +4,9 @@ import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.handlers.LocalData;
+import net.devscape.woolwars.managers.CombatManager;
 import net.devscape.woolwars.playerdata.PlayerData;
+import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.*;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -227,6 +229,8 @@ public class CombatListener implements Listener {
                     victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
                     WoolWars.getWoolWars().getH2Data().addDeaths(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getCombatManager().setCombatSet(player.getUniqueId(), false);
+                    WoolWars.getWoolWars().getCooldownManager().setCooldownSet(player, false, 0);
 
                     respawningMap.add(player.getUniqueId());
                     lastDamagerMap.remove(player.getUniqueId());
@@ -277,6 +281,16 @@ public class CombatListener implements Listener {
             Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
             if (game.getGameState() == GameState.IN_PROGRESS) {
+                if (WoolWars.getWoolWars().getCombatManager().getFallDamageTasks().containsKey(victim)) {
+                    e.setCancelled(true);
+
+                    Pair<Boolean, CombatManager.DamageModifier> pair = (Pair<Boolean, CombatManager.DamageModifier>) WoolWars.getWoolWars().getCombatManager().getFallDamageModifiers().get(victim);
+
+                    if (pair.getLeft()) {
+                        WoolWars.getWoolWars().getCombatManager().removeFallProtection(victim);
+                    }
+                }
+
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                     double dmg = e.getDamage();
                     if (dmg >= victim.getHealth()) {

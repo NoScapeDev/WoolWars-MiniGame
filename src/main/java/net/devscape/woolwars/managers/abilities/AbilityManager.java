@@ -2,8 +2,7 @@ package net.devscape.woolwars.managers.abilities;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.devscape.woolwars.managers.abilities.impl.EskimoAbility;
-import net.devscape.woolwars.managers.abilities.impl.ShurikenAbility;
+import net.devscape.woolwars.managers.abilities.impl.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,9 @@ public class AbilityManager {
     public AbilityManager() {
         this.abilities.add(new ShurikenAbility());
         this.abilities.add(new EskimoAbility());
+        this.abilities.add(new GrapplerAbility());
+        this.abilities.add(new FishermanAbility());
+        this.abilities.add(new GravityAbility());
     }
 
     public Ability getAbility(String string) {
