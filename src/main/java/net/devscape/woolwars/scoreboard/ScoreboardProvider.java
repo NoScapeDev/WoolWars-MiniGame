@@ -79,8 +79,8 @@ public class ScoreboardProvider implements BoardAdapter {
         }
 
 
-        lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(playerData.getPlayerCurrentGameData().getKills())));
-        lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
+        lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(kills)));
+        lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(deaths)));
         lines.replaceAll(s -> s.replaceAll("%kd%", killsDeathsRatioFormatted));
         lines.add(Utils.scoreboardBar);
 
