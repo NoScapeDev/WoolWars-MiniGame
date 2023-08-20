@@ -51,12 +51,12 @@ public class AbilityCommand extends BaseCommand {
                     player.sendMessage(Utils.format("&aYou've given an ability to &a&l" + target.getName()));
 
                     break;
-//                case "list":
-//                    Utils.msgPlayer(player, "&f&lAbilities &7(" + this.main.getAbilityManager().getAbilities().size() + ")");
-//                    for (Ability a : this.main.getAbilityManager().getAbilities()) {
-//                        Utils.msgPlayer(player, "&e- &7" + a.getName());
-//                    }
-//                    break;
+                case "list":
+                    Utils.msgPlayer(player, "&f&lAbilities &7(" + this.main.getAbilityManager().getAbilities().size() + ")");
+                    for (Ability a : this.main.getAbilityManager().getAbilities()) {
+                        Utils.msgPlayer(player, "&e- &7" + a.getName());
+                    }
+                    break;
             }
         }
     }
