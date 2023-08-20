@@ -22,7 +22,7 @@ public class ScoreboardProvider implements BoardAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return Utils.format(this.main.getConfig().getString("scoreboard.title"));
+        return Utils.format(this.main.getConfig().getString("scoreboards.title"));
     }
 
     @Override

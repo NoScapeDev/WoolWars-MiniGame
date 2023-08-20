@@ -3,6 +3,32 @@ menus:
     title: '&f何'
     size: 54
 
+scoreboards:
+  title: '&bWool Wars'
+  waiting:
+    lines:
+      - '&9Join a team and prepare'
+      - '&9to fight enemies on'
+      - '&9multiple islands'
+      - ''
+      - '&bKills: &f%kills%'
+      - '&bDeaths: &f%deaths%'
+      - '&bKD: &f%kd%'
+      - ''
+      - '&7minerave.net'
+  in-game:
+    map-name: '&bMap Name: &f%map%'
+    countdown: '&bTime Left: &f%time%'
+    lines:
+      - ''
+      - '&cRed Team: &f%red%'
+      - '&cBlue Team: &f%blue%'
+      - ''
+      - '&bKills: &f%kills%'
+      - '&bDeaths: &f%deaths%'
+      - ''
+      - '&7minerave.net'
+
 items:
   red-wool:
     displayname: '&f橑 &#fc372d&lRED'
