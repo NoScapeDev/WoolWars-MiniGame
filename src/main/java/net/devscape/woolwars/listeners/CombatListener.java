@@ -158,6 +158,14 @@ public class CombatListener implements Listener {
         if (to != null && to.getY() < -1) {
             if (game.getGameState() == GameState.IN_PROGRESS) {
 
+                if (player.getFallDistance() > 0.0F) {
+                    EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
+                    Bukkit.getPluginManager().callEvent(damageEvent);
+                    if (!damageEvent.isCancelled()) {
+                        player.setFallDistance(0.0F);
+                    }
+                }
+
                 if (!diedFromFall.contains(player.getUniqueId())) {
                     if (game.getPlayers().contains(player.getUniqueId())) {
                         event.setTo(game.getLobbyLoc());
@@ -272,8 +280,8 @@ public class CombatListener implements Listener {
                 if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
                     double dmg = e.getDamage();
                     if (dmg >= victim.getHealth()) {
-                        e.setCancelled(true);
                         diedFromFall.add(victim.getUniqueId());
+                        e.setCancelled(true);
 
                         if (diedFromFall.contains(victim.getUniqueId())) {
                             UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());

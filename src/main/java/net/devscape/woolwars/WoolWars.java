@@ -9,6 +9,7 @@ import net.devscape.woolwars.menus.MenuUtil;
 import net.devscape.woolwars.runnables.CooldownRunnable;
 import net.devscape.woolwars.scoreboard.ScoreboardProvider;
 import net.devscape.woolwars.storage.H2Data;
+import net.devscape.woolwars.storage.MySQL;
 import net.devscape.woolwars.utils.ClassRegistrationUtils;
 import net.devscape.woolwars.utils.command.CommandFramework;
 import org.bukkit.entity.Player;
@@ -31,6 +32,7 @@ public class WoolWars extends JavaPlugin {
     private LocalStatsManager localStatsManager;
 
     private H2Data h2Data;
+    private MySQL mySQL;
 
     @Getter private static HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
 
@@ -43,10 +45,13 @@ public class WoolWars extends JavaPlugin {
         saveDefaultConfig();
 
         this.h2Data = new H2Data();
+        //this.mySQL = new MySQL("", 3306, "", "", "", "");
+
         this.loadCommands();
         this.loadManagers();
         this.loadListeners();
         this.loadRunnables();
+
     }
 
     @Override

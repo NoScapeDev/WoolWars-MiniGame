@@ -318,3 +318,10 @@ kits:
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_HELMET
+
+data:
+  host: ''
+  port: 3306
+  username: ''
+  password: ''
+  options: 'auto_reconnect=true'
