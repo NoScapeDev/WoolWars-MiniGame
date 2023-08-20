@@ -746,6 +746,7 @@ public class Game {
         return "spectator";
     }
 
+
     public void updateHealth() {
         new BukkitRunnable() {
             @Override
@@ -759,108 +760,8 @@ public class Game {
                             return;
                         }
 
-                        if (health == 20) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-20");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 19) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-19");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 18) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-18");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 17) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-17");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 16) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-16");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 15) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-15");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 14) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-14");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 13) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-13");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 12) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-12");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 11) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-11");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 10) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-10");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 9) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-9");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 8) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-8");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 7) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-7");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 6) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-6");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 5) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-5");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 4) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-4");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 3) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-3");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 2) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-2");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 1) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-1");
-                            sendActionBar(player, format(health_action));
-                        }
-
-                        if (health == 0) {
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-0");
+                        String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-" + health);
+                        if (health_action != null) {
                             sendActionBar(player, format(health_action));
                         }
                     }

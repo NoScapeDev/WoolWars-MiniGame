@@ -72,17 +72,14 @@ public class ScoreboardProvider implements BoardAdapter {
 
         String killsDeathsRatioFormatted = killsDeathsRatioFormat.format(killsDeathsRatio);
 
-        lines.add(Utils.scoreboardBar);
 
         for (String line : this.main.getConfig().getStringList("scoreboards.waiting.lines")) {
             lines.add(Utils.format(line));
         }
 
-
         lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(kills)));
         lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(deaths)));
         lines.replaceAll(s -> s.replaceAll("%kd%", killsDeathsRatioFormatted));
-        lines.add(Utils.scoreboardBar);
 
         return lines;
     }
@@ -92,7 +89,6 @@ public class ScoreboardProvider implements BoardAdapter {
 
         Game game = this.main.getGameManager().getGame();
 
-        lines.add(Utils.scoreboardBar);
         lines.add(Utils.format(this.main.getConfig().getString("scoreboards.in-game.map-name").replace("%map%", game.getMapName())));
 
         if (game.isCountdownStarted()) {
@@ -107,8 +103,6 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.replaceAll(s -> s.replaceAll("%blue%", String.valueOf(game.getBlue().size())));
         lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(playerData.getPlayerCurrentGameData().getKills())));
         lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
-
-        lines.add(Utils.scoreboardBar);
 
         return lines;
     }
