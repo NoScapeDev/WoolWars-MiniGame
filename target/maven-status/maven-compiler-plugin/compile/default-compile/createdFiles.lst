@@ -52,6 +52,7 @@ net\devscape\woolwars\listeners\PlayerDataListener.class
 net\devscape\woolwars\listeners\GameListener.class
 net\devscape\woolwars\managers\abilities\Ability.class
 net\devscape\woolwars\playerdata\PlayerCurrentGameData.class
+net\devscape\woolwars\storage\MySQL.class
 net\devscape\woolwars\runnables\CooldownRunnable.class
 aether\scoreboard\cooldown\BoardFormat.class
 net\devscape\woolwars\listeners\CombatListener.class

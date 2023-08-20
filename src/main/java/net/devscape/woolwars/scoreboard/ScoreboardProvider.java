@@ -22,7 +22,7 @@ public class ScoreboardProvider implements BoardAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return Utils.format("&bWool Wars");
+        return Utils.format(this.main.getConfig().getString("scoreboard.title"));
     }
 
     @Override
@@ -73,15 +73,15 @@ public class ScoreboardProvider implements BoardAdapter {
         String killsDeathsRatioFormatted = killsDeathsRatioFormat.format(killsDeathsRatio);
 
         lines.add(Utils.scoreboardBar);
-        lines.add(Utils.format("&9Join a team and prepare"));
-        lines.add(Utils.format("&9to fight enemies on"));
-        lines.add(Utils.format("&9multiple islands"));
-        lines.add(Utils.format(""));
-        lines.add(Utils.format("&bKills: &f" + kills));
-        lines.add(Utils.format("&bDeaths: &f" + deaths));
-        lines.add(Utils.format("&bKD: &f" + killsDeathsRatioFormatted));
-        lines.add(Utils.format(""));
-        lines.add(Utils.format("&7&ominerave.net"));
+
+        for (String line : this.main.getConfig().getStringList("scoreboards.waiting.lines")) {
+            lines.add(Utils.format(line));
+        }
+
+
+        lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(playerData.getPlayerCurrentGameData().getKills())));
+        lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
+        lines.replaceAll(s -> s.replaceAll("%kd%", killsDeathsRatioFormatted));
         lines.add(Utils.scoreboardBar);
 
         return lines;
@@ -93,20 +93,21 @@ public class ScoreboardProvider implements BoardAdapter {
         Game game = this.main.getGameManager().getGame();
 
         lines.add(Utils.scoreboardBar);
-        lines.add(Utils.format("&bMap Name: &f" + game.getMapName()));
+        lines.add(Utils.format(this.main.getConfig().getString("scoreboards.in-game.map-name").replace("%map%", game.getMapName())));
 
         if (game.isCountdownStarted()) {
-            lines.add(Utils.format("&bTime Left: &f" + game.getCountdown()));
+            lines.add(Utils.format(this.main.getConfig().getString("scoreboards.in-game.countdown").replace("%time%", String.valueOf(game.getCountdown()))));
         }
 
-        lines.add(Utils.format(""));
-        lines.add(Utils.format("&cRed Team: &f" + game.getRed().size()));
-        lines.add(Utils.format("&cBlue Team: &f" + game.getBlue().size()));
-        lines.add(Utils.format(""));
-        lines.add(Utils.format("&bKills: &f" + playerData.getPlayerCurrentGameData().getKills()));
-        lines.add(Utils.format("&bDeaths: &f" + playerData.getPlayerCurrentGameData().getDeaths()));
-        lines.add(Utils.format(""));
-        lines.add(Utils.format("&7&ominerave.net"));
+        for (String line : this.main.getConfig().getStringList("scoreboards.in-game.lines")) {
+            lines.add(Utils.format(line));
+        }
+
+        lines.replaceAll(s -> s.replaceAll("%red%", String.valueOf(game.getRed().size())));
+        lines.replaceAll(s -> s.replaceAll("%blue%", String.valueOf(game.getBlue().size())));
+        lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(playerData.getPlayerCurrentGameData().getKills())));
+        lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
+
         lines.add(Utils.scoreboardBar);
 
         return lines;

@@ -35,78 +35,76 @@ public class CombatListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player && (event.getDamager() instanceof Player || event.getDamager() instanceof Projectile || event.getDamager() instanceof ThrownPotion)) {
+        if (!(event.getEntity() instanceof Player) || !(event.getDamager() instanceof Player) &&
+                !(event.getDamager() instanceof Projectile) && !(event.getDamager() instanceof ThrownPotion)) {
+            return;
+        }
 
-            Player victim = (Player) event.getEntity();
-            Player damager = null;
+        Player victim = (Player) event.getEntity();
+        Player damager = null;
 
-            if (event.getDamager() instanceof Player) {
-                damager = (Player) event.getDamager();
-            } else if (event.getDamager() instanceof Projectile) {
-                Projectile projectile = (Projectile) event.getDamager();
-                if (projectile.getShooter() instanceof Player) {
-                    damager = (Player) projectile.getShooter();
-                }
-            } else if (event.getDamager() instanceof ThrownPotion) {
-                ThrownPotion potion = (ThrownPotion) event.getDamager();
-                if (potion.getShooter() instanceof Player) {
-                    damager = (Player) potion.getShooter();
-                }
+        if (event.getDamager() instanceof Player) {
+            damager = (Player) event.getDamager();
+        } else if (event.getDamager() instanceof Projectile) {
+            Projectile projectile = (Projectile) event.getDamager();
+            if (projectile.getShooter() instanceof Player) {
+                damager = (Player) projectile.getShooter();
+            }
+        } else if (event.getDamager() instanceof ThrownPotion) {
+            ThrownPotion potion = (ThrownPotion) event.getDamager();
+            if (potion.getShooter() instanceof Player) {
+                damager = (Player) potion.getShooter();
+            }
+        }
+
+        if (damager == null) {
+            return;
+        }
+
+        Game game = WoolWars.getWoolWars().getGameManager().getGame();
+
+        if (game.getGameState() == GameState.IN_PROGRESS) {
+            if (game.getPlayers().contains(damager.getUniqueId())) {
+                event.setCancelled(true);
+                msgPlayer(damager, "&f侵 &7You can't damage players while in spectator mode!");
             }
 
-            if (damager == null) {
-                return;
+            if (game.getBlue().contains(victim.getUniqueId()) && game.getBlue().contains(damager.getUniqueId()) ||
+                    game.getRed().contains(victim.getUniqueId()) && game.getRed().contains(damager.getUniqueId())) {
+                event.setCancelled(true);
+                msgPlayer(damager, "&f侵 &7You can not damage your team mates!");
             }
 
-            Game game = WoolWars.getWoolWars().getGameManager().getGame();
-
-            if (game.getGameState() == GameState.IN_PROGRESS) {
-                if (game.getPlayers().contains(damager.getUniqueId())) {
-                    event.setCancelled(true);
-                    msgPlayer(damager, "&f侵 &7You can't damage players while in spectator mode!");
-                }
-
-                if (game.getBlue().contains(victim.getUniqueId()) && game.getBlue().contains(damager.getUniqueId())) {
-                    event.setCancelled(true);
-                    msgPlayer(damager, "&f侵 &7You can not damage your team mates!");
-                }
-
-                if (game.getRed().contains(victim.getUniqueId()) && game.getRed().contains(damager.getUniqueId())) {
-                    event.setCancelled(true);
-                    msgPlayer(damager, "&f侵 &7You can not damage your team mates!");
-                }
-
-                if (game.getPlayers().contains(victim.getUniqueId())) {
-                    event.setCancelled(true);
-                }
-
-                UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());
-                if (lastDamagerId == null || !lastDamagerId.equals(damager.getUniqueId())) {
-                    lastDamagerMap.put(victim.getUniqueId(), damager.getUniqueId());
-                }
-
-                double dmg = event.getDamage();
-
-                if (dmg >= victim.getHealth()) {
-                    PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
-                    damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
-
-                    PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
-                    victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
-
-                    event.setCancelled(true);
-                    soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
-                    soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
-
-                    WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
-                    WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
-
-                    announceKill(damager, victim);
-                    respawnPlayer(victim);
-                }
-            } else {
+            if (game.getPlayers().contains(victim.getUniqueId())) {
                 event.setCancelled(true);
             }
+
+            UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());
+            if (lastDamagerId == null || !lastDamagerId.equals(damager.getUniqueId())) {
+                lastDamagerMap.put(victim.getUniqueId(), damager.getUniqueId());
+            }
+
+            double dmg = event.getDamage();
+
+            if (dmg >= victim.getHealth()) {
+                event.setCancelled(true);
+                PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
+                damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
+
+                PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
+                victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
+
+                soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
+                soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
+
+                WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
+                WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+
+                announceKill(damager, victim);
+                respawnPlayer(victim);
+            }
+        } else {
+            event.setCancelled(true);
         }
     }
 
@@ -120,15 +118,7 @@ public class CombatListener implements Listener {
             teamSpawnLocation = game.getBlueSpawn();
         }
 
-        player.getInventory().clear();
-        player.setGameMode(GameMode.SPECTATOR);
-
-        player.setHealth(20);
-        player.setFoodLevel(20);
-
-        for (PotionEffect effect : player.getActivePotionEffects()) {
-            player.removePotionEffect(effect.getType());
-        }
+        restorePlayer(player, true);
 
         titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
 
@@ -159,7 +149,6 @@ public class CombatListener implements Listener {
 
         if (to != null && to.getY() < -1) {
             if (game.getGameState() == GameState.IN_PROGRESS) {
-
                 if (player.getFallDistance() > 0.0F) {
                     EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
                     Bukkit.getPluginManager().callEvent(damageEvent);
@@ -171,7 +160,7 @@ public class CombatListener implements Listener {
                 if (!diedFromFall.contains(player.getUniqueId())) {
                     if (game.getPlayers().contains(player.getUniqueId())) {
                         event.setTo(game.getLobbyLoc());
-                        player.setGameMode(GameMode.SURVIVAL);
+                        restorePlayer(player, true);
 
                         giveWaitingItems(player);
 
@@ -191,7 +180,6 @@ public class CombatListener implements Listener {
                         teamSpawnLocation = game.getBlueSpawn();
                     }
 
-                    // Clear existing teleport tasks before scheduling a new one
                     cancelTeleportTask(player);
 
                     UUID lastDamagerId = lastDamagerMap.get(player.getUniqueId());
@@ -210,16 +198,7 @@ public class CombatListener implements Listener {
 
                     Location finalTeamSpawnLocation = teamSpawnLocation;
 
-                    player.getInventory().clear();
-
-                    player.setGameMode(GameMode.SPECTATOR);
-
-                    player.setHealth(20);
-                    player.setFoodLevel(20);
-
-                    for (PotionEffect effect : player.getActivePotionEffects()) {
-                        player.removePotionEffect(effect.getType());
-                    }
+                    restorePlayer(player, true);
 
                     if (finalTeamSpawnLocation != null) {
                         player.teleport(finalTeamSpawnLocation);
@@ -229,8 +208,6 @@ public class CombatListener implements Listener {
                     victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
                     WoolWars.getWoolWars().getH2Data().addDeaths(player.getUniqueId(), 1);
-                    WoolWars.getWoolWars().getCombatManager().setCombatSet(player.getUniqueId(), false);
-                    WoolWars.getWoolWars().getCooldownManager().setCooldownSet(player, false, 0);
 
                     respawningMap.add(player.getUniqueId());
                     lastDamagerMap.remove(player.getUniqueId());
@@ -258,12 +235,11 @@ public class CombatListener implements Listener {
                 }
             } else {
                 event.setTo(game.getLobbyLoc());
-                player.setGameMode(GameMode.SURVIVAL);
+                restorePlayer(player, false);
 
                 giveWaitingItems(player);
             }
 
-            // Prevent fall damage during teleportation
             if (player.getFallDistance() > 0.0F) {
                 EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
                 Bukkit.getPluginManager().callEvent(damageEvent);
@@ -276,46 +252,34 @@ public class CombatListener implements Listener {
 
     @EventHandler
     public void onFall(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player victim = (Player) e.getEntity();
-            Game game = WoolWars.getWoolWars().getGameManager().getGame();
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
 
-            if (game.getGameState() == GameState.IN_PROGRESS) {
-                if (WoolWars.getWoolWars().getCombatManager().getFallDamageTasks().containsKey(victim)) {
-                    e.setCancelled(true);
+        Player victim = (Player) e.getEntity();
+        Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
-                    Pair<Boolean, CombatManager.DamageModifier> pair = (Pair<Boolean, CombatManager.DamageModifier>) WoolWars.getWoolWars().getCombatManager().getFallDamageModifiers().get(victim);
+        if (game.getGameState() == GameState.IN_PROGRESS && e.getCause() == EntityDamageEvent.DamageCause.FALL && !(victim.getLocation().getY() < -1)) {
+            double dmg = e.getDamage();
+            if (dmg >= victim.getHealth()) {
+                diedFromFall.add(victim.getUniqueId());
+                e.setCancelled(true);
 
-                    if (pair.getLeft()) {
-                        WoolWars.getWoolWars().getCombatManager().removeFallProtection(victim);
+                UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());
+                if (lastDamagerId != null) {
+                    Player damager = Bukkit.getPlayer(lastDamagerId);
+                    if (damager != null) {
+                        soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
+                        WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
+                        announceKill(damager, victim);
                     }
+                } else {
+                    Bukkit.broadcastMessage(format("&f依 " + getTeamColor(game.getTeam(victim)) + victim.getName() + " &7died from falling."));
                 }
 
-                if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
-                    double dmg = e.getDamage();
-                    if (dmg >= victim.getHealth()) {
-                        diedFromFall.add(victim.getUniqueId());
-                        e.setCancelled(true);
-
-                        if (diedFromFall.contains(victim.getUniqueId())) {
-                            UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());
-                            if (lastDamagerId != null) {
-                                Player damager = Bukkit.getPlayer(lastDamagerId);
-                                if (damager != null) {
-                                    soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
-                                    WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
-                                    announceKill(damager, victim);
-                                }
-                            } else {
-                                Bukkit.broadcastMessage(format("&f依 " + getTeamColor(game.getTeam(victim)) + victim.getName() + " &7died from falling."));
-                            }
-
-                            soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
-                            WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
-                            respawnPlayer(victim);
-                        }
-                    }
-                }
+                soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
+                WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+                respawnPlayer(victim);
             }
         }
     }
@@ -350,4 +314,20 @@ public class CombatListener implements Listener {
             event.setCancelled(true); // Cancel any damage caused by a firework
         }
     }
+
+    private void restorePlayer(Player player, boolean resetEffects) {
+        player.getInventory().clear();
+        player.setGameMode(GameMode.SPECTATOR);
+
+        player.setHealth(20);
+        player.setFoodLevel(20);
+
+
+        if (resetEffects) {
+            for (PotionEffect effect : player.getActivePotionEffects()) {
+                player.removePotionEffect(effect.getType());
+            }
+        }
+    }
+
 }
