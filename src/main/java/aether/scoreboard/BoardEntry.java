@@ -34,8 +34,8 @@ public class BoardEntry {
 
         String teamName = key;
 
-        if (teamName.length() > 16) {
-            teamName = teamName.substring(0, 16);
+        if (teamName.length() > 32) {
+            teamName = teamName.substring(0, 32);
         }
 
         if (scoreboard.getTeam(teamName) != null) {
@@ -61,13 +61,13 @@ public class BoardEntry {
         if (text.length() > 16) {
             boolean fix = text.toCharArray()[15] == ChatColor.COLOR_CHAR;
 
-            String prefix = fix ? text.substring(0, 15) : text.substring(0, 16);
+            String prefix = fix ? text.substring(0, Math.min(15, text.length())) : text.substring(0, Math.min(16, text.length()));
             String suffix = fix ? text.substring(15) : ChatColor.getLastColors(prefix) + text.substring(16);
 
             team.setPrefix(prefix);
 
-            if (suffix.length() > 16) {
-                team.setSuffix(suffix.substring(0, 16));
+            if (suffix.length() > 32) {
+                team.setSuffix(suffix.substring(0, 32));
             } else {
                 team.setSuffix(suffix);
             }
