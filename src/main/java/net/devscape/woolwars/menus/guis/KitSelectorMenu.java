@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static net.devscape.woolwars.utils.Utils.format;
+
 public class KitSelectorMenu extends Menu {
 
     public KitSelectorMenu(MenuUtil menuUtil) {
@@ -21,12 +23,12 @@ public class KitSelectorMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        return Utils.format("&8Select a Kit");
+        return format(WoolWars.getWoolWars().getConfig().getString("menus.kit-selector.title"));
     }
 
     @Override
     public int getSlots() {
-        return 54;
+        return WoolWars.getWoolWars().getConfig().getInt("menus.kit-selector.size");
     }
 
     @Override

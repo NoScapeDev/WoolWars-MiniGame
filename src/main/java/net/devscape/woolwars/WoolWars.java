@@ -10,8 +10,10 @@ import net.devscape.woolwars.runnables.CooldownRunnable;
 import net.devscape.woolwars.scoreboard.ScoreboardProvider;
 import net.devscape.woolwars.storage.H2Data;
 import net.devscape.woolwars.storage.MySQL;
+import net.devscape.woolwars.utils.BungeeUtils;
 import net.devscape.woolwars.utils.ClassRegistrationUtils;
 import net.devscape.woolwars.utils.command.CommandFramework;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +25,7 @@ public class WoolWars extends JavaPlugin {
 
     @Getter private static WoolWars woolWars;
 
+    private BungeeUtils bungeeUtils;
     private PlayerDataManager playerDataManager;
     private GameManager gameManager;
     private KitManager kitManager;
@@ -48,6 +51,8 @@ public class WoolWars extends JavaPlugin {
         this.h2Data = new H2Data();
         //this.mySQL = new MySQL("", 3306, "", "", "", "");
 
+        bungeeUtils = new BungeeUtils(this);
+
         this.loadCommands();
         this.loadManagers();
         this.loadListeners();
@@ -57,7 +62,13 @@ public class WoolWars extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            bungeeUtils.sendPlayerToServer(player, "hub");
+        }
+
         getResetManager().resetMapInstant();
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
     }
 
     private void loadCommands() {

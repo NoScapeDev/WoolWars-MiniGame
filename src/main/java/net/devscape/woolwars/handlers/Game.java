@@ -203,6 +203,28 @@ public class Game {
                     if (red.size() == 0) {
                         endGame();
                     }
+
+                    for (UUID uuid : getPlayers()) {
+                        Player spectator = Bukkit.getPlayer(uuid);
+
+                        if (spectator != null) {
+
+                            for (UUID blueUUID : getBlue()) {
+                                Player blue = Bukkit.getPlayer(blueUUID);
+                                if (blue != null) {
+                                    blue.hidePlayer(WoolWars.getWoolWars(), spectator);
+                                }
+                            }
+
+                            for (UUID redUUID : getRed()) {
+                                Player red = Bukkit.getPlayer(redUUID);
+                                if (red != null) {
+                                    red.hidePlayer(WoolWars.getWoolWars(), spectator);
+                                }
+                            }
+                        }
+                    }
+
                 }
 
                 if (gameState == GameState.CHANGING_PROCESS) {
@@ -334,7 +356,7 @@ public class Game {
                     countdown = 15;
 
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.getWorld().playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 2, 2);
+                        player.getWorld().playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
                     }
                     cancel();
                 }
@@ -485,6 +507,10 @@ public class Game {
 
             playerData.getPlayerCurrentGameData().setKills(0);
             playerData.getPlayerCurrentGameData().setDeaths(0);
+
+            for (Player all : Bukkit.getOnlinePlayers()) {
+                player.showPlayer(WoolWars.getWoolWars(), all);
+            }
 
             new BukkitRunnable() {
                 @Override
@@ -707,7 +733,10 @@ public class Game {
                 WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
             }
 
-            Bukkit.broadcastMessage(format("&f係 &7RED wins the game."));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                titlePlayer(player, "&b&lGAME OVER", "&f侍 &f&lRed Wins the game!", 20, 20 * 2, 20);
+            }
+
             endGame();
         }
 
@@ -723,7 +752,10 @@ public class Game {
                 WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
             }
 
-            Bukkit.broadcastMessage(format("&f係 &7BLUE wins the game."));
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                titlePlayer(player, "&b&lGAME OVER", "&f依 &f&lBlue Wins the game!", 20, 20 * 2, 20);
+            }
+
             endGame();
         }
     }

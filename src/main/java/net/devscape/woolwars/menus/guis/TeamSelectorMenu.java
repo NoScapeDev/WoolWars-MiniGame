@@ -9,8 +9,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static net.devscape.woolwars.utils.Utils.format;
 
 public class TeamSelectorMenu extends Menu {
 
@@ -20,12 +23,12 @@ public class TeamSelectorMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        return Utils.format("&8Select a Team");
+        return format(WoolWars.getWoolWars().getConfig().getString("menus.team-selector.title"));
     }
 
     @Override
     public int getSlots() {
-        return 9;
+        return WoolWars.getWoolWars().getConfig().getInt("menus.team-selector.size");
     }
 
     @Override
@@ -86,13 +89,16 @@ public class TeamSelectorMenu extends Menu {
         for (String str : Objects.requireNonNull(WoolWars.getWoolWars().getConfig().getConfigurationSection("items")).getKeys(false)) {
             if (str.contains("-wool")) {
                 String displayname = WoolWars.getWoolWars().getConfig().getString("items." + str + ".displayname");
-                int slot = WoolWars.getWoolWars().getConfig().getInt("items." + str + ".slot");
+                List<String> slot = new ArrayList<>(WoolWars.getWoolWars().getConfig().getStringList("items." + str + ".slots"));
                 int custom_model_data = WoolWars.getWoolWars().getConfig().getInt("items." + str + ".custom-model-data");
                 List<String> lore = WoolWars.getWoolWars().getConfig().getStringList("items." + str + ".lore");
                 String material = WoolWars.getWoolWars().getConfig().getString("items." + str + ".material");
 
                 assert material != null;
-                getInventory().setItem(slot, Utils.makeItem(Material.valueOf(material.toUpperCase()), displayname, Utils.color(lore), custom_model_data));
+
+                for (String slot_string : slot) {
+                    getInventory().setItem(Integer.parseInt(slot_string), Utils.makeItem(Material.valueOf(material.toUpperCase()), displayname, Utils.color(lore), custom_model_data));
+                }
             }
         }
     }

@@ -47,6 +47,7 @@ net\devscape\woolwars\handlers\GameUpgrades.class
 net\devscape\woolwars\utils\command\BukkitCommand.class
 net\devscape\woolwars\commands\StatsCommand.class
 net\devscape\woolwars\handlers\Game.class
+net\devscape\woolwars\utils\BungeeUtils.class
 net\devscape\woolwars\managers\abilities\AbilityCallable.class
 net\devscape\woolwars\listeners\PlayerDataListener.class
 net\devscape\woolwars\listeners\GameListener.class

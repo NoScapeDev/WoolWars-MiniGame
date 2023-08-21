@@ -40,6 +40,10 @@ public class ItemListener implements Listener {
                 new KitSelectorMenu(WoolWars.getMenuUtil(player)).open();
             }
 
+            if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.back-to-hub.displayname")))) {
+                WoolWars.getWoolWars().getBungeeUtils().sendPlayerToServer(player, "hub");
+            }
+
             for (Ability ability : this.main.getAbilityManager().getAbilities()) {
                 if (!displayName.equalsIgnoreCase(ability.getItemStack().getItemMeta().getDisplayName())) {
                     continue;

@@ -148,7 +148,7 @@ public class Utils {
 
     public static void giveWaitingItems(Player player) {
         for (String str : Objects.requireNonNull(WoolWars.getWoolWars().getConfig().getConfigurationSection("items")).getKeys(false)) {
-            if (str.contains("-selector")) {
+            if (!str.contains("-wool")) {
                 String displayname = WoolWars.getWoolWars().getConfig().getString("items." + str + ".displayname");
                 int slot = WoolWars.getWoolWars().getConfig().getInt("items." + str + ".slot");
                 int custom_model_data = WoolWars.getWoolWars().getConfig().getInt("items." + str + ".custom-model-data");

@@ -2,6 +2,12 @@ menus:
   stats:
     title: '&f何'
     size: 54
+  team-selector:
+    title: '&8Team Selector'
+    size: 54
+  kit-selector:
+    title: '&8Kit Selector'
+    size: 54
 
 scoreboards:
   title: '&bWool Wars'
@@ -34,21 +40,24 @@ items:
     displayname: '&f橑 &#fc372d&lRED'
     custom-model-data: 0
     material: RED_WOOL
-    slot: 2
+    slots:
+      - '2'
     lore:
       - '&7Click to join the red team!'
   white-wool:
     displayname: '&f橑 &f&lAUTO &f栋'
     material: WHITE_WOOL
     custom-model-data: 0
-    slot: 4
+    slots:
+      - '4'
     lore:
       - '&7Click to auto join a team!'
   blue-wool:
     displayname: '&f栋 &#138bf4&lBLUE'
     material: BLUE_WOOL
     custom-model-data: 0
-    slot: 6
+    slots:
+      - '6'
     lore:
       - '&7Click to join the blue team!'
   team-selector:
@@ -65,6 +74,13 @@ items:
     slot: 5
     lore:
       - '&7Click to select a kit.'
+  back-to-hub:
+    displayname: '&c&lBack to Hub'
+    material: PAPER
+    custom-model-data: 0
+    slot: 8
+    lore:
+      - '&7Click to go back to the hub.'
 
 health:
   health-20: '&f乳'

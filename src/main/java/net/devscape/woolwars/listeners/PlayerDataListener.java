@@ -51,8 +51,6 @@ public class PlayerDataListener implements Listener {
 		Player player = event.getPlayer();
 
 		PlayerData playerData = this.plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
-
-		player.setResourcePack("https://www.dropbox.com/scl/fo/epocg5ysr1eyk9fgb9758/h?rlkey=cn7v6422ietpv17qvumkuydl9&dl=1");
 	}
 
 	@EventHandler
