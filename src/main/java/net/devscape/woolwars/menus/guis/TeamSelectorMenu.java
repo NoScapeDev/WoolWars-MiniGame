@@ -37,50 +37,63 @@ public class TeamSelectorMenu extends Menu {
 
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
-        if (e.getSlot() == 2) {
-            if (player.hasPermission("game.select.any")) {
-                game.selectTeam(player, "red");
-            } else {
-                Utils.msgPlayer(player, "&c&l[GAME] &7Only players with &f&l<Rank+> &7can select any team.");
+        List<String> red_slots = new ArrayList<>(WoolWars.getWoolWars().getConfig().getStringList("items.red-wool.slots"));
+        List<String> blue_slots = new ArrayList<>(WoolWars.getWoolWars().getConfig().getStringList("items.blue-wool.slots"));
+        List<String> auto_slots = new ArrayList<>(WoolWars.getWoolWars().getConfig().getStringList("items.white-wool.slots"));
+
+        for (String red_s : red_slots) {
+            int slot = Integer.parseInt(red_s);
+            if (e.getSlot() == slot) {
+                if (player.hasPermission("game.select.any")) {
+                    game.selectTeam(player, "red");
+                } else {
+                    Utils.msgPlayer(player, "&c&l[GAME] &7Only players with &f&l<Rank+> &7can select any team.");
+                }
+                player.closeInventory();
             }
-            player.closeInventory();
         }
 
-        if (e.getSlot() == 4) {
-            if (!game.getTeam(player).equalsIgnoreCase("spectator")) {
-                Utils.msgPlayer(player, "&c&l[GAME] &7You're already in a team.");
-                return;
-            }
+        for (String auto_s : auto_slots) {
+            int slot = Integer.parseInt(auto_s);
+            if (e.getSlot() == slot) {
+                if (!game.getTeam(player).equalsIgnoreCase("spectator")) {
+                    Utils.msgPlayer(player, "&c&l[GAME] &7You're already in a team.");
+                    return;
+                }
 
-            int blue = game.getBlue().size();
-            int red = game.getRed().size();
+                int blue = game.getBlue().size();
+                int red = game.getRed().size();
 
-            if (red > blue) {
-                game.selectTeam(player, "blue");
-            }
-
-            if (blue > red) {
-                game.selectTeam(player, "red");
-            }
-
-            if (blue == red) {
-                if (Math.random() < 0.5) {
+                if (red > blue) {
                     game.selectTeam(player, "blue");
-                } else {
+                }
+
+                if (blue > red) {
                     game.selectTeam(player, "red");
                 }
-            }
 
-            player.closeInventory();
+                if (blue == red) {
+                    if (Math.random() < 0.5) {
+                        game.selectTeam(player, "blue");
+                    } else {
+                        game.selectTeam(player, "red");
+                    }
+                }
+
+                player.closeInventory();
+            }
         }
 
-        if (e.getSlot() == 6) {
-            if (player.hasPermission("game.select.any")) {
-                game.selectTeam(player, "blue");
-            } else {
-                Utils.msgPlayer(player, "&c&l[GAME] &7Only players with &f&l<Rank+> &7can select any team.");
+        for (String blue_s : blue_slots) {
+            int slot = Integer.parseInt(blue_s);
+            if (e.getSlot() == slot) {
+                if (player.hasPermission("game.select.any")) {
+                    game.selectTeam(player, "blue");
+                } else {
+                    Utils.msgPlayer(player, "&c&l[GAME] &7Only players with &f&l<Rank+> &7can select any team.");
+                }
+                player.closeInventory();
             }
-            player.closeInventory();
         }
     }
 

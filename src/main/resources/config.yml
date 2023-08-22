@@ -37,47 +37,73 @@ scoreboards:
 
 items:
   red-wool:
-    displayname: '&f橑 &#fc372d&lRED'
-    custom-model-data: 0
-    material: RED_WOOL
+    displayname: '&#fc372dRed Team'
+    custom-model-data: 6
+    material: PAPER
     slots:
-      - '2'
-    lore:
-      - '&7Click to join the red team!'
+      - '36'
+      - '37'
+      - '38'
+      - '45'
+      - '46'
+      - '47'
+    lore: {}
   white-wool:
-    displayname: '&f橑 &f&lAUTO &f栋'
-    material: WHITE_WOOL
-    custom-model-data: 0
+    displayname: '&fRandom Team'
+    material: PAPER
+    custom-model-data: 6
     slots:
-      - '4'
-    lore:
-      - '&7Click to auto join a team!'
+      - '39'
+      - '40'
+      - '41'
+      - '48'
+      - '49'
+      - '50'
+    lore: {}
   blue-wool:
-    displayname: '&f栋 &#138bf4&lBLUE'
-    material: BLUE_WOOL
-    custom-model-data: 0
+    displayname: '&#138bf4Blue Team'
+    material: PAPER
+    custom-model-data: 6
     slots:
-      - '6'
-    lore:
-      - '&7Click to join the blue team!'
+      - '42'
+      - '43'
+      - '44'
+      - '51'
+      - '52'
+      - '53'
+    lore: {}
   team-selector:
     displayname: '&6&lTeam Selector'
-    material: BOOK
-    custom-model-data: 0
+    material: PAPER
+    custom-model-data: 1
     slot: 3
     lore:
       - '&7Click to select a team.'
   kit-selector:
     displayname: '&c&lKit Selector'
-    material: NETHER_STAR
-    custom-model-data: 0
+    material: PAPER
+    custom-model-data: 2
     slot: 5
+    lore:
+      - '&7Click to select a kit.'
+  spectator-selector:
+    displayname: '&e&lSpectator Selector'
+    material: PAPER
+    custom-model-data: 4
+    slot: 1
+    lore:
+      - '&7Click to select a kit.'
+  map-selector:
+    displayname: '&3&lMap Selector'
+    material: PAPER
+    custom-model-data: 3
+    slot: 0
     lore:
       - '&7Click to select a kit.'
   back-to-hub:
     displayname: '&c&lBack to Hub'
     material: PAPER
-    custom-model-data: 0
+    custom-model-data: 5
     slot: 8
     lore:
       - '&7Click to go back to the hub.'

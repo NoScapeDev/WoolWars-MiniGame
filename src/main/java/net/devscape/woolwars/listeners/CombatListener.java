@@ -88,20 +88,23 @@ public class CombatListener implements Listener {
 
             if (dmg >= victim.getHealth()) {
                 event.setCancelled(true);
-                PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
-                damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
-                PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
-                victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
+                if (!diedFromFall.contains(victim.getUniqueId())) {
+                    PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
+                    damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
-                soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
-                soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
+                    PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
+                    victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
-                WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
-                WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+                    soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
+                    soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
 
-                announceKill(damager, victim);
-                respawnPlayer(victim);
+                    WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+
+                    announceKill(damager, victim);
+                    respawnPlayer(victim);
+                }
             }
         } else {
             event.setCancelled(true);
@@ -126,19 +129,27 @@ public class CombatListener implements Listener {
         respawningMap.add(player.getUniqueId());
 
         Location finalTeamSpawnLocation = teamSpawnLocation;
-        int teleportTaskId = Bukkit.getScheduler().runTaskLater(WoolWars.getWoolWars(), () -> {
-            if (finalTeamSpawnLocation != null) {
-                player.teleport(finalTeamSpawnLocation);
-                player.setGameMode(GameMode.SURVIVAL);
 
-                respawningMap.remove(player.getUniqueId());
-                diedFromFall.remove(player.getUniqueId());
+        final int[] teleportTaskId = new int[1];
 
-                WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                teleportTaskId[0] = Bukkit.getScheduler().runTaskLater(WoolWars.getWoolWars(), () -> {
+                    if (finalTeamSpawnLocation != null) {
+                        player.teleport(finalTeamSpawnLocation);
+                        player.setGameMode(GameMode.SURVIVAL);
+
+                        respawningMap.remove(player.getUniqueId());
+                        diedFromFall.remove(player.getUniqueId());
+
+                        WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
+                    }
+                }, 3 * 20).getTaskId();
             }
-        }, 3 * 20).getTaskId();
+        }.runTaskLater(WoolWars.getWoolWars(), 3 * 20);
 
-        teleportTasks.put(player, teleportTaskId);
+        teleportTasks.put(player, teleportTaskId[0]);
     }
 
     @EventHandler
@@ -149,13 +160,8 @@ public class CombatListener implements Listener {
 
         if (to != null && to.getY() < -1) {
             if (game.getGameState() == GameState.IN_PROGRESS) {
-                if (player.getFallDistance() > 0.0F) {
-                    EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
-                    Bukkit.getPluginManager().callEvent(damageEvent);
-                    if (!damageEvent.isCancelled()) {
-                        player.setFallDistance(0.0F);
-                    }
-                }
+                cancelFallDamage(player);
+                diedFromFall.remove(player.getUniqueId());
 
                 if (!diedFromFall.contains(player.getUniqueId())) {
                     if (game.getPlayers().contains(player.getUniqueId())) {
@@ -214,38 +220,36 @@ public class CombatListener implements Listener {
 
                     titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
 
-                    int teleportTaskId = Bukkit.getScheduler().runTaskLater(WoolWars.getWoolWars(), () -> {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                if (finalTeamSpawnLocation != null) {
-                                    player.teleport(finalTeamSpawnLocation);
-                                }
-
-                                player.setGameMode(GameMode.SURVIVAL);
-                                respawningMap.remove(player.getUniqueId());
-
-                                WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
+                    int teleportTaskId = Bukkit.getScheduler().runTaskLaterAsynchronously(WoolWars.getWoolWars(), () -> new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            if (finalTeamSpawnLocation != null) {
+                                player.teleport(finalTeamSpawnLocation);
                             }
-                        }.runTaskLater(WoolWars.getWoolWars(), 3 * 20);
-                    }, 20L).getTaskId();
+
+                            player.setGameMode(GameMode.SURVIVAL);
+                            respawningMap.remove(player.getUniqueId());
+
+                            WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
+                        }
+                    }.runTaskLater(WoolWars.getWoolWars(), 3 * 20), 20L).getTaskId();
 
                     // Store the task ID for cancellation if needed
                     teleportTasks.put(player, teleportTaskId);
                 }
             } else {
                 event.setTo(game.getLobbyLoc());
-                restorePlayer(player, false);
-
                 giveWaitingItems(player);
             }
+        }
+    }
 
-            if (player.getFallDistance() > 0.0F) {
-                EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
-                Bukkit.getPluginManager().callEvent(damageEvent);
-                if (!damageEvent.isCancelled()) {
-                    player.setFallDistance(0.0F);
-                }
+    private void cancelFallDamage(Player player) {
+        if (player.getFallDistance() > 0.0F) {
+            EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
+            Bukkit.getPluginManager().callEvent(damageEvent);
+            if (!damageEvent.isCancelled()) {
+                player.setFallDistance(0.0F);
             }
         }
     }
@@ -259,11 +263,15 @@ public class CombatListener implements Listener {
         Player victim = (Player) e.getEntity();
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
-        if (game.getGameState() == GameState.IN_PROGRESS && e.getCause() == EntityDamageEvent.DamageCause.FALL && !(victim.getLocation().getY() < -1)) {
+        if (game.getGameState() == GameState.IN_PROGRESS && e.getCause() == EntityDamageEvent.DamageCause.FALL && !(victim.getLocation().getY() <= -1)) {
             double dmg = e.getDamage();
+            e.setCancelled(true);
             if (dmg >= victim.getHealth()) {
                 diedFromFall.add(victim.getUniqueId());
-                e.setCancelled(true);
+
+                if (!diedFromFall.contains(victim.getUniqueId())) {
+                    return;
+                }
 
                 UUID lastDamagerId = lastDamagerMap.get(victim.getUniqueId());
                 if (lastDamagerId != null) {

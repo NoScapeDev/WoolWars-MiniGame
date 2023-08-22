@@ -34,8 +34,8 @@ public class BoardEntry {
 
         String teamName = key;
 
-        if (teamName.length() > 32) {
-            teamName = teamName.substring(0, 32);
+        if (teamName.length() > 64) {
+            teamName = teamName.substring(0, 64);
         }
 
         if (scoreboard.getTeam(teamName) != null) {
@@ -66,8 +66,8 @@ public class BoardEntry {
 
             team.setPrefix(prefix);
 
-            if (suffix.length() > 32) {
-                team.setSuffix(suffix.substring(0, 32));
+            if (suffix.length() > 64) {
+                team.setSuffix(suffix.substring(0, 64));
             } else {
                 team.setSuffix(suffix);
             }

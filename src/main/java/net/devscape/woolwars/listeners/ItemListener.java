@@ -1,8 +1,11 @@
 package net.devscape.woolwars.listeners;
 
 import net.devscape.woolwars.WoolWars;
+import net.devscape.woolwars.handlers.Game;
+import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.managers.abilities.Ability;
 import net.devscape.woolwars.menus.guis.KitSelectorMenu;
+import net.devscape.woolwars.menus.guis.SpectatorMenu;
 import net.devscape.woolwars.menus.guis.TeamSelectorMenu;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.utils.WorldUtils;
@@ -19,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import static net.devscape.woolwars.utils.Utils.format;
+import static net.devscape.woolwars.utils.Utils.msgPlayer;
 
 public class ItemListener implements Listener {
 
@@ -29,6 +33,8 @@ public class ItemListener implements Listener {
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
 
+        Game game = WoolWars.getWoolWars().getGameManager().getGame();
+
         if (item != null && item.getItemMeta() != null) {
             String displayName = item.getItemMeta().getDisplayName();
 
@@ -38,6 +44,14 @@ public class ItemListener implements Listener {
 
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.kit-selector.displayname")))) {
                 new KitSelectorMenu(WoolWars.getMenuUtil(player)).open();
+            }
+
+            if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.spectator-selector.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS) {
+                    new SpectatorMenu(WoolWars.getMenuUtil(player)).open();
+                } else {
+                    msgPlayer(player, "&f侵 &7This can't be used in waiting state.");
+                }
             }
 
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.back-to-hub.displayname")))) {

@@ -89,6 +89,8 @@ public class ScoreboardProvider implements BoardAdapter {
 
         Game game = this.main.getGameManager().getGame();
 
+        lines.add("");
+
         lines.add(Utils.format(this.main.getConfig().getString("scoreboards.in-game.map-name").replace("%map%", game.getMapName())));
 
         if (game.isCountdownStarted()) {

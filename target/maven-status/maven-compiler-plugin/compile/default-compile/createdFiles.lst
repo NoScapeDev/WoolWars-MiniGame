@@ -16,6 +16,7 @@ net\devscape\woolwars\utils\command\Completer.class
 net\devscape\woolwars\managers\abilities\impl\GrapplerAbility.class
 net\devscape\woolwars\managers\CooldownManager.class
 net\devscape\woolwars\commands\AbilityCommand.class
+net\devscape\woolwars\commands\KitCommands.class
 aether\scoreboard\cooldown\BoardCooldown.class
 net\devscape\woolwars\managers\abilities\impl\ShurikenAbility.class
 net\devscape\woolwars\handlers\Game$2.class
@@ -49,6 +50,7 @@ net\devscape\woolwars\commands\StatsCommand.class
 net\devscape\woolwars\handlers\Game.class
 net\devscape\woolwars\utils\BungeeUtils.class
 net\devscape\woolwars\managers\abilities\AbilityCallable.class
+net\devscape\woolwars\listeners\CombatListener$2.class
 net\devscape\woolwars\listeners\PlayerDataListener.class
 net\devscape\woolwars\listeners\GameListener.class
 net\devscape\woolwars\managers\abilities\Ability.class
@@ -72,6 +74,7 @@ net\devscape\woolwars\scoreboard\ScoreboardProvider.class
 net\devscape\woolwars\utils\command\BukkitCompleter.class
 net\devscape\woolwars\scoreboard\ScoreboardProvider$1.class
 net\devscape\woolwars\managers\CombatManager$DamageModifier.class
+net\devscape\woolwars\menus\guis\SpectatorMenu.class
 net\devscape\woolwars\menus\guis\StatsMenu.class
 net\devscape\woolwars\playerdata\PlayerData.class
 net\devscape\woolwars\handlers\Game$4.class

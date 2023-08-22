@@ -62,10 +62,6 @@ public class WoolWars extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            bungeeUtils.sendPlayerToServer(player, "hub");
-        }
-
         getResetManager().resetMapInstant();
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);

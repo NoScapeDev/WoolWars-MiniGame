@@ -579,6 +579,9 @@ public class Game {
                     red.showPlayer(WoolWars.getWoolWars(), player);
                 }
 
+                PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
+                playerData.setPlayerState(PlayerState.IN_GAME);
+
                 player.setAllowFlight(false);
                 player.setFlying(false);
 
@@ -630,6 +633,10 @@ public class Game {
 
                 player.setAllowFlight(false);
                 player.setFlying(false);
+
+                PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
+                playerData.setPlayerState(PlayerState.IN_GAME);
+
 
                 player.teleport(red_spawn);
 
@@ -753,7 +760,7 @@ public class Game {
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                titlePlayer(player, "&b&lGAME OVER", "&f依 &f&lBlue Wins the game!", 20, 20 * 2, 20);
+                titlePlayer(player, "&b&lGAME OVER", "&f供 &f&lBlue Wins the game!", 20, 20 * 2, 20);
             }
 
             endGame();
