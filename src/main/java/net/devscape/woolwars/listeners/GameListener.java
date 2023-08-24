@@ -3,8 +3,6 @@ package net.devscape.woolwars.listeners;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
@@ -29,7 +27,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        WoolWars.getWoolWars().getH2Data().createPlayer(e.getPlayer());
+        WoolWars.getWoolWars().getMariaDB().createPlayer(e.getPlayer());
 
         WoolWars.getWoolWars().getGameManager().getGame().include(e);
     }
@@ -166,8 +164,11 @@ public class GameListener implements Listener {
                         WoolWars.getWoolWars().getResetManager().getRedBlockMap().add(block);
                     }
 
-                    WoolWars.getWoolWars().getH2Data().addWoolBroken(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getMariaDB().addWoolBroken(player.getUniqueId(), 1);
                     Bukkit.broadcastMessage(format("&f侍 " + getTeamColor("blue") + player.getName() + " &f&lbroke" + getTeamColor("red") + " Red's Wool"));
+
+                    WoolWars.getWoolWars().getMariaDB().addPoint(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getPointManager().checkLevel(player);
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         soundPlayer(all, Sound.BLOCK_AMETHYST_CLUSTER_HIT, 2, 2);
@@ -198,8 +199,11 @@ public class GameListener implements Listener {
 
                     game.removeScore("blue");
 
-                    WoolWars.getWoolWars().getH2Data().addWoolBroken(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getMariaDB().addWoolBroken(player.getUniqueId(), 1);
                     Bukkit.broadcastMessage(format("&f供 " + getTeamColor("red") + player.getName() + " &f&lbroke" + getTeamColor("blue") + " Blue's Wool"));
+
+                    WoolWars.getWoolWars().getMariaDB().addPoint(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getPointManager().checkLevel(player);
 
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.BLUE, 1.0f);
                     block.getWorld().spawnParticle(Particle.REDSTONE, block.getLocation(), 1, 0, 0, 0, 0, dustOptions);

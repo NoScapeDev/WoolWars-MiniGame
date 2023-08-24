@@ -1,12 +1,10 @@
 package net.devscape.woolwars.listeners;
 
+import lombok.Getter;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
-import net.devscape.woolwars.handlers.LocalData;
-import net.devscape.woolwars.managers.CombatManager;
 import net.devscape.woolwars.playerdata.PlayerData;
-import org.apache.commons.lang3.tuple.Pair;
 import org.bukkit.*;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -25,6 +23,7 @@ import java.util.*;
 
 import static net.devscape.woolwars.utils.Utils.*;
 
+@Getter
 public class CombatListener implements Listener {
 
     private final Map<Player, Integer> teleportTasks = new HashMap<>();
@@ -93,14 +92,17 @@ public class CombatListener implements Listener {
                     PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(damager.getUniqueId());
                     damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
+                    WoolWars.getWoolWars().getMariaDB().addPoint(damager.getUniqueId(), 3);
+                    WoolWars.getWoolWars().getPointManager().checkLevel(damager);
+
                     PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(victim.getUniqueId());
                     victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
                     soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
                     soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
 
-                    WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
-                    WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getMariaDB().addKills(damager.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getMariaDB().addDeaths(victim.getUniqueId(), 1);
 
                     announceKill(damager, victim);
                     respawnPlayer(victim);
@@ -145,9 +147,9 @@ public class CombatListener implements Listener {
 
                         WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
                     }
-                }, 3 * 20).getTaskId();
+                }, 2 * 20).getTaskId();
             }
-        }.runTaskLater(WoolWars.getWoolWars(), 3 * 20);
+        }.runTaskLaterAsynchronously(WoolWars.getWoolWars(), 2 * 20);
 
         teleportTasks.put(player, teleportTaskId[0]);
     }
@@ -158,9 +160,15 @@ public class CombatListener implements Listener {
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
         Location to = event.getTo();
 
-        if (to != null && to.getY() < -1) {
+        if (to.getY() < -1) {
+            cancelFallDamage(player);
             if (game.getGameState() == GameState.IN_PROGRESS) {
-                cancelFallDamage(player);
+                if (game.getPlayers().contains(player.getUniqueId())) {
+                    event.setTo(game.getLobbyLoc());
+                    giveWaitingItems(player);
+                    return;
+                }
+
                 diedFromFall.remove(player.getUniqueId());
 
                 if (!diedFromFall.contains(player.getUniqueId())) {
@@ -195,7 +203,10 @@ public class CombatListener implements Listener {
                             PlayerData damagerPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(lastDamager.getUniqueId());
                             damagerPlayerData.getPlayerCurrentGameData().setKills(damagerPlayerData.getPlayerCurrentGameData().getKills() + 1);
 
-                            WoolWars.getWoolWars().getH2Data().addKills(lastDamager.getUniqueId(), 1);
+                            WoolWars.getWoolWars().getMariaDB().addPoint(lastDamager.getUniqueId(), 3);
+                            WoolWars.getWoolWars().getPointManager().checkLevel(lastDamager);
+
+                            WoolWars.getWoolWars().getMariaDB().addKills(lastDamager.getUniqueId(), 1);
                             announceKill(lastDamager, player);
                         }
                     } else {
@@ -213,12 +224,12 @@ public class CombatListener implements Listener {
                     PlayerData victimPlayerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
                     victimPlayerData.getPlayerCurrentGameData().setDeaths(victimPlayerData.getPlayerCurrentGameData().getDeaths() + 1);
 
-                    WoolWars.getWoolWars().getH2Data().addDeaths(player.getUniqueId(), 1);
+                    WoolWars.getWoolWars().getMariaDB().addDeaths(player.getUniqueId(), 1);
 
                     respawningMap.add(player.getUniqueId());
                     lastDamagerMap.remove(player.getUniqueId());
 
-                    titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 4, 0);
+                    titlePlayer(player, "&f依 &c&lDIED", "&7Respawning in 3 seconds.", 0, 20 * 3, 0);
 
                     int teleportTaskId = Bukkit.getScheduler().runTaskLaterAsynchronously(WoolWars.getWoolWars(), () -> new BukkitRunnable() {
                         @Override
@@ -232,7 +243,7 @@ public class CombatListener implements Listener {
 
                             WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
                         }
-                    }.runTaskLater(WoolWars.getWoolWars(), 3 * 20), 20L).getTaskId();
+                    }.runTaskLater(WoolWars.getWoolWars(), 2 * 20), 20L).getTaskId();
 
                     // Store the task ID for cancellation if needed
                     teleportTasks.put(player, teleportTaskId);
@@ -278,7 +289,11 @@ public class CombatListener implements Listener {
                     Player damager = Bukkit.getPlayer(lastDamagerId);
                     if (damager != null) {
                         soundPlayer(damager, Sound.ENTITY_PLAYER_LEVELUP, 2, 2);
-                        WoolWars.getWoolWars().getH2Data().addKills(damager.getUniqueId(), 1);
+                        WoolWars.getWoolWars().getMariaDB().addKills(damager.getUniqueId(), 1);
+
+                        WoolWars.getWoolWars().getMariaDB().addPoint(damager.getUniqueId(), 3);
+                        WoolWars.getWoolWars().getPointManager().checkLevel(damager);
+
                         announceKill(damager, victim);
                     }
                 } else {
@@ -286,7 +301,7 @@ public class CombatListener implements Listener {
                 }
 
                 soundPlayer(victim, Sound.ENTITY_PLAYER_DEATH, 2, 2);
-                WoolWars.getWoolWars().getH2Data().addDeaths(victim.getUniqueId(), 1);
+                WoolWars.getWoolWars().getMariaDB().addDeaths(victim.getUniqueId(), 1);
                 respawnPlayer(victim);
             }
         }

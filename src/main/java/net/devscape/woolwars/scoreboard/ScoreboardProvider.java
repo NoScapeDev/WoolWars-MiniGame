@@ -5,7 +5,6 @@ import aether.scoreboard.BoardAdapter;
 import aether.scoreboard.cooldown.BoardCooldown;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
-import net.devscape.woolwars.handlers.LocalData;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.utils.Utils;
 import org.bukkit.entity.Player;
@@ -51,8 +50,10 @@ public class ScoreboardProvider implements BoardAdapter {
     private List<String> getSpawnScoreboard(Player player, PlayerData playerData) {
         List<String> lines = new ArrayList<>();
 
-        int kills = WoolWars.getWoolWars().getH2Data().getKills(player.getUniqueId());
-        int deaths = WoolWars.getWoolWars().getH2Data().getDeaths(player.getUniqueId());
+        int kills = WoolWars.getWoolWars().getMariaDB().getKills(player.getUniqueId());
+        int deaths = WoolWars.getWoolWars().getMariaDB().getDeaths(player.getUniqueId());
+        int level = WoolWars.getWoolWars().getMariaDB().getLevel(player.getUniqueId());
+        int points = WoolWars.getWoolWars().getMariaDB().getPoints(player.getUniqueId());
 
         double killsDeathsRatio = 0;
 
@@ -80,12 +81,17 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(kills)));
         lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(deaths)));
         lines.replaceAll(s -> s.replaceAll("%kd%", killsDeathsRatioFormatted));
+        lines.replaceAll(s -> s.replaceAll("%level%", String.valueOf(level)));
+        lines.replaceAll(s -> s.replaceAll("%points%", String.valueOf(points)));
 
         return lines;
     }
 
     private List<String> getInGameScoreboard(Player player, PlayerData playerData) {
         List<String> lines = new ArrayList<>();
+
+        int level = WoolWars.getWoolWars().getMariaDB().getLevel(player.getUniqueId());
+        int points = WoolWars.getWoolWars().getMariaDB().getPoints(player.getUniqueId());
 
         Game game = this.main.getGameManager().getGame();
 
@@ -105,6 +111,8 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.replaceAll(s -> s.replaceAll("%blue%", String.valueOf(game.getBlue().size())));
         lines.replaceAll(s -> s.replaceAll("%kills%", String.valueOf(playerData.getPlayerCurrentGameData().getKills())));
         lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
+        lines.replaceAll(s -> s.replaceAll("%level%", String.valueOf(level)));
+        lines.replaceAll(s -> s.replaceAll("%points%", String.valueOf(points)));
 
         return lines;
     }

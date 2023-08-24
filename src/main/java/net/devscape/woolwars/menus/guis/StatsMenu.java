@@ -36,8 +36,8 @@ public class StatsMenu extends Menu {
     @Override
     public void setMenuItems() {
         if (game.equalsIgnoreCase("woolwars")) {
-            int kills = WoolWars.getWoolWars().getH2Data().getKills(menuUtil.getOwner().getUniqueId());
-            int deaths = WoolWars.getWoolWars().getH2Data().getDeaths(menuUtil.getOwner().getUniqueId());
+            int kills = WoolWars.getWoolWars().getMariaDB().getKills(menuUtil.getOwner().getUniqueId());
+            int deaths = WoolWars.getWoolWars().getMariaDB().getDeaths(menuUtil.getOwner().getUniqueId());
 
             double KD;
 
@@ -60,9 +60,9 @@ public class StatsMenu extends Menu {
             getInventory().setItem(28, makeItem(Material.LIGHT_BLUE_WOOL, "&c&lKills: &f" + kills));
             getInventory().setItem(46, makeItem(Material.LIGHT_BLUE_WOOL, "&6&lDeaths: &f" + deaths));
             getInventory().setItem(31, makeItem(Material.LIGHT_BLUE_WOOL, "&b&lKD: &f" + formattedKD));
-            getInventory().setItem(49, makeItem(Material.LIGHT_BLUE_WOOL, "&e&lWool Broken: &f" + WoolWars.getWoolWars().getH2Data().getWoolBroken(menuUtil.getOwner().getUniqueId())));
-            getInventory().setItem(34, makeItem(Material.LIGHT_BLUE_WOOL, "&a&lWins: &f" + WoolWars.getWoolWars().getH2Data().getWins(menuUtil.getOwner().getUniqueId())));
-            getInventory().setItem(52, makeItem(Material.LIGHT_BLUE_WOOL, "&4&lLosses: &f" + WoolWars.getWoolWars().getH2Data().getLosses(menuUtil.getOwner().getUniqueId())));
+            getInventory().setItem(49, makeItem(Material.LIGHT_BLUE_WOOL, "&e&lWool Broken: &f" + WoolWars.getWoolWars().getMariaDB().getWoolBroken(menuUtil.getOwner().getUniqueId())));
+            getInventory().setItem(34, makeItem(Material.LIGHT_BLUE_WOOL, "&a&lWins: &f" + WoolWars.getWoolWars().getMariaDB().getWins(menuUtil.getOwner().getUniqueId())));
+            getInventory().setItem(52, makeItem(Material.LIGHT_BLUE_WOOL, "&4&lLosses: &f" + WoolWars.getWoolWars().getMariaDB().getLosses(menuUtil.getOwner().getUniqueId())));
         }
     }
 }

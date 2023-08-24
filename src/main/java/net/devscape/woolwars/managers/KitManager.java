@@ -1,5 +1,6 @@
 package net.devscape.woolwars.managers;
 
+import lombok.Getter;
 import net.devscape.woolwars.WoolWars;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -7,63 +8,85 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Getter
 public class KitManager {
 
     private final FileConfiguration config;
+    private Map<String, List<ItemStack>> kitMap = new HashMap<>();
 
     public KitManager(FileConfiguration config) {
         this.config = config;
+        loadKits();
+    }
+
+    public void loadKits() {
+        ConfigurationSection kitsSection = config.getConfigurationSection("kits");
+
+        if (kitsSection != null) {
+            for (String kitName : kitsSection.getKeys(false)) {
+                ConfigurationSection kitItemsSection = kitsSection.getConfigurationSection(kitName + ".items");
+
+                if (kitItemsSection != null) {
+                    List<ItemStack> kitItems = new ArrayList<>();
+
+                    for (String itemKey : kitItemsSection.getKeys(false)) {
+                        ItemStack itemStack = kitItemsSection.getItemStack(itemKey);
+                        if (itemStack != null) {
+                            kitItems.add(itemStack);
+                        }
+                    }
+
+                    kitMap.put(kitName, kitItems);
+                }
+            }
+        }
     }
 
     public void saveKit(String kitName, ItemStack[] items) {
-        ConfigurationSection kitSection = config.createSection("kits." + kitName);
+        List<ItemStack> kit_items = new ArrayList<>();
 
         for (int i = 0; i < items.length; i++) {
             if (items[i] != null) {
-                kitSection.set("items." + i, items[i]);
+                kit_items.add(items[i]);
             }
         }
 
-        WoolWars.getWoolWars().saveConfig();
-        WoolWars.getWoolWars().reload();
+        kitMap.put(kitName, kit_items);
     }
 
     public List<ItemStack> getKitList(String kitName) {
-        ConfigurationSection kitSection = config.getConfigurationSection("kits." + kitName + ".items");
-
-        if (kitSection == null) {
-            return new ArrayList<>(); // Return an empty list
-        }
-
-        List<ItemStack> items = new ArrayList<>(); // Initialize the list
-
-        for (String key : kitSection.getKeys(false)) {
-            ItemStack item = kitSection.getItemStack(key);
-            items.add(item); // Add the item to the end of the list
-        }
-
-        return items;
+        return kitMap.get(kitName);
     }
 
-
     public ItemStack[] getKit(String kitName) {
-        ConfigurationSection kitSection = config.getConfigurationSection("kits." + kitName + ".items");
-
-        if (kitSection == null) {
-            return new ItemStack[0];
-        }
-
+        List<ItemStack> kitItems = kitMap.get(kitName);
         ItemStack[] items = new ItemStack[41]; // Initialize with correct length
 
-        for (String key : kitSection.getKeys(false)) {
-            int index = Integer.parseInt(key);
-
-            // Validate index to ensure it's within the range of the items array
-            if (index >= 0 && index < items.length) {
-                ItemStack item = kitSection.getItemStack(key);
-                items[index] = item;
+        for (int index = 0; index < kitItems.size(); index++) {
+            ItemStack item = kitItems.get(index);
+            if (item != null) {
+                if (index < 36) {
+                    items[index] = item;
+                } else if (index == 36) {
+                    // Set boots
+                    items[36] = item;
+                } else if (index == 37) {
+                    // Set leggings
+                    items[37] = item;
+                } else if (index == 38) {
+                    // Set chestplate
+                    items[38] = item;
+                } else if (index == 39) {
+                    // Set helmet
+                    items[39] = item;
+                } else if (index == 40) {
+                    // Set offhand
+                    items[40] = item;
+                }
             }
         }
 
@@ -100,5 +123,28 @@ public class KitManager {
                 }
             }
         }
+    }
+
+    public void saveAllKits() {
+        for (Map.Entry<String, List<ItemStack>> entry : kitMap.entrySet()) {
+            String kitName = entry.getKey();
+            List<ItemStack> kitItems = entry.getValue();
+
+            ConfigurationSection kitSection = config.getConfigurationSection("kits." + kitName);
+            if (kitSection == null) {
+                kitSection = config.createSection("kits." + kitName);
+            }
+
+            ConfigurationSection kitItemsSection = kitSection.createSection("items"); // Create items section
+
+            for (int index = 0; index < kitItems.size(); index++) {
+                ItemStack item = kitItems.get(index);
+                if (item != null) {
+                    kitItemsSection.set(String.valueOf(index), item);
+                }
+            }
+        }
+
+        WoolWars.getWoolWars().saveConfig();
     }
 }

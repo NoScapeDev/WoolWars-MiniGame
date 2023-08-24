@@ -35,20 +35,20 @@ public class ResetMapManager {
                 game.setGameState(GameState.WAITING);
                 game.setWinners("");
 
-                if (!copyBlockBreakMap.isEmpty()) {
-                    for (Block block : copyBlockBreakMap) {
-                        if (block.getType() != Material.AIR) {
-                            block.setType(block.getType());
-                            getBlockBreakMap().remove(block);
-                        }
-                    }
-                }
-
                 if (!copyBlockPlaceMap.isEmpty()) {
                     for (Block block : copyBlockPlaceMap) {
                         if (block.getType() != Material.AIR) {
                             block.setType(Material.AIR);
                             getBlockPlaceMap().remove(block);
+                        }
+                    }
+                }
+
+                if (!copyBlockBreakMap.isEmpty()) {
+                    for (Block block : copyBlockBreakMap) {
+                        if (block.getLocation().getBlock().getType() == Material.AIR) {
+                            block.setType(block.getType());
+                            getBlockBreakMap().remove(block);
                         }
                     }
                 }
@@ -87,20 +87,20 @@ public class ResetMapManager {
         game.setGameState(GameState.WAITING);
         game.setWinners("");
 
-        if (!copyBlockBreakMap.isEmpty()) {
-            for (Block block : copyBlockBreakMap) {
-                if (block.getType() != Material.AIR) {
-                    block.setType(block.getType());
-                    getBlockBreakMap().remove(block);
-                }
-            }
-        }
-
         if (!copyBlockPlaceMap.isEmpty()) {
             for (Block block : copyBlockPlaceMap) {
                 if (block.getType() != Material.AIR) {
                     block.setType(Material.AIR);
                     getBlockPlaceMap().remove(block);
+                }
+            }
+        }
+
+        if (!copyBlockBreakMap.isEmpty()) {
+            for (Block block : copyBlockBreakMap) {
+                if (block.getLocation().getBlock().getType() == Material.AIR) {
+                    block.setType(block.getType());
+                    getBlockBreakMap().remove(block);
                 }
             }
         }

@@ -1,6 +1,7 @@
 package net.devscape.woolwars.menus.guis;
 
 import net.devscape.woolwars.WoolWars;
+import net.devscape.woolwars.managers.KitManager;
 import net.devscape.woolwars.menus.Menu;
 import net.devscape.woolwars.menus.MenuUtil;
 import net.devscape.woolwars.utils.Utils;
@@ -44,11 +45,8 @@ public class KitSelectorMenu extends Menu {
 
             boolean isValidKit = false;
 
-            for (String kit : Objects.requireNonNull(WoolWars.getWoolWars().getConfig().getConfigurationSection("kits")).getKeys(false)) {
-                if (kit.equalsIgnoreCase(displayname)) {
-                    isValidKit = true;
-                    break;
-                }
+            if (WoolWars.getWoolWars().getKitManager().getKitMap().containsKey(displayname)) {
+                isValidKit = true;
             }
 
             if (isValidKit) {
@@ -69,14 +67,16 @@ public class KitSelectorMenu extends Menu {
 
     @Override
     public void setMenuItems() {
-        for (String kit : Objects.requireNonNull(WoolWars.getWoolWars().getConfig().getConfigurationSection("kits")).getKeys(false)) {
+        int startingSlot = 27; 
+
+        for (String kit : WoolWars.getWoolWars().getKitManager().getKitMap().keySet()) {
             List<String> lore = new ArrayList<>();
 
             lore.add("&eItems:");
             if (WoolWars.getWoolWars().getKitManager().getKitList(kit) != null) {
-                for (ItemStack items : WoolWars.getWoolWars().getKitManager().getKitList(kit)) {
-                    if (items.getType() == Material.AIR) return;
+                List<ItemStack> kitItems = WoolWars.getWoolWars().getKitManager().getKitList(kit);
 
+                for (ItemStack items : kitItems) {
                     lore.add("&7- &d" + items.getAmount() + "x " + items.getType());
                 }
             }
@@ -90,7 +90,10 @@ public class KitSelectorMenu extends Menu {
             lore.add(" ");
             lore.add("&f<kit lore here>");
 
-            getInventory().addItem(Utils.makeItem(Material.IRON_SWORD, "&f" + kit, Utils.color(lore)));
+            ItemStack kitItem = Utils.makeItem(Material.IRON_SWORD, "&f" + kit, Utils.color(lore));
+            getInventory().setItem(startingSlot, kitItem);
+
+            startingSlot++; // Increment the slot for the next item
         }
 
         getInventory().setItem(49, Utils.makeItem(Material.BARRIER, "&#FF3A3A&lClose", Utils.format("&7Click to close the menu!")));

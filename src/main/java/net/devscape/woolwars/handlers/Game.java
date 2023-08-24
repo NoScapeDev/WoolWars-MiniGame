@@ -8,12 +8,7 @@ import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.playerdata.PlayerState;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
@@ -26,7 +21,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +45,7 @@ public class Game {
 
     private int game_time = 1800; // in seconds
 
-    private int countdown = 15;
+    private int countdown = 17;
     private boolean countdownStarted = false;
 
     private int blue_wool = 100;
@@ -179,9 +173,13 @@ public class Game {
 
                 if (gameState == GameState.STARTING) {
                     int secondsLeft = countdown;
-                    String redBar = createProgressBar(red_wool);
-                    String blueBar = createProgressBar(blue_wool);
-                    bossBar.setTitle(format("&#FF3A3A&lRED &#FF3A3A" + redBar + " &f│ &f" + secondsLeft + "&f│ &#0051FF&lBLUE &#0051FF" + blueBar + ""));
+
+                    if (secondsLeft <= 15) {
+                        String countdown_action = WoolWars.getWoolWars().getConfig().getString("countdown.countdown-" + secondsLeft);
+                        if (countdown_action != null) {
+                            bossBar.setTitle(format(countdown_action));
+                        }
+                    }
                 }
 
                 if (gameState == GameState.IN_PROGRESS) {
@@ -338,6 +336,9 @@ public class Game {
     public void startCountdown() {
         countdownStarted = true;
         gameState = GameState.STARTING;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.getWorld().playSound(player.getLocation(), "minecraft:countdown", SoundCategory.MASTER, 1, 1);
+        }
 
         new BukkitRunnable() {
             @Override
@@ -346,25 +347,15 @@ public class Game {
                     Bukkit.broadcastMessage(format("&f侵 &7Not enough players to start.."));
                     countdownStarted = false;
                     gameState = GameState.WAITING;
-                    countdown = 15;
+                    countdown = 17;
                     cancel();
                 }
 
                 if (countdown <= 0) {
                     start();
                     countdownStarted = false;
-                    countdown = 15;
-
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.getWorld().playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
-                    }
+                    countdown = 17;
                     cancel();
-                }
-
-                if (countdown > 1) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 2, 2);
-                    }
                 }
 
                 countdown--;
@@ -489,11 +480,13 @@ public class Game {
         getBlue().clear();
         getRed().clear();
 
-        countdown = 15;
+        countdown = 18;
         game_time = 1800;
         blue_wool = 100;
         red_wool = 100;
         countdownStarted = false;
+        WoolWars.getWoolWars().getCombatListener().getDiedFromFall().clear();
+        WoolWars.getWoolWars().getCombatListener().getLastDamagerMap().clear();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             assert player != null;
@@ -502,8 +495,8 @@ public class Game {
             PlayerData playerData = WoolWars.getWoolWars().getPlayerDataManager().getPlayerData(player.getUniqueId());
             playerData.setPlayerState(PlayerState.SPAWN);
 
-            WoolWars.getWoolWars().getH2Data().setKills(player.getUniqueId(), WoolWars.getWoolWars().getH2Data().getKills(player.getUniqueId()) + playerData.getPlayerCurrentGameData().getKills());
-            WoolWars.getWoolWars().getH2Data().setDeaths(player.getUniqueId(), WoolWars.getWoolWars().getH2Data().getDeaths(player.getUniqueId()) + playerData.getPlayerCurrentGameData().getDeaths());
+            WoolWars.getWoolWars().getMariaDB().setKills(player.getUniqueId(), WoolWars.getWoolWars().getMariaDB().getKills(player.getUniqueId()) + playerData.getPlayerCurrentGameData().getKills());
+            WoolWars.getWoolWars().getMariaDB().setDeaths(player.getUniqueId(), WoolWars.getWoolWars().getMariaDB().getDeaths(player.getUniqueId()) + playerData.getPlayerCurrentGameData().getDeaths());
 
             playerData.getPlayerCurrentGameData().setKills(0);
             playerData.getPlayerCurrentGameData().setDeaths(0);
@@ -733,11 +726,11 @@ public class Game {
             winners = "red";
 
             for (UUID players : getRed()) {
-                WoolWars.getWoolWars().getH2Data().addWins(players, 1);
+                WoolWars.getWoolWars().getMariaDB().addWins(players, 1);
             }
 
             for (UUID players : getBlue()) {
-                WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
+                WoolWars.getWoolWars().getMariaDB().addLosses(players, 1);
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -752,11 +745,11 @@ public class Game {
             winners = "blue";
 
             for (UUID players : getBlue()) {
-                WoolWars.getWoolWars().getH2Data().addWins(players, 1);
+                WoolWars.getWoolWars().getMariaDB().addWins(players, 1);
             }
 
             for (UUID players : getRed()) {
-                WoolWars.getWoolWars().getH2Data().addLosses(players, 1);
+                WoolWars.getWoolWars().getMariaDB().addLosses(players, 1);
             }
 
             for (Player player : Bukkit.getOnlinePlayers()) {

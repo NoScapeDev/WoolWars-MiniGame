@@ -3,17 +3,17 @@ package net.devscape.woolwars;
 import aether.Aether;
 import lombok.Getter;
 import lombok.Setter;
+import net.devscape.woolwars.level.PointManager;
+import net.devscape.woolwars.listeners.CombatListener;
 import net.devscape.woolwars.managers.*;
 import net.devscape.woolwars.managers.abilities.AbilityManager;
 import net.devscape.woolwars.menus.MenuUtil;
 import net.devscape.woolwars.runnables.CooldownRunnable;
 import net.devscape.woolwars.scoreboard.ScoreboardProvider;
-import net.devscape.woolwars.storage.H2Data;
-import net.devscape.woolwars.storage.MySQL;
+import net.devscape.woolwars.storage.MariaDB;
 import net.devscape.woolwars.utils.BungeeUtils;
 import net.devscape.woolwars.utils.ClassRegistrationUtils;
 import net.devscape.woolwars.utils.command.CommandFramework;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,9 +34,10 @@ public class WoolWars extends JavaPlugin {
     private CooldownManager cooldownManager;
     private CombatManager combatManager;
     private LocalStatsManager localStatsManager;
+    private PointManager pointManager;
+    private CombatListener combatListener;
 
-    private H2Data h2Data;
-    private MySQL mySQL;
+    private MariaDB mariaDB;
 
     @Getter private static HashMap<Player, MenuUtil> menuUtilMap = new HashMap<>();
 
@@ -48,8 +49,12 @@ public class WoolWars extends JavaPlugin {
 
         saveDefaultConfig();
 
-        this.h2Data = new H2Data();
-        //this.mySQL = new MySQL("", 3306, "", "", "", "");
+        this.mariaDB = new MariaDB(
+                getConfig().getString("data.host"),
+                getConfig().getInt("data.port"),
+                getConfig().getString("data.database"),
+                getConfig().getString("data.username"),
+                getConfig().getString("data.password"));
 
         bungeeUtils = new BungeeUtils(this);
 
@@ -57,12 +62,14 @@ public class WoolWars extends JavaPlugin {
         this.loadManagers();
         this.loadListeners();
         this.loadRunnables();
-
     }
 
     @Override
     public void onDisable() {
         getResetManager().resetMapInstant();
+
+        kitManager.saveAllKits();
+
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
     }
@@ -80,6 +87,8 @@ public class WoolWars extends JavaPlugin {
         cooldownManager = new CooldownManager();
         combatManager = new CombatManager();
         localStatsManager = new LocalStatsManager();
+        pointManager = new PointManager();
+        combatListener = new CombatListener();
     }
 
     private void loadListeners() {
@@ -106,14 +115,15 @@ public class WoolWars extends JavaPlugin {
 
     public void reload() {
         super.reloadConfig();
+        kitManager.saveAllKits();
     }
 
     public void saveSelectedKit(Player player, String kitName) {
-        h2Data.setSelectedKit(player.getUniqueId(), kitName);
+        mariaDB.setSelectedKit(player.getUniqueId(), kitName);
     }
 
     public String getSelectedKit(Player player) {
-        String selectedKit = h2Data.getSelectedKit(player.getUniqueId());
+        String selectedKit = mariaDB.getSelectedKit(player.getUniqueId());
         return selectedKit != null ? selectedKit : "Archer"; // Provide a default kit name if none is selected
     }
 }

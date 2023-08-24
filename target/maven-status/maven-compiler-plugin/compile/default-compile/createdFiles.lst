@@ -4,6 +4,7 @@ net\devscape\woolwars\menus\Menu.class
 net\devscape\woolwars\playerdata\PlayerState.class
 net\devscape\woolwars\managers\CombatManager.class
 net\devscape\woolwars\managers\abilities\impl\FishermanAbility.class
+net\devscape\woolwars\storage\MariaDB.class
 net\devscape\woolwars\handlers\Game$5.class
 net\devscape\woolwars\menus\guis\KitSelectorMenu.class
 net\devscape\woolwars\handlers\Game$1.class
@@ -37,7 +38,6 @@ net\devscape\woolwars\utils\ItemBuilder.class
 aether\AetherOptions.class
 net\devscape\woolwars\managers\abilities\impl\ShurikenAbility$1.class
 net\devscape\woolwars\menus\guis\TeamSelectorMenu.class
-net\devscape\woolwars\storage\H2Data.class
 net\devscape\woolwars\menus\Paged.class
 aether\scoreboard\BoardEntry.class
 net\devscape\woolwars\handlers\Game$3.class
@@ -55,7 +55,6 @@ net\devscape\woolwars\listeners\PlayerDataListener.class
 net\devscape\woolwars\listeners\GameListener.class
 net\devscape\woolwars\managers\abilities\Ability.class
 net\devscape\woolwars\playerdata\PlayerCurrentGameData.class
-net\devscape\woolwars\storage\MySQL.class
 net\devscape\woolwars\runnables\CooldownRunnable.class
 aether\scoreboard\cooldown\BoardFormat.class
 net\devscape\woolwars\listeners\CombatListener.class
@@ -74,6 +73,7 @@ net\devscape\woolwars\scoreboard\ScoreboardProvider.class
 net\devscape\woolwars\utils\command\BukkitCompleter.class
 net\devscape\woolwars\scoreboard\ScoreboardProvider$1.class
 net\devscape\woolwars\managers\CombatManager$DamageModifier.class
+net\devscape\woolwars\level\PointManager.class
 net\devscape\woolwars\menus\guis\SpectatorMenu.class
 net\devscape\woolwars\menus\guis\StatsMenu.class
 net\devscape\woolwars\playerdata\PlayerData.class

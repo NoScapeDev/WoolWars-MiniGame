@@ -63,7 +63,6 @@ public class GameCommand extends BaseCommand {
                     String kit = args[1];
 
                     this.main.getKitManager().saveKit(kit, player.getInventory().getContents());
-
                     Utils.msgPlayer(player, "&c&l[GAME] &7Kit &f&l" + kit + " &7saved.");
 
                     break;

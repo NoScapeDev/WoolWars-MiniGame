@@ -131,6 +131,23 @@ health:
   health-1: '&f他'
   health-0: '&f付'
 
+countdown:
+  countdown-15: '&f15'
+  countdown-14: '&f14'
+  countdown-13: '&f13'
+  countdown-12: '&f12'
+  countdown-11: '&f11'
+  countdown-10: '&f10'
+  countdown-9: '&f9'
+  countdown-8: '&f8'
+  countdown-7: '&f7'
+  countdown-6: '&f6'
+  countdown-5: '&f5'
+  countdown-4: '&f4'
+  countdown-3: '&f3'
+  countdown-2: '&f2'
+  countdown-1: '&f1'
+  countdown-0: '&f0'
 
 ## GLOBAL GAME SETTINGS
 game:
@@ -388,8 +405,13 @@ kits:
         type: LEATHER_HELMET
 
 data:
-  host: ''
+  host: '89.33.85.162'
   port: 3306
-  username: ''
-  password: ''
-  options: 'auto_reconnect=true'
+  database: 's7_minerave_woolwars'
+  username: 'u7_Yr9NxYRSlu'
+  password: 'g3FbfSj4oGZlzRQSt!smnOJk'
+
+levels:
+  level-1: 1
+  level-2: 10
+  level-3: 30

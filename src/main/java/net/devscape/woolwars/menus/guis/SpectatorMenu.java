@@ -62,6 +62,10 @@ public class SpectatorMenu extends Menu {
                 }
             }
         }
+
+        if (e.getSlot() == 49) {
+            player.closeInventory();
+        }
     }
 
     @Override
@@ -96,10 +100,11 @@ public class SpectatorMenu extends Menu {
         getInventory().setItem(49, Utils.makeItem(Material.BARRIER, "&#FF3A3A&lClose", Utils.format("&7Click to close the menu!")));
     }
 
-
     public ItemStack getPlayerHead(UUID playerUUID) {
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
+
+        skullMeta.setDisplayName("&f" + Objects.requireNonNull(Bukkit.getPlayer(playerUUID)).getName());
 
         assert skullMeta != null;
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(playerUUID));

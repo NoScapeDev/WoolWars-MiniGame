@@ -147,6 +147,8 @@ public class Utils {
     }
 
     public static void giveWaitingItems(Player player) {
+        player.getInventory().clear();
+
         for (String str : Objects.requireNonNull(WoolWars.getWoolWars().getConfig().getConfigurationSection("items")).getKeys(false)) {
             if (!str.contains("-wool")) {
                 String displayname = WoolWars.getWoolWars().getConfig().getString("items." + str + ".displayname");
