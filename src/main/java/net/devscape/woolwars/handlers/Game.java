@@ -876,6 +876,7 @@ public class Game {
                             String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-" + health);
                             if (health_action != null) {
                                 sendActionBar(player, format(health_action));
+                                WoolWars.getWoolWars().getTeamManager().updateBelowHealth(player, format(health_action));
                             }
                         } else {
                             if (gameState == GameState.IN_PROGRESS) {
