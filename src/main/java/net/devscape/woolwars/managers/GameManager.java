@@ -1,5 +1,6 @@
 package net.devscape.woolwars.managers;
 
+import lombok.Getter;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import static net.devscape.woolwars.utils.Utils.getLocation;
 import static net.devscape.woolwars.utils.Utils.giveWaitingItems;
 
+@Getter
 public class GameManager {
 
     private List<Game> gameMap = new ArrayList<>();

@@ -36,6 +36,7 @@ public class WoolWars extends JavaPlugin {
     private LocalStatsManager localStatsManager;
     private PointManager pointManager;
     private CombatListener combatListener;
+    private TeamManager teamManager;
 
     private MariaDB mariaDB;
 
@@ -89,6 +90,7 @@ public class WoolWars extends JavaPlugin {
         localStatsManager = new LocalStatsManager();
         pointManager = new PointManager();
         combatListener = new CombatListener();
+        teamManager = new TeamManager();
     }
 
     private void loadListeners() {

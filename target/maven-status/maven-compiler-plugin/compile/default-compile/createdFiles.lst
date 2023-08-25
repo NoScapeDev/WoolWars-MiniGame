@@ -7,6 +7,7 @@ net\devscape\woolwars\managers\abilities\impl\FishermanAbility.class
 net\devscape\woolwars\storage\MariaDB.class
 net\devscape\woolwars\handlers\Game$5.class
 net\devscape\woolwars\menus\guis\KitSelectorMenu.class
+net\devscape\woolwars\menus\guis\MapSelectorMenu.class
 net\devscape\woolwars\handlers\Game$1.class
 net\devscape\woolwars\managers\abilities\impl\GravityAbility.class
 aether\scoreboard\Board.class
@@ -26,6 +27,7 @@ net\devscape\woolwars\listeners\AsyncPlayerChatListener$1.class
 net\devscape\woolwars\managers\PlayerDataManager.class
 net\devscape\woolwars\managers\abilities\AbilityManager.class
 net\devscape\woolwars\handlers\Game$6.class
+net\devscape\woolwars\managers\TeamManager.class
 net\devscape\woolwars\listeners\ItemListener.class
 net\devscape\woolwars\managers\ResetMapManager.class
 net\devscape\woolwars\managers\GameManager.class

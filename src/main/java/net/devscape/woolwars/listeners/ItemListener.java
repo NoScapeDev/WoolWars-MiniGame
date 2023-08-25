@@ -5,11 +5,11 @@ import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.managers.abilities.Ability;
 import net.devscape.woolwars.menus.guis.KitSelectorMenu;
+import net.devscape.woolwars.menus.guis.MapSelectorMenu;
 import net.devscape.woolwars.menus.guis.SpectatorMenu;
 import net.devscape.woolwars.menus.guis.TeamSelectorMenu;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.utils.WorldUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -39,14 +39,38 @@ public class ItemListener implements Listener {
             String displayName = item.getItemMeta().getDisplayName();
 
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.team-selector.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS && !game.getPlayers().contains(player.getUniqueId())) {
+                    msgPlayer(player, "&f侵 &7This can't be used whilst in-game.");
+                    return;
+                }
+
                 new TeamSelectorMenu(WoolWars.getMenuUtil(player)).open();
             }
 
+            if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.map-selector.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS) {
+                    msgPlayer(player, "&f侵 &7Map selecting can't be used at this time.");
+                    return;
+                }
+
+                new MapSelectorMenu(WoolWars.getMenuUtil(player)).open();
+            }
+
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.kit-selector.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS && !game.getPlayers().contains(player.getUniqueId())) {
+                    msgPlayer(player, "&f侵 &7This can't be used whilst in-game.");
+                    return;
+                }
+
                 new KitSelectorMenu(WoolWars.getMenuUtil(player)).open();
             }
 
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.spectator-selector.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS && !game.getPlayers().contains(player.getUniqueId())) {
+                    msgPlayer(player, "&f侵 &7This can't be used whilst in-game.");
+                    return;
+                }
+
                 if (game.getGameState() == GameState.IN_PROGRESS) {
                     new SpectatorMenu(WoolWars.getMenuUtil(player)).open();
                 } else {
@@ -55,27 +79,34 @@ public class ItemListener implements Listener {
             }
 
             if (displayName.equalsIgnoreCase(format(WoolWars.getWoolWars().getConfig().getString("items.back-to-hub.displayname")))) {
+                if (game.getGameState() == GameState.IN_PROGRESS && !game.getPlayers().contains(player.getUniqueId())) {
+                    msgPlayer(player, "&f侵 &7This can't be used whilst in-game.");
+                    return;
+                }
+
                 WoolWars.getWoolWars().getBungeeUtils().sendPlayerToServer(player, "hub");
             }
 
-            for (Ability ability : this.main.getAbilityManager().getAbilities()) {
-                if (!displayName.equalsIgnoreCase(ability.getItemStack().getItemMeta().getDisplayName())) {
-                    continue;
-                }
+            if (!game.getPlayers().contains(player.getUniqueId()) && game.getGameState() == GameState.IN_PROGRESS) {
+                for (Ability ability : this.main.getAbilityManager().getAbilities()) {
+                    if (!displayName.equalsIgnoreCase(ability.getItemStack().getItemMeta().getDisplayName())) {
+                        continue;
+                    }
 
-                switch (ability.getName()) {
-                    case "Shuriken":
-                        this.main.getAbilityManager().getAbility("Shuriken").getAbilityCallable().executeAs(player);
+                    switch (ability.getName()) {
+                        case "Shuriken":
+                            this.main.getAbilityManager().getAbility("Shuriken").getAbilityCallable().executeAs(player);
 
-                        break;
-                    case "Eskimo":
-                        this.main.getAbilityManager().getAbility("Eskimo").getAbilityCallable().executeAs(player);
+                            break;
+                        case "Eskimo":
+                            this.main.getAbilityManager().getAbility("Eskimo").getAbilityCallable().executeAs(player);
 
-                        break;
-                    case "Gravity":
-                        this.main.getAbilityManager().getAbility("Gravity").getAbilityCallable().executeAs(player);
+                            break;
+                        case "Gravity":
+                            this.main.getAbilityManager().getAbility("Gravity").getAbilityCallable().executeAs(player);
 
-                        break;
+                            break;
+                    }
                 }
             }
         }
@@ -84,8 +115,9 @@ public class ItemListener implements Listener {
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         Player player = event.getPlayer();
-        Player playerCaught = event.getPlayer();
+        Player playerCaught;
 
+        Game game = WoolWars.getWoolWars().getGameManager().getGame();
         PlayerData playerData = this.main.getPlayerDataManager().getPlayerData(player.getUniqueId());
 
         ItemStack item = player.getItemInHand();
@@ -136,6 +168,10 @@ public class ItemListener implements Listener {
                         playerCaught = (Player) event.getCaught();
                         if (playerCaught.equals(player))
                             return;
+
+                        if (game.getTeam(player).equalsIgnoreCase(game.getTeam(playerCaught)))
+                            return;
+
                         playerCaught.teleport(player.getLocation());
                         playerCaught.getWorld().playSound(playerCaught.getLocation(), Sound.ENTITY_CAT_PURR, 20.0F, 10.0F);
                         this.main.getAbilityManager().getAbility("Fisherman").getAbilityCallable().executeAs(player);

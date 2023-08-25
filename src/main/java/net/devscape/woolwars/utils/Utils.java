@@ -1,6 +1,7 @@
 package net.devscape.woolwars.utils;
 
 import net.devscape.woolwars.WoolWars;
+import net.devscape.woolwars.handlers.Game;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,9 +23,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Utils {
-
-    public static String scoreboardBar = org.bukkit.ChatColor.GRAY.toString() + org.bukkit.ChatColor.STRIKETHROUGH + "----------------------";
-    public static String chatBar = org.bukkit.ChatColor.GRAY.toString() + org.bukkit.ChatColor.STRIKETHROUGH + "--------------------------------------------";
 
     public static String format(String message) {
         message = message.replace(">>", "").replace("<<", "");
@@ -52,6 +51,11 @@ public class Utils {
     public static String getTeamColor(String team) {
         return WoolWars.getWoolWars().getConfig().getString("game.settings." + team + "-color");
     }
+
+    public static String getTeamFlag(String team) {
+        return WoolWars.getWoolWars().getConfig().getString("game.settings." + team + "-flag");
+    }
+
 
     public static void msgPlayer(CommandSender player, String... str) {
         for (String msg : str) {

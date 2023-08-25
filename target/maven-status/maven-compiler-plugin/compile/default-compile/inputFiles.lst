@@ -22,6 +22,7 @@ C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\level\Poin
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\playerdata\PlayerState.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\managers\ResetMapManager.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\managers\CooldownManager.java
+C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\menus\guis\MapSelector.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\utils\command\CommandFramework.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\commands\AbilityCommand.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\packet\Tab.java
@@ -47,6 +48,7 @@ C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\utils\comm
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\utils\BungeeUtils.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\utils\command\Completer.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\menus\guis\KitSelectorMenu.java
+C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\managers\TeamManager.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\scoreboard\ScoreboardProvider.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\net\devscape\woolwars\listeners\MenuListener.java
 C:\Users\luke\Desktop\Minerave_WW\src\main\java\aether\event\BoardCreateEvent.java

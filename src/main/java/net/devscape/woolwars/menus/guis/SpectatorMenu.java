@@ -19,8 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static net.devscape.woolwars.utils.Utils.color;
-import static net.devscape.woolwars.utils.Utils.format;
+import static net.devscape.woolwars.utils.Utils.*;
 
 public class SpectatorMenu extends Menu {
 
@@ -104,7 +103,11 @@ public class SpectatorMenu extends Menu {
         ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta skullMeta = (SkullMeta) playerHead.getItemMeta();
 
-        skullMeta.setDisplayName("&f" + Objects.requireNonNull(Bukkit.getPlayer(playerUUID)).getName());
+        Game game = WoolWars.getWoolWars().getGameManager().getGame();
+
+        Player player = Bukkit.getPlayer(playerUUID);
+
+        skullMeta.setDisplayName(format(getTeamColor(game.getTeam(player))));
 
         assert skullMeta != null;
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(playerUUID));

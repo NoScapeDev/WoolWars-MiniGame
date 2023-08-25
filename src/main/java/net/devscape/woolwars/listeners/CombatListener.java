@@ -162,10 +162,12 @@ public class CombatListener implements Listener {
 
         if (to.getY() < -1) {
             cancelFallDamage(player);
+
             if (game.getGameState() == GameState.IN_PROGRESS) {
                 if (game.getPlayers().contains(player.getUniqueId())) {
                     event.setTo(game.getLobbyLoc());
                     giveWaitingItems(player);
+                    cancelFallDamage(player);
                     return;
                 }
 
@@ -252,6 +254,8 @@ public class CombatListener implements Listener {
                 event.setTo(game.getLobbyLoc());
                 giveWaitingItems(player);
             }
+
+            cancelFallDamage(player);
         }
     }
 

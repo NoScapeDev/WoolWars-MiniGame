@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.listeners.CombatListener;
+import net.devscape.woolwars.managers.TeamManager;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.playerdata.PlayerState;
 import net.kyori.adventure.text.Component;
@@ -16,6 +17,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -267,6 +269,14 @@ public class Game {
         assert lobby_loc != null;
         player.teleport(lobby_loc);
 
+        if (player.getFallDistance() > 0.0F) {
+            EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
+            Bukkit.getPluginManager().callEvent(damageEvent);
+            if (!damageEvent.isCancelled()) {
+                player.setFallDistance(0.0F);
+            }
+        }
+
         player.getInventory().clear();
 
         WoolWars.getWoolWars().getLocalStatsManager().getData(player.getUniqueId());
@@ -337,7 +347,7 @@ public class Game {
         countdownStarted = true;
         gameState = GameState.STARTING;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.getWorld().playSound(player.getLocation(), "minecraft:countdown", SoundCategory.MASTER, 1, 1);
+            player.getWorld().playSound(player.getLocation(), "minecraft:countdown", SoundCategory.MASTER, 0.15F, 1);
         }
 
         new BukkitRunnable() {
@@ -384,6 +394,14 @@ public class Game {
             assert red_spawn != null;
             player.teleport(red_spawn);
 
+            if (player.getFallDistance() > 0.0F) {
+                EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
+                Bukkit.getPluginManager().callEvent(damageEvent);
+                if (!damageEvent.isCancelled()) {
+                    player.setFallDistance(0.0F);
+                }
+            }
+
             player.getInventory().clear();
             WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
         }
@@ -400,6 +418,14 @@ public class Game {
 
             assert blue_spawn != null;
             player.teleport(blue_spawn);
+
+            if (player.getFallDistance() > 0.0F) {
+                EntityDamageEvent damageEvent = new EntityDamageEvent(player, EntityDamageEvent.DamageCause.FALL, player.getFallDistance());
+                Bukkit.getPluginManager().callEvent(damageEvent);
+                if (!damageEvent.isCancelled()) {
+                    player.setFallDistance(0.0F);
+                }
+            }
 
             player.getInventory().clear();
             WoolWars.getWoolWars().getKitManager().applyKit(player, WoolWars.getWoolWars().getSelectedKit(player));
@@ -443,7 +469,7 @@ public class Game {
     }
 
     public void endGame() {
-        gameState = GameState.CHANGING_PROCESS;
+        gameState = GameState.WAITING;
 
         for (UUID uuid : getBlue()) {
             getPlayers().add(uuid);
@@ -656,69 +682,76 @@ public class Game {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (Bukkit.getOnlinePlayers().size() > 0) {
-                    List<Player> sortedPlayers = new ArrayList<>();
+                Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
+                    if (Bukkit.getOnlinePlayers().size() > 0) {
+                        List<Player> sortedPlayers = new ArrayList<>();
 
-                    // Add red team players first
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (red.contains(player.getUniqueId())) {
-                            sortedPlayers.add(player);
-                        }
-                    }
-
-                    // Add blue team players next
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (blue.contains(player.getUniqueId())) {
-                            sortedPlayers.add(player);
-                        }
-                    }
-
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (players.contains(player.getUniqueId())) {
-                            sortedPlayers.add(player);
-                        }
-                    }
-
-                    for (Player player : sortedPlayers) {
-                        String tabName;
-
-                        if (red.contains(player.getUniqueId())) {
-                            tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.red-flag") + " " + getTeamColor("red") + player.getName());
-                        } else if (blue.contains(player.getUniqueId())) {
-                            tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.blue-flag") + " " + getTeamColor("blue") + player.getName());
-                        } else {
-                            tabName = format(getTeamColor("spectator") + player.getName());
+                        // Add red team players first
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            if (red.contains(player.getUniqueId())) {
+                                sortedPlayers.add(player);
+                            }
                         }
 
-                        // Set tab name
-                        player.setPlayerListName(tabName);
+                        // Add blue team players next
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            if (blue.contains(player.getUniqueId())) {
+                                sortedPlayers.add(player);
+                            }
+                        }
 
-                        List<String> headerLines = new ArrayList<>();
-                        headerLines.add(" ");
-                        headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
-                        headerLines.add(" ");
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            if (players.contains(player.getUniqueId())) {
+                                sortedPlayers.add(player);
+                            }
+                        }
 
-                        List<String> footerLines = new ArrayList<>();
-                        footerLines.add(" ");
-                        footerLines.add("&eYou're playing on &lWoolWars&e!");
+                        for (Player player : sortedPlayers) {
+                            String tabName;
 
-                        String header = String.join("\n", headerLines);
-                        String footer = String.join("\n", footerLines);
+                            if (red.contains(player.getUniqueId())) {
+                                tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.red-flag") + " " + getTeamColor("red") + player.getName());
+                            } else if (blue.contains(player.getUniqueId())) {
+                                tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.blue-flag") + " " + getTeamColor("blue") + player.getName());
+                            } else {
+                                tabName = format(getTeamColor("spectator") + player.getName());
+                            }
 
-                        player.setPlayerListHeaderFooter(
-                                format(header),
-                                format(footer)
-                        );
+                            // Set tab name
+                            player.setPlayerListName(tabName);
 
-                        player.setDisplayName(tabName);
-                        player.setCustomName(tabName);
-                        player.setCustomNameVisible(true);
+                            List<String> headerLines = new ArrayList<>();
+                            headerLines.add(" ");
+                            headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
+                            headerLines.add(" ");
+
+                            List<String> footerLines = new ArrayList<>();
+                            footerLines.add(" ");
+                            footerLines.add("&eYou're playing on &lWoolWars&e!");
+
+                            String header = String.join("\n", headerLines);
+                            String footer = String.join("\n", footerLines);
+
+                            player.setPlayerListHeaderFooter(
+                                    format(header),
+                                    format(footer)
+                            );
+
+                            player.setDisplayName(tabName);
+                            player.setCustomName(tabName);
+                            player.setCustomNameVisible(true);
+
+                            if (getTeam(player).equalsIgnoreCase("spectator")) {
+                                WoolWars.getWoolWars().getTeamManager().applyTo(player, format("&7"));
+                            } else {
+                                WoolWars.getWoolWars().getTeamManager().applyTo(player, format(getTeamFlag(getTeam(player)) + " " + getTeamColor(getTeam(player))));
+                            }
+                        }
                     }
-                }
+                });
             }
         }.runTaskTimerAsynchronously(WoolWars.getWoolWars(), 0, 20L);
     }
-
 
     public void checkGameWin() {
         if (blue_wool == 0) {
@@ -778,23 +811,32 @@ public class Game {
         return "spectator";
     }
 
-
     public void updateHealth() {
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (Bukkit.getOnlinePlayers().size() > 0) {
                     for (Player player : Bukkit.getOnlinePlayers()) {
-                        double healthDouble = player.getHealth();
-                        int health = (int) Math.round(healthDouble);
+                        if (!players.contains(player.getUniqueId()) && gameState == GameState.IN_PROGRESS) {
+                            double healthDouble = player.getHealth();
+                            int health = (int) Math.round(healthDouble);
 
-                        if (CombatListener.respawningMap.contains(player.getUniqueId())) {
-                            return;
-                        }
+                            if (CombatListener.respawningMap.contains(player.getUniqueId())) {
+                                return;
+                            }
 
-                        String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-" + health);
-                        if (health_action != null) {
-                            sendActionBar(player, format(health_action));
+                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-" + health);
+                            if (health_action != null) {
+                                sendActionBar(player, format(health_action));
+                            }
+                        } else {
+                            if (gameState == GameState.IN_PROGRESS) {
+                                sendActionBar(player, format("&7You're Spectating!"));
+                            }else if (gameState == GameState.STARTING) {
+                                    sendActionBar(player, format("&7Game Starting!"));
+                            } else {
+                                sendActionBar(player, format("&7Waiting for players!"));
+                            }
                         }
                     }
                 }
