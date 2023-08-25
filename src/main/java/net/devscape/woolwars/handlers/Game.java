@@ -2,6 +2,7 @@ package net.devscape.woolwars.handlers;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.devscape.project.minerave_ranks.MineraveRanks;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.listeners.CombatListener;
 import net.devscape.woolwars.managers.TeamManager;
@@ -25,6 +26,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -684,67 +686,113 @@ public class Game {
             public void run() {
                 Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
                     if (Bukkit.getOnlinePlayers().size() > 0) {
-                        List<Player> sortedPlayers = new ArrayList<>();
 
-                        // Add red team players first
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            if (red.contains(player.getUniqueId())) {
-                                sortedPlayers.add(player);
-                            }
-                        }
+                        if (gameState == GameState.IN_PROGRESS) {
+                            List<Player> sortedPlayers = new ArrayList<>();
 
-                        // Add blue team players next
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            if (blue.contains(player.getUniqueId())) {
-                                sortedPlayers.add(player);
-                            }
-                        }
-
-                        for (Player player : Bukkit.getOnlinePlayers()) {
-                            if (players.contains(player.getUniqueId())) {
-                                sortedPlayers.add(player);
-                            }
-                        }
-
-                        for (Player player : sortedPlayers) {
-                            String tabName;
-
-                            if (red.contains(player.getUniqueId())) {
-                                tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.red-flag") + " " + getTeamColor("red") + player.getName());
-                            } else if (blue.contains(player.getUniqueId())) {
-                                tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.blue-flag") + " " + getTeamColor("blue") + player.getName());
-                            } else {
-                                tabName = format(getTeamColor("spectator") + player.getName());
+                            // Add red team players first
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                if (red.contains(player.getUniqueId())) {
+                                    sortedPlayers.add(player);
+                                }
                             }
 
-                            // Set tab name
-                            player.setPlayerListName(tabName);
+                            // Add blue team players next
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                if (blue.contains(player.getUniqueId())) {
+                                    sortedPlayers.add(player);
+                                }
+                            }
 
-                            List<String> headerLines = new ArrayList<>();
-                            headerLines.add(" ");
-                            headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
-                            headerLines.add(" ");
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                if (players.contains(player.getUniqueId())) {
+                                    sortedPlayers.add(player);
+                                }
+                            }
 
-                            List<String> footerLines = new ArrayList<>();
-                            footerLines.add(" ");
-                            footerLines.add("&eYou're playing on &lWoolWars&e!");
+                            for (Player player : sortedPlayers) {
+                                String tabName;
 
-                            String header = String.join("\n", headerLines);
-                            String footer = String.join("\n", footerLines);
+                                if (red.contains(player.getUniqueId())) {
+                                    tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.red-flag") + " " + getTeamColor("red") + player.getName());
+                                } else if (blue.contains(player.getUniqueId())) {
+                                    tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.blue-flag") + " " + getTeamColor("blue") + player.getName());
+                                } else {
+                                    tabName = format(getTeamColor("spectator") + player.getName());
+                                }
 
-                            player.setPlayerListHeaderFooter(
-                                    format(header),
-                                    format(footer)
-                            );
+                                // Set tab name
+                                player.setPlayerListName(tabName);
 
-                            player.setDisplayName(tabName);
-                            player.setCustomName(tabName);
-                            player.setCustomNameVisible(true);
+                                List<String> headerLines = new ArrayList<>();
+                                headerLines.add(" ");
+                                headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
+                                headerLines.add(" ");
 
-                            if (getTeam(player).equalsIgnoreCase("spectator")) {
-                                WoolWars.getWoolWars().getTeamManager().applyTo(player, format("&7"));
-                            } else {
-                                WoolWars.getWoolWars().getTeamManager().applyTo(player, format(getTeamFlag(getTeam(player)) + " " + getTeamColor(getTeam(player))));
+                                List<String> footerLines = new ArrayList<>();
+                                footerLines.add(" ");
+                                footerLines.add("&eYou're playing on &lWoolWars&e!");
+
+                                String header = String.join("\n", headerLines);
+                                String footer = String.join("\n", footerLines);
+
+                                player.setPlayerListHeaderFooter(
+                                        format(header),
+                                        format(footer)
+                                );
+
+                                player.setDisplayName(tabName);
+                                player.setCustomName(tabName);
+                                player.setCustomNameVisible(true);
+
+                                if (getTeam(player).equalsIgnoreCase("spectator")) {
+                                    WoolWars.getWoolWars().getTeamManager().applyTo(player, format("&7"));
+                                } else {
+                                    WoolWars.getWoolWars().getTeamManager().applyTo(player, format(getTeamFlag(getTeam(player)) + " " + getTeamColor(getTeam(player))));
+                                }
+                            }
+                        } else {
+
+                            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+
+                            // Sort the players based on rank weights
+                            Collections.sort(players, (player1, player2) -> {
+                                // Get rank weights for each player and compare
+                                int weight1 = getRankWeight(player1);
+                                int weight2 = getRankWeight(player2);
+                                return Integer.compare(weight2, weight1); // Reverse order for highest weight first
+                            });
+
+                            int index = 0;
+                            for (Player player : players) {
+                                String tabName = format(MineraveRanks.getMineraveRanks().getPlayerDataClass().getRank(player).getPrefix() + "" + player.getName());
+
+                                // Set tab name
+                                player.setPlayerListName(tabName);
+
+                                List<String> headerLines = new ArrayList<>();
+                                headerLines.add(" ");
+                                headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
+                                headerLines.add(" ");
+
+                                List<String> footerLines = new ArrayList<>();
+                                footerLines.add(" ");
+                                footerLines.add("&eYou're playing on &lWoolWars&e!");
+
+                                String header = String.join("\n", headerLines);
+                                String footer = String.join("\n", footerLines);
+
+                                player.setPlayerListHeaderFooter(
+                                        format(header),
+                                        format(footer)
+                                );
+
+                                player.setDisplayName(tabName);
+                                player.setCustomName(tabName);
+                                player.setCustomNameVisible(true);
+
+                                // Increment index for footer
+                                index++;
                             }
                         }
                     }

@@ -98,7 +98,8 @@
       <dependency>
           <groupId>com.github.NoScapeDev</groupId>
           <artifactId>Minerave_Ranks</artifactId>
-          <version>1.3</version>
+          <version>1.4</version>
+          <scope>provided</scope>
       </dependency>
       <dependency>
           <groupId>com.nametagedit</groupId>

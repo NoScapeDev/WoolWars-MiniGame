@@ -1,5 +1,6 @@
 package net.devscape.woolwars.utils;
 
+import net.devscape.project.minerave_ranks.MineraveRanks;
 import net.devscape.woolwars.WoolWars;
 import net.devscape.woolwars.handlers.Game;
 import net.md_5.bungee.api.ChatColor;
@@ -165,5 +166,9 @@ public class Utils {
                 player.getInventory().setItem(slot, makeItem(Material.valueOf(material.toUpperCase()), displayname, color(lore), custom_model_data));
             }
         }
+    }
+
+    public static int getRankWeight(Player player) {
+        return MineraveRanks.getMineraveRanks().getPlayerDataClass().getRank(player).getWeight();
     }
 }
