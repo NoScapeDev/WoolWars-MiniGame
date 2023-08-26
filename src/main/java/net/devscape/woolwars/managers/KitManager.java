@@ -2,6 +2,7 @@ package net.devscape.woolwars.managers;
 
 import lombok.Getter;
 import net.devscape.woolwars.WoolWars;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -103,23 +104,19 @@ public class KitManager {
         for (int index = 0; index < kitItems.length; index++) {
             ItemStack item = kitItems[index];
             if (item != null) {
-                if (index < 36) {
-                    player.getInventory().setItem(index, item);
-                } else if (index == 36) {
-                    // Set boots
+                Material itemType = item.getType();
+                if (itemType.name().contains("_BOOTS")) {
                     player.getInventory().setBoots(item);
-                } else if (index == 37) {
-                    // Set leggings
+                } else if (itemType.name().contains("_LEGGINGS")) {
                     player.getInventory().setLeggings(item);
-                } else if (index == 38) {
-                    // Set chestplate
+                } else if (itemType.name().contains("_CHESTPLATE")) {
                     player.getInventory().setChestplate(item);
-                } else if (index == 39) {
-                    // Set helmet
+                } else if (itemType.name().contains("_HELMET")) {
                     player.getInventory().setHelmet(item);
-                } else if (index == 40) {
-                    // Set offhand
+                } else if (itemType == Material.SHIELD) {
                     player.getInventory().setItemInOffHand(item);
+                } else if (index < 36) {
+                    player.getInventory().setItem(index, item);
                 }
             }
         }
@@ -143,6 +140,8 @@ public class KitManager {
                     kitItemsSection.set(String.valueOf(index), item);
                 }
             }
+
+            kitSection.set("items", kitItemsSection); // Save the items section within the kit section
         }
 
         WoolWars.getWoolWars().saveConfig();
