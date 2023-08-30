@@ -190,12 +190,16 @@ public class GameManager {
                     if (getGame().getGameState() == GameState.WAITING) {
                         if (getGame().getBlue().size() == 0 && getGame().getRed().size() == 0) {
                             bossBarStats.setTitle(format("&7Select a Team"));
+                            bossBarTextures.setTitle(format(""));
                         } else if (getGame().getBlue().size() == 1 && getGame().getRed().size() == 0) {
                             bossBarStats.setTitle(format("&7Waiting for other players"));
+                            bossBarTextures.setTitle(format(""));
                         } else if (getGame().getBlue().size() == 0 && getGame().getRed().size() == 1) {
                             bossBarStats.setTitle(format("&7Waiting for other players"));
+                            bossBarTextures.setTitle(format(""));
                         } else {
                             bossBarStats.setTitle(format("&7Select a Team"));
+                            bossBarTextures.setTitle(format(""));
                         }
                     }
 
@@ -206,9 +210,11 @@ public class GameManager {
                             String countdown_action = WoolWars.getWoolWars().getConfig().getString("countdown.countdown-" + secondsLeft);
                             if (countdown_action != null) {
                                 bossBarStats.setTitle(format(countdown_action));
+                                bossBarTextures.setTitle(format(""));
                             }
                         } if (secondsLeft <= 0) {
                             bossBarStats.setTitle(format("&f&lFIGHT!"));
+                            bossBarTextures.setTitle(format(""));
                         }
                     }
 
@@ -275,7 +281,8 @@ public class GameManager {
                     }
 
                     if (getGame().getGameState() == GameState.CHANGING_PROCESS) {
-                        bossBarStats.setTitle(format("&f│ &f&lRESETTING GAME..&f│"));
+                        bossBarStats.setTitle(format("&7RESETTING GAME.."));
+                        bossBarTextures.setTitle(format(""));
                     }
                 }
             }
