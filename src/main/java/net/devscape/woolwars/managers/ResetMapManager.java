@@ -6,6 +6,9 @@ import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Boat;
+import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -34,6 +37,12 @@ public class ResetMapManager {
             public void run() {
                 game.setGameState(GameState.WAITING);
                 game.setWinners("");
+
+                for (Entity entity : game.getLobbyLoc().getWorld().getEntities()) {
+                    if (entity instanceof Boat) {
+                        entity.remove();
+                    }
+                }
 
                 if (!copyBlockPlaceMap.isEmpty()) {
                     for (Block block : copyBlockPlaceMap) {
@@ -74,7 +83,6 @@ public class ResetMapManager {
         }.runTaskLater(WoolWars.getWoolWars(), 20 * 4);
     }
 
-
     public void resetMapInstant() {
         Game game = WoolWars.getWoolWars().getGameManager().getGame();
 
@@ -86,6 +94,12 @@ public class ResetMapManager {
         // reset blocks/map
         game.setGameState(GameState.WAITING);
         game.setWinners("");
+
+        for (Entity entity : game.getLobbyLoc().getWorld().getEntities()) {
+            if (entity instanceof Boat) {
+                entity.remove();
+            }
+        }
 
         if (!copyBlockPlaceMap.isEmpty()) {
             for (Block block : copyBlockPlaceMap) {

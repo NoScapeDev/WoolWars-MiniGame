@@ -1,39 +1,42 @@
 menus:
   stats:
-    title: '&f何'
+    title: '&f仏仏仏仏仏仏仏仏何'
     size: 54
   team-selector:
-    title: '&8Team Selector'
+    title: '&f仏仏仏仏仏仏仏仏俗'
     size: 54
   kit-selector:
-    title: '&8Kit Selector'
+    title: '&f仏仏仏仏仏仏仏仏儀'
     size: 54
 
 scoreboards:
-  title: '&bWool Wars'
+  title: '&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE'
   waiting:
     lines:
-      - '&9Join a team and prepare'
-      - '&9to fight enemies on'
-      - '&9multiple islands'
       - ''
-      - '&bKills: &f%kills%'
-      - '&bDeaths: &f%deaths%'
-      - '&bKD: &f%kd%'
+      - '&f係 &aJoin a team and'
+      - '&aprepare to fight enemies'
+      - '&aand destroy their wool!'
       - ''
-      - '&7minerave.net'
+      - '&fᴋɪʟʟs: &c%kills%'
+      - '&fᴅᴇᴀᴛʜs: &6%deaths%'
+      - '&fᴋᴅ: &b%kd%'
+      - '&fʟᴇᴠᴇʟ: &e%level% &7(%points%/0)'
+      - ''
+      - '&eminerave.net'
   in-game:
-    map-name: '&bMap Name: &f%map%'
-    countdown: '&bTime Left: &f%time%'
+    map-name: '&f保 &fᴍᴀᴘ ɴᴀᴍᴇ: &a%map%'
+    countdown: '&fᴛɪᴍᴇ ʟᴇғᴛ: &a%time%'
     lines:
       - ''
-      - '&cRed Team: &f%red%'
-      - '&cBlue Team: &f%blue%'
+      - '&f来 &fʀᴇᴅ ᴛᴇᴀᴍ: &#fc372d%red%'
+      - '&f例 &fʙʟᴜᴇ ᴛᴇᴀᴍ: &#138bf4%blue%'
       - ''
-      - '&bKills: &f%kills%'
-      - '&bDeaths: &f%deaths%'
+      - '&fᴋɪʟʟs: &c%kills%'
+      - '&fᴅᴇᴀᴛʜs: &6%deaths%'
+      - '&fʟᴇᴠᴇʟ: &e%level% &7(%points%/0)'
       - ''
-      - '&7minerave.net'
+      - '&#00FBA8minerave.net'
 
 items:
   red-wool:
@@ -76,28 +79,28 @@ items:
     displayname: '&6&lTeam Selector'
     material: PAPER
     custom-model-data: 1
-    slot: 3
+    slot: 0
     lore:
       - '&7Click to select a team.'
   kit-selector:
     displayname: '&c&lKit Selector'
     material: PAPER
     custom-model-data: 2
-    slot: 5
+    slot: 1
     lore:
       - '&7Click to select a kit.'
   spectator-selector:
     displayname: '&e&lSpectator Selector'
     material: PAPER
     custom-model-data: 4
-    slot: 1
+    slot: 6
     lore:
       - '&7Click to select a kit.'
   map-selector:
     displayname: '&3&lMap Selector'
     material: PAPER
     custom-model-data: 3
-    slot: 0
+    slot: 7
     lore:
       - '&7Click to select a kit.'
   back-to-hub:
@@ -132,31 +135,31 @@ health:
   health-0: '&f付'
 
 countdown:
-  countdown-15: '&f15'
-  countdown-14: '&f14'
-  countdown-13: '&f13'
-  countdown-12: '&f12'
-  countdown-11: '&f11'
-  countdown-10: '&f10'
-  countdown-9: '&f9'
-  countdown-8: '&f8'
-  countdown-7: '&f7'
-  countdown-6: '&f6'
-  countdown-5: '&f5'
-  countdown-4: '&f4'
-  countdown-3: '&f3'
-  countdown-2: '&f2'
-  countdown-1: '&f1'
+  countdown-15: '&f偶'
+  countdown-14: '&f傍'
+  countdown-13: '&f傑'
+  countdown-12: '&f備'
+  countdown-11: '&f催'
+  countdown-10: '&f伝'
+  countdown-9: '&f債'
+  countdown-8: '&f傷'
+  countdown-7: '&f傾'
+  countdown-6: '&f働'
+  countdown-5: '&f像'
+  countdown-4: '&f僚'
+  countdown-3: '&f偽'
+  countdown-2: '&f僧'
+  countdown-1: '&f価'
   countdown-0: '&f0'
 
-## GLOBAL GAME SETTINGS
+# # GLOBAL GAME SETTINGS
 game:
   settings:
     red-color: '&#fc372d'
     blue-color: '&#138bf4'
     spectator-color: '&7'
-    blue-flag: 栋
-    red-flag: 橑
+    blue-flag: 例
+    red-flag: 来
     times:
       starting: 15 # in seconds
       game-time: 1800 # in seconds (1800 = 30mins)
@@ -165,48 +168,121 @@ game:
     max-red: 25 # how many players are allowed in red.
 
 
-## GAMES / MAPS
+# # GAMES / MAPS
 games:
-  testmap:
+  tombstone:
     locations:
       lobby:
         world: world
-        x: 410.46760192189225
-        y: 48.0
-        z: 96.63358093209462
-        yaw: -0.24539185
-        pitch: 3.3693566
-      blue:
-        world: world
-        x: 468.22903790600805
-        y: 23.0
-        z: 163.51474406869986
-        yaw: 90.20475
-        pitch: 1.4193039
-      red:
-        world: world
-        x: 351.8530590442822
-        y: 23.0
-        z: 163.30388847949757
-        yaw: -90.46997
-        pitch: -0.37519413
-      red-obj:
-        world: world
-        x: 308.46608231023896
-        y: 24.0
-        z: 165.36411703335156
-        yaw: -2.2199097
-        pitch: 17.549963
+        x: 0.45033293687372594
+        y: 62.0
+        z: 85.18783208952765
+        yaw: -179.70027
+        pitch: 3.7500072
       blue-obj:
         world: world
-        x: 511.499012433337
-        y: 24.0
-        z: 165.36735744932886
-        yaw: 179.4303
-        pitch: -3.3000057
+        x: -137.4520536650425
+        y: 17.0
+        z: 30.40363925889919
+        yaw: 1.4998188
+        pitch: 0.59999245
+      red-obj:
+        world: world
+        x: 138.4665325293895
+        y: 16.0
+        z: -29.470916758991653
+        yaw: -93.15209
+        pitch: 80.73066
+      blue:
+        world: world
+        x: -79.27116333691244
+        y: 16.0
+        z: -0.5681015184336613
+        yaw: -90.75016
+        pitch: -0.74994445
+      red:
+        world: world
+        x: 80.36668075061013
+        y: 16.0
+        z: 1.5145215789238093
+        yaw: 88.99997
+        pitch: -1.9254535
+  TropicalIsland:
+    locations:
+      red:
+        world: ww2
+        x: 0.4819322052362218
+        y: 15.0
+        z: 79.31083795475627
+        yaw: -179.94312
+        pitch: 0.30650508
+      red-obj:
+        world: ww2
+        x: 7.458902117584188
+        y: 16.0
+        z: 123.47394506292952
+        yaw: -177.84497
+        pitch: 9.000009
+      blue:
+        world: ww2
+        x: 0.5640839491885775
+        y: 15.0
+        z: -78.35318239282752
+        yaw: 0.20690918
+        pitch: -0.45003712
+      blue-obj:
+        world: ww2
+        x: -6.520188028660313
+        y: 16.0
+        z: -122.5051120733006
+        yaw: -0.54248047
+        pitch: 4.6499915
+      lobby:
+        world: ww2
+        x: -83.29263350413804
+        y: 80.0
+        z: 0.40962500824866505
+        yaw: -89.04285
+        pitch: 4.95013
+  HellDragon:
+    locations:
+      red:
+        world: HellDragon
+        x: 0.48932633447006224
+        y: 44.0
+        z: 117.391646032393
+        yaw: 179.25055
+        pitch: -0.7500091
+      red-obj:
+        world: HellDragon
+        x: 0.5755684922203019
+        y: 71.0
+        z: 127.68877732314577
+        yaw: 178.35039
+        pitch: 41.849957
+      lobby:
+        world: HellDragon
+        x: 72.29180486629743
+        y: 87.0
+        z: 7.5417703075282745
+        yaw: 90.00038
+        pitch: 3.449965
+      blue:
+        world: HellDragon
+        x: 0.5011979778404256
+        y: 44.0
+        z: -102.33352292557954
+        yaw: 0.15016235
+        pitch: -1.5000172
+      blue-obj:
+        world: HellDragon
+        x: 0.4901144722205992
+        y: 71.0
+        z: -112.6312114103466
+        yaw: -1.0498463
+        pitch: 7.3499584
 
-
-## GLOBAL KITS
+# # GLOBAL KITS
 kits:
   Default:
     items:
@@ -228,7 +304,7 @@ kits:
         v: 3465
         type: ARROW
         amount: 3
-      '36':
+      '4':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: CHAINMAIL_BOOTS
@@ -237,7 +313,7 @@ kits:
           meta-type: ARMOR
           enchants:
             DURABILITY: 3
-      '37':
+      '5':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: CHAINMAIL_LEGGINGS
@@ -246,7 +322,7 @@ kits:
           meta-type: ARMOR
           enchants:
             DURABILITY: 3
-      '38':
+      '6':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: CHAINMAIL_CHESTPLATE
@@ -255,7 +331,7 @@ kits:
           meta-type: ARMOR
           enchants:
             DURABILITY: 3
-      '39':
+      '7':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_HELMET
@@ -264,6 +340,46 @@ kits:
           meta-type: COLORABLE_ARMOR
           enchants:
             DURABILITY: 3
+  Archer:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: STONE_SWORD
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: BOW
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: ARROW
+        amount: 16
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_BOOTS
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_CHESTPLATE
+      '8':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
   Assassin:
     items:
       '0':
@@ -278,17 +394,13 @@ kits:
       '1':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: POTION
-        meta:
-          ==: ItemMeta
-          meta-type: POTION
-          potion-type: minecraft:swiftness
+        type: BAMBOO_PLANKS
+        amount: 32
       '2':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: BAMBOO_PLANKS
-        amount: 32
-      '36':
+        type: GOLDEN_APPLE
+      '3':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_BOOTS
@@ -307,7 +419,7 @@ kits:
             RED: 29
             BLUE: 33
             GREEN: 29
-      '37':
+      '4':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_LEGGINGS
@@ -326,7 +438,7 @@ kits:
             RED: 29
             BLUE: 33
             GREEN: 29
-      '38':
+      '5':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_CHESTPLATE
@@ -344,7 +456,7 @@ kits:
             RED: 29
             BLUE: 33
             GREEN: 29
-      '39':
+      '6':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_HELMET
@@ -362,7 +474,621 @@ kits:
             RED: 29
             BLUE: 33
             GREEN: 29
-  Archer:
+  Knight:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            DAMAGE_ALL: 2
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: CHAINMAIL_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: SHIELD
+  Paladin:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            SWEEPING_EDGE: 2
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:shaper
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:shaper
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:shaper
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:shaper
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: SHIELD
+  Necromancer:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: NETHERITE_HOE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{"text":"Scythe"}'
+          enchants:
+            DAMAGE_ALL: 5
+          repair-cost: 1
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: DARK_OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: NETHER_STAR
+        amount: 3
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{"extra":[{"bold":false,"italic":false,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"aqua","text":"Shuriken"}],"text":""}'
+          lore:
+            - '{"extra":[{"bold":false,"italic":true,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"gray","text":"Right
+            click to throw a shuriken"}],"text":""}'
+            - '{"extra":[{"bold":false,"italic":true,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"gray","text":"which
+            makes people not be able to see"}],"text":""}'
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:silence
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:silence
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:silence
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:silence
+  Healer:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_SWORD
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LINGERING_POTION
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          display-name: '{"text":"Health Pool"}'
+          potion-type: minecraft:healing
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_FALL: 1
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:copper
+            pattern: minecraft:dune
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 249
+            BLUE: 254
+            GREEN: 255
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:copper
+            pattern: minecraft:dune
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 249
+            BLUE: 254
+            GREEN: 255
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:copper
+            pattern: minecraft:dune
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 249
+            BLUE: 254
+            GREEN: 255
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:copper
+            pattern: minecraft:dune
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 249
+            BLUE: 254
+            GREEN: 255
+  Builder:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: STONE_AXE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            DIG_SPEED: 3
+            DURABILITY: 3
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 64
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 32
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LADDER
+        amount: 16
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+            DURABILITY: 3
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:sentry
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 254
+            BLUE: 61
+            GREEN: 216
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+            DURABILITY: 3
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:sentry
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 254
+            BLUE: 61
+            GREEN: 216
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+            DURABILITY: 3
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:sentry
+      '8':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: ARMOR
+          display-name: '{"text":"Builder''s Helmet"}'
+          enchants:
+            PROTECTION_PROJECTILE: 3
+            DURABILITY: 3
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:sentry
+  Sorceress:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: IRON_SWORD
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: BLAZE_ROD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{"text":"Staff"}'
+          enchants:
+            FIRE_ASPECT: 1
+          repair-cost: 1
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:redstone
+            pattern: minecraft:ward
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:redstone
+            pattern: minecraft:ward
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:redstone
+            pattern: minecraft:ward
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:redstone
+            pattern: minecraft:ward
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 29
+            BLUE: 33
+            GREEN: 29
+  Fisherman:
+    items:
+      '0':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: STONE_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          enchants:
+            DAMAGE_ALL: 1
+      '1':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: OAK_PLANKS
+        amount: 48
+      '2':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: GOLDEN_APPLE
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: FISHING_ROD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{"extra":[{"bold":false,"italic":false,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"aqua","text":"Fishing
+            rod"}],"text":""}'
+          lore:
+            - '{"extra":[{"bold":false,"italic":true,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"gray","text":"Right
+            click to throw a hook"}],"text":""}'
+            - '{"extra":[{"bold":false,"italic":true,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"gray","text":"that
+            pulls your enemies"}],"text":""}'
+            - '{"extra":[{"bold":false,"italic":true,"underlined":false,"strikethrough":false,"obfuscated":false,"color":"gray","text":"to
+            you"}],"text":""}'
+          Unbreakable: true
+      '4':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: DARK_OAK_BOAT
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            DEPTH_STRIDER: 1
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:tide
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 131
+            BLUE: 50
+            GREEN: 84
+      '6':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_LEGGINGS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:tide
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 58
+            BLUE: 218
+            GREEN: 179
+      '7':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:spire
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 58
+            BLUE: 218
+            GREEN: 179
+      '8':
+        ==: org.bukkit.inventory.ItemStack
+        v: 3465
+        type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+            OXYGEN: 2
+          trim:
+            material: minecraft:gold
+            pattern: minecraft:dune
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 58
+            BLUE: 218
+            GREEN: 179
+  Poison-Archer:
     items:
       '0':
         ==: org.bukkit.inventory.ItemStack
@@ -371,47 +1097,125 @@ kits:
       '1':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: BOW
+        type: OAK_PLANKS
+        amount: 48
       '2':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: OAK_PLANKS
-        amount: 48
-      '7':
+        type: BOW
+      '3':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: GOLDEN_APPLE
-        amount: 2
-      '8':
+        type: TIPPED_ARROW
+        amount: 6
+        meta:
+          ==: ItemMeta
+          meta-type: POTION
+          potion-type: minecraft:strong_poison
+      '4':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: ARROW
-        amount: 16
-      '36':
-        ==: org.bukkit.inventory.ItemStack
-        v: 3465
-        type: GOLDEN_BOOTS
-      '37':
+        type: LEATHER_BOOTS
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:wild
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 186
+            BLUE: 166
+            GREEN: 236
+      '5':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_LEGGINGS
-      '38':
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:wild
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 186
+            BLUE: 166
+            GREEN: 236
+      '6':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
-        type: CHAINMAIL_CHESTPLATE
-      '39':
+        type: LEATHER_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 2
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:wild
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 186
+            BLUE: 166
+            GREEN: 236
+      '7':
         ==: org.bukkit.inventory.ItemStack
         v: 3465
         type: LEATHER_HELMET
+        meta:
+          ==: ItemMeta
+          meta-type: COLORABLE_ARMOR
+          enchants:
+            PROTECTION_ENVIRONMENTAL: 1
+          trim:
+            material: minecraft:netherite
+            pattern: minecraft:wild
+          color:
+            ==: Color
+            ALPHA: 255
+            RED: 186
+            BLUE: 166
+            GREEN: 236
 
 data:
   host: '89.33.85.162'
   port: 3306
   database: 's7_minerave_woolwars'
-  username: 'u7_Yr9NxYRSlu'
-  password: 'g3FbfSj4oGZlzRQSt!smnOJk'
+  username: 'u7_t2sjTxrMhm'
+  password: 'rAKi4Y08PqV.urBn+.xA1Uo3'
+
+### level system
+points-per-kill: 10
+points-per-wool-broken: 5
+points-per-win: 25
+points-per-participation: 10
 
 levels:
-  level-1: 1
-  level-2: 10
-  level-3: 30
+  1:
+    required-points: 50
+  2:
+    required-points: 120
+  3:
+    required-points: 180
+  4:
+    required-points: 250
+  5:
+    required-points: 320
+  6:
+    required-points: 460
+  7:
+    required-points: 570
+  8:
+    required-points: 720
+  9:
+    required-points: 910
+  10:
+    required-points: 1200

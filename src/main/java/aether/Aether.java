@@ -101,7 +101,7 @@ public class Aether implements Listener {
                                 BoardEntry boardEntry = iterator.next();
                                 Score score = objective.getScore(boardEntry.getKey());
 
-                                if (score != null && boardEntry.getText().equals(ChatColor.translateAlternateColorCodes('&', text))) {
+                                if (boardEntry.getText().equals(ChatColor.translateAlternateColorCodes('&', text))) {
                                     if (score.getScore() == position) {
                                         continue outer;
                                     }
@@ -121,7 +121,6 @@ public class Aether implements Listener {
                                         boardEntry.remove();
                                     }
                                 }
-
                             }
 
                             BoardEntry entry = board.getByPosition(positionToSearch);

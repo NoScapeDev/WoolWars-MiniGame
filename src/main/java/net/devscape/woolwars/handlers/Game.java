@@ -25,10 +25,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static net.devscape.woolwars.utils.Utils.*;
 
@@ -47,13 +44,8 @@ public class Game {
 
     private final int max_players;
 
-    private int game_time = 1800; // in seconds
-
     private int countdown = 17;
     private boolean countdownStarted = false;
-
-    private int blue_wool = 100;
-    private int red_wool = 100;
 
     private String winners;
 
@@ -63,8 +55,6 @@ public class Game {
     private final Location red_spawn;
     private Location red_objective;
     private Location blue_objective;
-
-    private BossBar bossBar;
 
     private boolean active_map;
 
@@ -141,124 +131,11 @@ public class Game {
         return players;
     }
 
-    private String formatGameTime(int seconds) {
-        int minutes = seconds / 60;
-        int remainingSeconds = seconds % 60;
-
-        return String.format("%02d:%02d", minutes, remainingSeconds);
-    }
-
-    public void updateBossBar() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (bossBar == null) {
-                    String redBar = createProgressBar(red_wool);
-                    String blueBar = createProgressBar(blue_wool);
-
-                    bossBar = Bukkit.createBossBar(
-                            format("&#FF3A3A&lRED &#FF3A3A" + redBar + " &f│ &f&lLOADING..f│ &#0051FF&lBLUE &#0051FF" + blueBar + ""),
-                            BarColor.BLUE,
-                            BarStyle.SOLID,
-                            BarFlag.DARKEN_SKY);
-                }
-
-                if (gameState == GameState.WAITING) {
-                    if (blue.size() == 0 && red.size() == 0) {
-                        bossBar.setTitle(format("&f│ &7Select a Team&f│"));
-                    } else if (blue.size() == 1 && red.size() == 0) {
-                        bossBar.setTitle(format("&f│ &7Waiting for other players&f│"));
-                    } else if (blue.size() == 0 && red.size() == 1) {
-                        bossBar.setTitle(format("&f│ &7Waiting for other players&f│"));
-                    } else {
-                        bossBar.setTitle(format("&f│ &7Select a Team&f│"));
-                    }
-                }
-
-                if (gameState == GameState.STARTING) {
-                    int secondsLeft = countdown;
-
-                    if (secondsLeft <= 15) {
-                        String countdown_action = WoolWars.getWoolWars().getConfig().getString("countdown.countdown-" + secondsLeft);
-                        if (countdown_action != null) {
-                            bossBar.setTitle(format(countdown_action));
-                        }
-                    }
-                }
-
-                if (gameState == GameState.IN_PROGRESS) {
-                    String redBar = createProgressBar(red_wool);
-                    String blueBar = createProgressBar(blue_wool);
-
-                    bossBar.setTitle(format("&#FF3A3A" + redBar + " &7" + red_wool + "% &f│ &f" + formatGameTime(game_time) + "&f│ &#0051FF" + blueBar + " &7" + blue_wool + "%"));
-
-                    if (game_time <= 0) {
-                        endGame();
-                    } else {
-                        game_time--;
-                    }
-
-                    if (blue.size() == 0) {
-                        endGame();
-                    }
-
-                    if (red.size() == 0) {
-                        endGame();
-                    }
-
-                    for (UUID uuid : getPlayers()) {
-                        Player spectator = Bukkit.getPlayer(uuid);
-
-                        if (spectator != null) {
-
-                            for (UUID blueUUID : getBlue()) {
-                                Player blue = Bukkit.getPlayer(blueUUID);
-                                if (blue != null) {
-                                    blue.hidePlayer(WoolWars.getWoolWars(), spectator);
-                                }
-                            }
-
-                            for (UUID redUUID : getRed()) {
-                                Player red = Bukkit.getPlayer(redUUID);
-                                if (red != null) {
-                                    red.hidePlayer(WoolWars.getWoolWars(), spectator);
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-                if (gameState == GameState.CHANGING_PROCESS) {
-                    bossBar.setTitle(format("&f│ &f&lRESETTING GAME..&f│"));
-                }
-            }
-        }.runTaskTimerAsynchronously(WoolWars.getWoolWars(), 0, 20L);
-    }
-
-    private String createProgressBar(int progress) {
-        int width = 10; // Fixed width of the progress bar
-        int symbols = Math.min(progress / 10, width); // Calculate the number of symbols to display
-        int remaining = width - symbols;
-
-        StringBuilder progressBar = new StringBuilder();
-
-        for (int i = 0; i < symbols; i++) {
-            progressBar.append("▒"); // Use a smaller Unicode character that represents completed progress
-        }
-
-        for (int i = 0; i < remaining; i++) {
-            progressBar.append(format("&7░")); // Use a character that represents remaining progress
-        }
-
-        return progressBar.toString();
-    }
-
     public void removeScore(String team) {
         if (team.equalsIgnoreCase("blue")) {
-            blue_wool -= 10;
+            WoolWars.getWoolWars().getGameManager().setBlue_wool(WoolWars.getWoolWars().getGameManager().getBlue_wool() - 10);
         } else if (team.equalsIgnoreCase("red")) {
-            red_wool -= 10;
+            WoolWars.getWoolWars().getGameManager().setRed_wool(WoolWars.getWoolWars().getGameManager().getRed_wool() - 10);
         }
     }
 
@@ -291,14 +168,13 @@ public class Game {
         titlePlayer(player, "&b&lWoolWars", "&eJoined the game!", 20, 20 * 2, 20);
         soundPlayer(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
-        bossBar.addPlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBar().addPlayer(player);
 
         if (gameState == GameState.IN_PROGRESS) {
             for (UUID blueuuid : getBlue()) {
                 Player blue = Bukkit.getPlayer(blueuuid);
                 if (blue == null) return;
 
-                assert player != null;
                 blue.hidePlayer(WoolWars.getWoolWars(), player);
             }
 
@@ -306,7 +182,6 @@ public class Game {
                 Player red = Bukkit.getPlayer(reduuid);
                 if (red == null) return;
 
-                assert player != null;
                 red.hidePlayer(WoolWars.getWoolWars(), player);
             }
         }
@@ -317,6 +192,16 @@ public class Game {
         for (Player all : Bukkit.getOnlinePlayers()) {
             all.sendMessage(component);
         }
+
+        List<String> tip_info = new ArrayList<>();
+        tip_info.add("&#007bff&m-----------------------------------------------------");
+        tip_info.add("&#00ff7b&l» &fWoolWars");
+        tip_info.add("&#abe3ffThe team's primary goal is to &lbreak x10 wool&#abe3ff located on the opponents side.");
+        tip_info.add("&#007bff&m-----------------------------------------------------");
+
+        for (String str : tip_info) {
+            player.sendMessage(format(str));
+        }
     }
 
     public void exclude(PlayerQuitEvent e) {
@@ -326,7 +211,7 @@ public class Game {
         getPlayerTeam(player).remove(player.getUniqueId());
         getPlayers().remove(player.getUniqueId());
 
-        bossBar.removePlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBar().removePlayer(player);
 
         e.setQuitMessage("");
 
@@ -339,13 +224,18 @@ public class Game {
     public void kick(Player player) {
         // kick function back to hub etc.
 
-        bossBar.removePlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBar().removePlayer(player);
+
         getPlayerTeam(player).remove(player.getUniqueId());
         getPlayers().remove(player.getUniqueId());
         player.kickPlayer("Redirected back to the hub!");
     }
 
     public void startCountdown() {
+        if (!isActiveGame()) {
+            return;
+        }
+
         countdownStarted = true;
         gameState = GameState.STARTING;
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -380,6 +270,10 @@ public class Game {
     }
 
     public void start() {
+        if (!isActiveGame()) {
+            return;
+        }
+
         gameState = GameState.IN_PROGRESS;
         Bukkit.broadcastMessage(format("&f係 &7The game has started! FIGHT...."));
 
@@ -509,9 +403,11 @@ public class Game {
         getRed().clear();
 
         countdown = 18;
-        game_time = 1800;
-        blue_wool = 100;
-        red_wool = 100;
+
+        WoolWars.getWoolWars().getGameManager().setGame_time(1800);
+        WoolWars.getWoolWars().getGameManager().setBlue_wool(100);
+        WoolWars.getWoolWars().getGameManager().setRed_wool(100);
+
         countdownStarted = false;
         WoolWars.getWoolWars().getCombatListener().getDiedFromFall().clear();
         WoolWars.getWoolWars().getCombatListener().getLastDamagerMap().clear();
@@ -547,11 +443,6 @@ public class Game {
                         player.setGameMode(GameMode.SURVIVAL);
                         player.setAllowFlight(true);
                         player.setFlying(true);
-
-                        assert lobby_loc != null;
-                        player.teleport(lobby_loc);
-                        player.getInventory().clear();
-                        giveWaitingItems(player);
                     });
                 }
             }.runTaskLaterAsynchronously(WoolWars.getWoolWars(), 20 * 3);
@@ -563,7 +454,7 @@ public class Game {
         new BukkitRunnable() {
             @Override
             public void run() {
-                WoolWars.getWoolWars().getGameManager().pickNewMap();
+                Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> WoolWars.getWoolWars().getGameManager().pickNewMap());
             }
         }.runTaskLaterAsynchronously(WoolWars.getWoolWars(), 20 * 2);
 
@@ -680,134 +571,18 @@ public class Game {
         }
     }
 
-    public void updateTab() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getScheduler().runTask(WoolWars.getWoolWars(), () -> {
-                    if (Bukkit.getOnlinePlayers().size() > 0) {
-
-                        if (gameState == GameState.IN_PROGRESS) {
-                            List<Player> sortedPlayers = new ArrayList<>();
-
-                            // Add red team players first
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                if (red.contains(player.getUniqueId())) {
-                                    sortedPlayers.add(player);
-                                }
-                            }
-
-                            // Add blue team players next
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                if (blue.contains(player.getUniqueId())) {
-                                    sortedPlayers.add(player);
-                                }
-                            }
-
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                if (players.contains(player.getUniqueId())) {
-                                    sortedPlayers.add(player);
-                                }
-                            }
-
-                            for (Player player : sortedPlayers) {
-                                String tabName;
-
-                                if (red.contains(player.getUniqueId())) {
-                                    tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.red-flag") + " " + getTeamColor("red") + player.getName());
-                                } else if (blue.contains(player.getUniqueId())) {
-                                    tabName = format("&f" + WoolWars.getWoolWars().getConfig().getString("game.settings.blue-flag") + " " + getTeamColor("blue") + player.getName());
-                                } else {
-                                    tabName = format(getTeamColor("spectator") + player.getName());
-                                }
-
-                                // Set tab name
-                                player.setPlayerListName(tabName);
-
-                                List<String> headerLines = new ArrayList<>();
-                                headerLines.add(" ");
-                                headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
-                                headerLines.add(" ");
-
-                                List<String> footerLines = new ArrayList<>();
-                                footerLines.add(" ");
-                                footerLines.add("&eYou're playing on &lWoolWars&e!");
-
-                                String header = String.join("\n", headerLines);
-                                String footer = String.join("\n", footerLines);
-
-                                player.setPlayerListHeaderFooter(
-                                        format(header),
-                                        format(footer)
-                                );
-
-                                player.setDisplayName(tabName);
-                                player.setCustomName(tabName);
-                                player.setCustomNameVisible(true);
-
-                                if (getTeam(player).equalsIgnoreCase("spectator")) {
-                                    WoolWars.getWoolWars().getTeamManager().applyTo(player, format("&7"));
-                                } else {
-                                    WoolWars.getWoolWars().getTeamManager().applyTo(player, format(getTeamFlag(getTeam(player)) + " " + getTeamColor(getTeam(player))));
-                                }
-                            }
-                        } else {
-
-                            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
-
-                            // Sort the players based on rank weights
-                            Collections.sort(players, (player1, player2) -> {
-                                // Get rank weights for each player and compare
-                                int weight1 = getRankWeight(player1);
-                                int weight2 = getRankWeight(player2);
-                                return Integer.compare(weight2, weight1); // Reverse order for highest weight first
-                            });
-
-                            int index = 0;
-                            for (Player player : players) {
-                                String tabName = format(MineraveRanks.getMineraveRanks().getPlayerDataClass().getRank(player).getPrefix() + "" + player.getName());
-
-                                // Set tab name
-                                player.setPlayerListName(tabName);
-
-                                List<String> headerLines = new ArrayList<>();
-                                headerLines.add(" ");
-                                headerLines.add("&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE");
-                                headerLines.add(" ");
-
-                                List<String> footerLines = new ArrayList<>();
-                                footerLines.add(" ");
-                                footerLines.add("&eYou're playing on &lWoolWars&e!");
-
-                                String header = String.join("\n", headerLines);
-                                String footer = String.join("\n", footerLines);
-
-                                player.setPlayerListHeaderFooter(
-                                        format(header),
-                                        format(footer)
-                                );
-
-                                player.setDisplayName(tabName);
-                                player.setCustomName(tabName);
-                                player.setCustomNameVisible(true);
-
-                                // Increment index for footer
-                                index++;
-                            }
-                        }
-                    }
-                });
-            }
-        }.runTaskTimerAsynchronously(WoolWars.getWoolWars(), 0, 20L);
-    }
-
     public void checkGameWin() {
-        if (blue_wool == 0) {
+        if (!isActiveGame()) {
+            return;
+        }
+
+        if (WoolWars.getWoolWars().getGameManager().getBlue_wool() == 0) {
             // red wins
             winners = "red";
 
             for (UUID players : getRed()) {
                 WoolWars.getWoolWars().getMariaDB().addWins(players, 1);
+                WoolWars.getWoolWars().getPointManager().addPoints(Objects.requireNonNull(Bukkit.getPlayer(players)), WoolWars.getWoolWars().getConfig().getInt("points-per-win"));
             }
 
             for (UUID players : getBlue()) {
@@ -816,17 +591,19 @@ public class Game {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 titlePlayer(player, "&b&lGAME OVER", "&f侍 &f&lRed Wins the game!", 20, 20 * 2, 20);
+                WoolWars.getWoolWars().getPointManager().addPoints(player, WoolWars.getWoolWars().getConfig().getInt("points-per-participation"));
             }
 
             endGame();
         }
 
-        if (red_wool == 0) {
+        if (WoolWars.getWoolWars().getGameManager().getRed_wool() == 0) {
             // blue wins
             winners = "blue";
 
             for (UUID players : getBlue()) {
                 WoolWars.getWoolWars().getMariaDB().addWins(players, 1);
+                WoolWars.getWoolWars().getPointManager().addPoints(Objects.requireNonNull(Bukkit.getPlayer(players)), WoolWars.getWoolWars().getConfig().getInt("points-per-win"));
             }
 
             for (UUID players : getRed()) {
@@ -835,6 +612,7 @@ public class Game {
 
             for (Player player : Bukkit.getOnlinePlayers()) {
                 titlePlayer(player, "&b&lGAME OVER", "&f供 &f&lBlue Wins the game!", 20, 20 * 2, 20);
+                WoolWars.getWoolWars().getPointManager().addPoints(player, WoolWars.getWoolWars().getConfig().getInt("points-per-participation"));
             }
 
             endGame();
@@ -857,40 +635,6 @@ public class Game {
         }
 
         return "spectator";
-    }
-
-    public void updateHealth() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (Bukkit.getOnlinePlayers().size() > 0) {
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        if (!players.contains(player.getUniqueId()) && gameState == GameState.IN_PROGRESS) {
-                            double healthDouble = player.getHealth();
-                            int health = (int) Math.round(healthDouble);
-
-                            if (CombatListener.respawningMap.contains(player.getUniqueId())) {
-                                return;
-                            }
-
-                            String health_action = WoolWars.getWoolWars().getConfig().getString("health.health-" + health);
-                            if (health_action != null) {
-                                sendActionBar(player, format(health_action));
-                                WoolWars.getWoolWars().getTeamManager().updateBelowHealth(player, format(health_action));
-                            }
-                        } else {
-                            if (gameState == GameState.IN_PROGRESS) {
-                                sendActionBar(player, format("&7You're Spectating!"));
-                            }else if (gameState == GameState.STARTING) {
-                                    sendActionBar(player, format("&7Game Starting!"));
-                            } else {
-                                sendActionBar(player, format("&7Waiting for players!"));
-                            }
-                        }
-                    }
-                }
-            }
-        }.runTaskTimer(WoolWars.getWoolWars(), 0, 1);
     }
 
     public boolean isActiveGame() {

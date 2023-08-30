@@ -2,7 +2,6 @@ package net.devscape.woolwars.level;
 
 import net.devscape.woolwars.WoolWars;
 import org.bukkit.Sound;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import static net.devscape.woolwars.utils.Utils.msgPlayer;
@@ -10,25 +9,34 @@ import static net.devscape.woolwars.utils.Utils.soundPlayer;
 
 public class PointManager {
 
-    public void checkLevel(Player player) {
-        int currentLevel = WoolWars.getWoolWars().getMariaDB().getLevel(player.getUniqueId());
-        int currentPoints = WoolWars.getWoolWars().getMariaDB().getPoints(player.getUniqueId());
+    public boolean hasEnoughPointsForLevelUP(Player player) {
+        return WoolWars.getWoolWars().getMariaDB().getPoints(player.getUniqueId()) >= getPointsRequired(player);
+    }
 
-        // Load the configuration
-        FileConfiguration config = WoolWars.getWoolWars().getConfig();
+    public void levelUp(Player player) {
+        if (hasEnoughPointsForLevelUP(player)) {
+            int nextLevel = getNextLevel(player);
 
-        if (config.getConfigurationSection("levels.level-" + (currentLevel + 1)) == null) {
-            return;
-        }
-
-        int requiredPoints = config.getInt("levels.level-" + (currentLevel + 1), -1);
-
-        if (currentPoints >= requiredPoints) {
-            int newLevel = currentLevel + 1;
-
-            WoolWars.getWoolWars().getMariaDB().setLevel(player.getUniqueId(), newLevel);
-            msgPlayer(player, "&f係 &aLevelled up to " + newLevel);
+            WoolWars.getWoolWars().getMariaDB().setLevel(player.getUniqueId(), nextLevel);
+            msgPlayer(player, "&f係 &aLevelled up to &l" + nextLevel);
             soundPlayer(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
         }
+    }
+
+    public void addPoints(Player player, int points) {
+        WoolWars.getWoolWars().getMariaDB().setPoints(player.getUniqueId(), WoolWars.getWoolWars().getMariaDB().getPoints(player.getUniqueId()) + points);
+        levelUp(player);
+    }
+
+    public int getLevel(Player player) {
+        return WoolWars.getWoolWars().getMariaDB().getLevel(player.getUniqueId());
+    }
+
+    public int getNextLevel(Player player) {
+        return getLevel(player) + 1;
+    }
+
+    public int getPointsRequired(Player player) {
+        return WoolWars.getWoolWars().getConfig().getInt("levels." + getNextLevel(player) + ".required-points");
     }
 }

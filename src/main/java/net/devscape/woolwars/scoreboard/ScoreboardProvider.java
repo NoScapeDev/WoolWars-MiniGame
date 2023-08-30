@@ -83,6 +83,7 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.replaceAll(s -> s.replaceAll("%kd%", killsDeathsRatioFormatted));
         lines.replaceAll(s -> s.replaceAll("%level%", String.valueOf(level)));
         lines.replaceAll(s -> s.replaceAll("%points%", String.valueOf(points)));
+        lines.replaceAll(s -> s.replaceAll("%required_points%", String.valueOf(WoolWars.getWoolWars().getPointManager().getPointsRequired(player))));
 
         return lines;
     }
@@ -113,6 +114,7 @@ public class ScoreboardProvider implements BoardAdapter {
         lines.replaceAll(s -> s.replaceAll("%deaths%", String.valueOf(playerData.getPlayerCurrentGameData().getDeaths())));
         lines.replaceAll(s -> s.replaceAll("%level%", String.valueOf(level)));
         lines.replaceAll(s -> s.replaceAll("%points%", String.valueOf(points)));
+        lines.replaceAll(s -> s.replaceAll("%required_points%", String.valueOf(WoolWars.getWoolWars().getPointManager().getPointsRequired(player))));
 
         return lines;
     }

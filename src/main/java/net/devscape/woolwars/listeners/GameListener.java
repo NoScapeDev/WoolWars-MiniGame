@@ -57,10 +57,19 @@ public class GameListener implements Listener {
         Block block = e.getBlock();
 
         if (game.getGameState() == GameState.IN_PROGRESS) {
-            if (player.getLocation().getY() >= 50) {
-                e.setCancelled(true);
-                msgPlayer(player, "&f侵 &7You have reached the game build limit.");
-                return;
+
+            if (game.getMapName().equalsIgnoreCase("HellDragon")) {
+                if (player.getLocation().getY() >= 85) {
+                    e.setCancelled(true);
+                    msgPlayer(player, "&f侵 &7You have reached the game build limit.");
+                    return;
+                }
+            } else {
+                if (player.getLocation().getY() >= 50) {
+                    e.setCancelled(true);
+                    msgPlayer(player, "&f侵 &7You have reached the game build limit.");
+                    return;
+                }
             }
 
             if (game.getPlayers().contains(player.getUniqueId())) {
@@ -78,6 +87,12 @@ public class GameListener implements Listener {
             if (block.getLocation().distance(game.getRedSpawn()) < 5) {
                 e.setCancelled(true);
                 msgPlayer(player, "&f侵 &7You cannot build next to team spawns.");
+                return;
+            }
+
+            if (block.getLocation().distance(game.getLobbyLoc()) < 20) {
+                e.setCancelled(true);
+                msgPlayer(player, "&f侵 &7You cannot build next to lobby spawn.");
                 return;
             }
 
@@ -112,6 +127,10 @@ public class GameListener implements Listener {
         Block block = e.getBlock();
 
         if (game.getGameState() == GameState.IN_PROGRESS) {
+            if (block.getType().name().contains("STAINED_GLASS")) {
+                e.setCancelled(true);
+                return;
+            }
 
             if (game.getPlayers().contains(player.getUniqueId())) {
                 e.setCancelled(true);
@@ -167,8 +186,7 @@ public class GameListener implements Listener {
                     WoolWars.getWoolWars().getMariaDB().addWoolBroken(player.getUniqueId(), 1);
                     Bukkit.broadcastMessage(format("&f侍 " + getTeamColor("blue") + player.getName() + " &f&lbroke" + getTeamColor("red") + " Red's Wool"));
 
-                    WoolWars.getWoolWars().getMariaDB().addPoint(player.getUniqueId(), 1);
-                    WoolWars.getWoolWars().getPointManager().checkLevel(player);
+                    WoolWars.getWoolWars().getPointManager().addPoints(player, WoolWars.getWoolWars().getConfig().getInt("points-per-wool-broken"));
 
                     for (Player all : Bukkit.getOnlinePlayers()) {
                         soundPlayer(all, Sound.BLOCK_AMETHYST_CLUSTER_HIT, 2, 2);
@@ -202,8 +220,7 @@ public class GameListener implements Listener {
                     WoolWars.getWoolWars().getMariaDB().addWoolBroken(player.getUniqueId(), 1);
                     Bukkit.broadcastMessage(format("&f供 " + getTeamColor("red") + player.getName() + " &f&lbroke" + getTeamColor("blue") + " Blue's Wool"));
 
-                    WoolWars.getWoolWars().getMariaDB().addPoint(player.getUniqueId(), 1);
-                    WoolWars.getWoolWars().getPointManager().checkLevel(player);
+                    WoolWars.getWoolWars().getPointManager().addPoints(player, WoolWars.getWoolWars().getConfig().getInt("points-per-wool-broken"));
 
                     Particle.DustOptions dustOptions = new Particle.DustOptions(Color.BLUE, 1.0f);
                     block.getWorld().spawnParticle(Particle.REDSTONE, block.getLocation(), 1, 0, 0, 0, 0, dustOptions);

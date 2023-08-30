@@ -5,13 +5,13 @@ net\devscape\woolwars\playerdata\PlayerState.class
 net\devscape\woolwars\managers\CombatManager.class
 net\devscape\woolwars\managers\abilities\impl\FishermanAbility.class
 net\devscape\woolwars\storage\MariaDB.class
-net\devscape\woolwars\handlers\Game$5.class
 net\devscape\woolwars\menus\guis\KitSelectorMenu.class
 net\devscape\woolwars\menus\guis\MapSelectorMenu.class
 net\devscape\woolwars\handlers\Game$1.class
 net\devscape\woolwars\managers\abilities\impl\GravityAbility.class
 aether\scoreboard\Board.class
 net\devscape\woolwars\utils\command\BaseCommand.class
+net\devscape\woolwars\managers\GameManager$1.class
 net\devscape\woolwars\utils\command\Command.class
 net\devscape\woolwars\utils\ClassRegistrationUtils.class
 net\devscape\woolwars\utils\command\Completer.class
@@ -23,10 +23,8 @@ aether\scoreboard\cooldown\BoardCooldown.class
 net\devscape\woolwars\managers\abilities\impl\ShurikenAbility.class
 net\devscape\woolwars\handlers\Game$2.class
 net\devscape\woolwars\utils\command\CommandFramework.class
-net\devscape\woolwars\listeners\AsyncPlayerChatListener$1.class
 net\devscape\woolwars\managers\PlayerDataManager.class
 net\devscape\woolwars\managers\abilities\AbilityManager.class
-net\devscape\woolwars\handlers\Game$6.class
 net\devscape\woolwars\managers\TeamManager.class
 net\devscape\woolwars\listeners\ItemListener.class
 net\devscape\woolwars\managers\ResetMapManager.class
@@ -51,6 +49,7 @@ net\devscape\woolwars\utils\command\BukkitCommand.class
 net\devscape\woolwars\commands\StatsCommand.class
 net\devscape\woolwars\handlers\Game.class
 net\devscape\woolwars\utils\BungeeUtils.class
+net\devscape\woolwars\managers\GameManager$2.class
 net\devscape\woolwars\managers\abilities\AbilityCallable.class
 net\devscape\woolwars\listeners\CombatListener$2.class
 net\devscape\woolwars\listeners\PlayerDataListener.class
@@ -67,6 +66,7 @@ net\devscape\woolwars\utils\Utils.class
 net\devscape\woolwars\packet\Tab.class
 net\devscape\woolwars\utils\WorldUtils.class
 aether\event\BoardCreateEvent.class
+net\devscape\woolwars\managers\GameManager$3.class
 net\devscape\woolwars\WoolWars.class
 net\devscape\woolwars\listeners\MenuListener.class
 net\devscape\woolwars\managers\KitManager.class
@@ -79,4 +79,3 @@ net\devscape\woolwars\level\PointManager.class
 net\devscape\woolwars\menus\guis\SpectatorMenu.class
 net\devscape\woolwars\menus\guis\StatsMenu.class
 net\devscape\woolwars\playerdata\PlayerData.class
-net\devscape\woolwars\handlers\Game$4.class
