@@ -2,19 +2,12 @@ package net.devscape.woolwars.handlers;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.devscape.project.minerave_ranks.MineraveRanks;
 import net.devscape.woolwars.WoolWars;
-import net.devscape.woolwars.listeners.CombatListener;
-import net.devscape.woolwars.managers.TeamManager;
 import net.devscape.woolwars.playerdata.PlayerData;
 import net.devscape.woolwars.playerdata.PlayerState;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.*;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -168,7 +161,8 @@ public class Game {
         titlePlayer(player, "&b&lWoolWars", "&eJoined the game!", 20, 20 * 2, 20);
         soundPlayer(player, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
-        WoolWars.getWoolWars().getGameManager().getBossBar().addPlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBarStats().addPlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBarTextures().addPlayer(player);
 
         if (gameState == GameState.IN_PROGRESS) {
             for (UUID blueuuid : getBlue()) {
@@ -211,7 +205,7 @@ public class Game {
         getPlayerTeam(player).remove(player.getUniqueId());
         getPlayers().remove(player.getUniqueId());
 
-        WoolWars.getWoolWars().getGameManager().getBossBar().removePlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBarStats().removePlayer(player);
 
         e.setQuitMessage("");
 
@@ -224,7 +218,7 @@ public class Game {
     public void kick(Player player) {
         // kick function back to hub etc.
 
-        WoolWars.getWoolWars().getGameManager().getBossBar().removePlayer(player);
+        WoolWars.getWoolWars().getGameManager().getBossBarStats().removePlayer(player);
 
         getPlayerTeam(player).remove(player.getUniqueId());
         getPlayers().remove(player.getUniqueId());

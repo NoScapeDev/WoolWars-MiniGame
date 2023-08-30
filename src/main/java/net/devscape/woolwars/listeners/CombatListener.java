@@ -6,6 +6,7 @@ import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.playerdata.PlayerData;
 import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -163,9 +164,11 @@ public class CombatListener implements Listener {
                                 respawnPlayer(victim);
                             }
                         } else {
-                            Color particleColor = Color.RED;
-                            victim.getWorld().spawnParticle(Particle.REDSTONE, victim.getLocation().add(0, 1, 0), 10,
-                                    0.3, 0.3, 0.3, 1, new Particle.DustOptions(particleColor, 1.0f));
+                            BlockData blockData = Material.REDSTONE_BLOCK.createBlockData();
+                            int amount = 30;
+                            World world = victim.getWorld();
+                            Location location = victim.getLocation().add(0.0D, 1.0D, 0.0D);
+                            world.spawnParticle(Particle.BLOCK_CRACK, location, amount, blockData);
                         }
                     } else {
                         event.setCancelled(true);

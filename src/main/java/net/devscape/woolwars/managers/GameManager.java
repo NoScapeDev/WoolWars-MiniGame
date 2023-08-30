@@ -8,15 +8,12 @@ import net.devscape.woolwars.handlers.Game;
 import net.devscape.woolwars.handlers.GameState;
 import net.devscape.woolwars.listeners.CombatListener;
 import net.devscape.woolwars.playerdata.PlayerData;
-import net.devscape.woolwars.playerdata.PlayerState;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Wolf;
-import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
@@ -30,7 +27,8 @@ public class GameManager {
 
     private List<Game> gameMap = new ArrayList<>();
     private Random random = new Random();
-    private BossBar bossBar;
+    private BossBar bossBarStats;
+    private BossBar bossBarTextures;
 
     private int red_wool = 100;
     private int blue_wool = 100;
@@ -171,12 +169,18 @@ public class GameManager {
             @Override
             public void run() {
 
-                if (bossBar == null) {
+                if (bossBarStats == null && bossBarTextures == null) {
                     String redBar = createProgressBar(red_wool);
                     String blueBar = createProgressBar(blue_wool);
 
-                    bossBar = Bukkit.createBossBar(
+                    bossBarStats = Bukkit.createBossBar(
                             format("&#FF3A3A&lRED &#FF3A3A" + redBar + " &f│ &f&lLOADING..f│ &#0051FF&lBLUE &#0051FF" + blueBar + ""),
+                            BarColor.BLUE,
+                            BarStyle.SOLID,
+                            BarFlag.DARKEN_SKY);
+
+                    bossBarTextures = Bukkit.createBossBar(
+                            format("&f"),
                             BarColor.BLUE,
                             BarStyle.SOLID,
                             BarFlag.DARKEN_SKY);
@@ -185,13 +189,13 @@ public class GameManager {
                 if (getGame() != null ) {
                     if (getGame().getGameState() == GameState.WAITING) {
                         if (getGame().getBlue().size() == 0 && getGame().getRed().size() == 0) {
-                            bossBar.setTitle(format("&7Select a Team"));
+                            bossBarStats.setTitle(format("&7Select a Team"));
                         } else if (getGame().getBlue().size() == 1 && getGame().getRed().size() == 0) {
-                            bossBar.setTitle(format("&7Waiting for other players"));
+                            bossBarStats.setTitle(format("&7Waiting for other players"));
                         } else if (getGame().getBlue().size() == 0 && getGame().getRed().size() == 1) {
-                            bossBar.setTitle(format("&7Waiting for other players"));
+                            bossBarStats.setTitle(format("&7Waiting for other players"));
                         } else {
-                            bossBar.setTitle(format("&7Select a Team"));
+                            bossBarStats.setTitle(format("&7Select a Team"));
                         }
                     }
 
@@ -201,10 +205,10 @@ public class GameManager {
                         if (secondsLeft <= 15) {
                             String countdown_action = WoolWars.getWoolWars().getConfig().getString("countdown.countdown-" + secondsLeft);
                             if (countdown_action != null) {
-                                bossBar.setTitle(format(countdown_action));
+                                bossBarStats.setTitle(format(countdown_action));
                             }
                         } if (secondsLeft <= 0) {
-                            bossBar.setTitle(format("&f&lFIGHT!"));
+                            bossBarStats.setTitle(format("&f&lFIGHT!"));
                         }
                     }
 
@@ -224,9 +228,20 @@ public class GameManager {
                             int kills = playerData.getPlayerCurrentGameData().getKills();
                             int deaths = playerData.getPlayerCurrentGameData().getDeaths();
 
-                            bossBar.setTitle(format("&f" + getTeamFlag("red") + " &#FF3A3A" + red_wool + "% &fvs" + " &#0051FF" + blue_wool + "% &f" + getTeamFlag("blue") + "&f                                          " +
-                                    "&f" + formatGameTime(game_time) + "&f                                            " +
-                                    "&f" + kills + "&c⚔    &f" + deaths + " &f依"));
+                            String bb_stats = WoolWars.getWoolWars().getConfig().getString("bossbars.stats");
+                            assert bb_stats != null;
+                            bb_stats = bb_stats.replaceAll("%red_flag%", getTeamFlag("red"));
+                            bb_stats = bb_stats.replaceAll("%blue_flag%", getTeamFlag("blue"));
+                            bb_stats = bb_stats.replaceAll("%red_percentage%", String.valueOf(red_wool));
+                            bb_stats = bb_stats.replaceAll("%blue_percentage%", String.valueOf(blue_wool));
+                            bb_stats = bb_stats.replaceAll("%kills%", String.valueOf(kills));
+                            bb_stats = bb_stats.replaceAll("%deaths%", String.valueOf(deaths));
+                            bb_stats = bb_stats.replaceAll("%game_time%", formatGameTime(game_time));
+
+                            bossBarStats.setTitle(format(bb_stats));
+
+                            String bb_textures = WoolWars.getWoolWars().getConfig().getString("bossbars.textures");
+                            bossBarTextures.setTitle(format(bb_textures));
                         }
 
                         if (getGame().getBlue().size() == 0) {
@@ -260,7 +275,7 @@ public class GameManager {
                     }
 
                     if (getGame().getGameState() == GameState.CHANGING_PROCESS) {
-                        bossBar.setTitle(format("&f│ &f&lRESETTING GAME..&f│"));
+                        bossBarStats.setTitle(format("&f│ &f&lRESETTING GAME..&f│"));
                     }
                 }
             }

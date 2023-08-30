@@ -9,6 +9,10 @@ menus:
     title: '&f仏仏仏仏仏仏仏仏儀'
     size: 54
 
+bossbars:
+  stats: '&f%red_flag% &#fc372d%red_percentage% &fvs &#138bf4%blue_percentage% &f%blue_flag%                                &f%game_time%                                &f%kills% &c⚔    &f%deaths% &f依'
+  textures: '&fThis is the texture line'
+
 scoreboards:
   title: '&#00E2A2&lM&#00E1BD&lI&#00E1D7&lN&#00E0F2&lE&#00D4FF&lR&#00BCFF&lA&#00A5FF&lV&#008DFF&lE'
   waiting:
