@@ -170,11 +170,8 @@ public class GameManager {
             public void run() {
 
                 if (bossBarStats == null && bossBarTextures == null) {
-                    String redBar = createProgressBar(red_wool);
-                    String blueBar = createProgressBar(blue_wool);
-
                     bossBarStats = Bukkit.createBossBar(
-                            format("&#FF3A3A&lRED &#FF3A3A" + redBar + " &f│ &f&lLOADING..f│ &#0051FF&lBLUE &#0051FF" + blueBar + ""),
+                            format("&7LOADING.."),
                             BarColor.BLUE,
                             BarStyle.SOLID,
                             BarFlag.DARKEN_SKY);
